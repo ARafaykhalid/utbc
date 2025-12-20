@@ -1,23 +1,17 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "target": "ES2022",
-    "lib": ["ES2022", "DOM"],
-    "module": "commonjs",
-    "moduleResolution": "node",
     "outDir": "dist",
+    "module": "commonjs",
+    "target": "ES2022",
     "esModuleInterop": true,
     "strict": true,
     "baseUrl": "./",
-    "rootDir": "src",
-    "removeComments": true,
-    "forceConsistentCasingInFileNames": true,
-    "alwaysStrict": true,
-    "skipLibCheck": true,
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@shared/*": ["../shared/*"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "../shared"],
   "exclude": ["node_modules"]
 }

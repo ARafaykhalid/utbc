@@ -1,23 +1,13 @@
 {
   "name": "shared",
   "version": "1.0.0",
-  "description": "",
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "packageManager": "pnpm@10.19.0",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "build": "tsc --build",
-    "clean": "rm -rf dist"
-  },
+  "private": true,
+  "main": "index.ts",
+  "types": "index.ts",
   "dependencies": {
     "zod": "^4.1.13"
   },
   "devDependencies": {
-    "@types/node": "^24.10.1",
-    "ts-node-dev": "^2.0.0",
     "typescript": "^5.9.3"
   }
 }

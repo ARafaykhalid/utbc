@@ -1,14 +1,9 @@
 {
   "files": [],
-  "references": [
-    { "path": "./apps/shared" },
-    // { "path": "./apps/web" },
-    { "path": "./apps/api" }
-  ],
   "compilerOptions": {
     "target": "ES2022",
     "module": "ESNext",
-    "moduleResolution": "Node",
+    "moduleResolution": "node",
     "lib": ["DOM", "ESNext"],
     "strict": true,
     "esModuleInterop": true,
@@ -17,10 +12,13 @@
     "baseUrl": ".",
     "paths": {
       "@shared/*": ["apps/shared/*"],
-      "@web/*": ["apps/web/src/*"],
-      "@api/*": ["apps/api/src/*"]
-    },
-    "resolveJsonModule": true,
-    "allowJs": true
-  }
+      "@api/*": ["apps/api/src/*"],
+      "@web/*": ["apps/web/src/*"]
+    }
+  },
+  "references": [
+    { "path": "./apps/shared" },
+    { "path": "./apps/api" },
+    // { "path": "./apps/web" }
+  ]
 }
