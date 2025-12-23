@@ -16,6 +16,9 @@ const app = express();
 // CORS for Next.js frontend (localhost:3000 or production domain)
 app.use(cors(CorsOptionsSettings));
 
+// JSON body parsing
+app.use(express.json());
+
 // For Rich Control
 app.use(express.urlencoded({ extended: true }));
 
@@ -36,8 +39,6 @@ app.use(cookieParser(config.COOKIE_SECRET));
 // For Performance
 app.use(compression({ threshold: 1024 }));
 
-// JSON body parsing
-app.use(express.json());
 
 /* ---------- Start Server ---------- */
 (async () => {

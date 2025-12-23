@@ -1,4 +1,5 @@
 import { Request, Response, Router } from "express";
+import RouterUser from "./user/user.route";
 
 const Routerv1: Router = Router();
 
@@ -10,5 +11,7 @@ Routerv1.get("/", (req: Request, res: Response) => {
     timeStamp: new Date().toISOString(),
   });
 });
+
+Routerv1.use("/user", RouterUser);
 
 export default Routerv1;
