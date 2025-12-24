@@ -24,10 +24,11 @@ export const CreateUser = async (req: Request, res: Response) => {
     await new userModel({
       email: email,
       password: hashedPassword,
+      role: "user",
       name: name,
     }).save();
 
-    logger.info("User Created");
+    logger.info("User Created with email:", email);
 
     return respond(res, "SUCCESS", "User created successfully", {
       data: { email: req.body.email, name: req.body.name },

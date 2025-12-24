@@ -2,9 +2,6 @@ import { respond } from "@/utils/respond";
 import { Request, Response, NextFunction, RequestHandler } from "express";
 import { z, ZodAny, ZodError } from "zod";
 
-/**
- * Types for validated payload attached to req
- */
 export type ValidatedData<
   B extends ZodAny | undefined,
   P extends ZodAny | undefined,
@@ -15,10 +12,6 @@ export type ValidatedData<
   query: Q extends ZodAny ? z.infer<Q> : undefined;
 };
 
-/**
- * Extend Request to include validated property (runtime not enforced).
- * Use casting in routes for full typing.
- */
 declare module "express" {
   interface Request {
     validated?: Partial<ValidatedData<any, any, any>>;
@@ -34,17 +27,9 @@ type Schemas = {
 type Options = {
   /** If true, return first error only (defaults to false) */
   abortEarly?: boolean;
-  /** Additional handler to run on validation failure (optional) */
   onError?: (err: ZodError, req: Request, res: Response) => void;
 };
 
-/**
- * Factory: validate({ body, params, query }, options)
- *
- * Usage:
- *  app.post("/users", validate({ body: UserCreateSchema }), handler)
- *  app.get("/items/:id", validate({ params: IdSchema, query: QuerySchema }), handler)
- */
 export const validate = <
   B extends ZodAny = any,
   P extends ZodAny = any,
@@ -63,17 +48,14 @@ export const validate = <
   return async (req: Request, res: Response, next: NextFunction) => {
     const errors: { path: string; message: string }[] = [];
 
-    // helper to parse one piece and collect errors
     const parsePiece = async (
       pieceName: "body" | "params" | "query",
       schema?: ZodAny
     ) => {
       if (!schema) return undefined;
       try {
-        // use safeParseAsync so both sync and async refinements work
         const result = await schema.safeParseAsync(req[pieceName]);
         if (!result.success) {
-          // collect issues
           result.error.issues.forEach((issue) => {
             const path =
               issue.path && issue.path.length
@@ -117,10 +99,10 @@ export const validate = <
 
     if (errors.length > 0) {
       // Optionally call user-provided hook
+      // Attempt to build a ZodError from issues — but call with available information
+      // Not all errors come from a single ZodError; we skip constructing it reliably.
       if (onError && bodySchema instanceof ZodAny) {
-        // Attempt to build a ZodError from issues — but call with available information
         try {
-          // Not all errors come from a single ZodError; we skip constructing it reliably.
         } catch {
           /* no-op */
         }
