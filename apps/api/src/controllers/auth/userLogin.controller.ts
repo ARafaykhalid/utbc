@@ -1,18 +1,14 @@
 import { Request, Response } from "express";
 import argon2 from "argon2";
-import { userRegistration } from "@shared/validations";
+import { userLogin } from "@shared/validations";
 import { respond } from "@/utils/respond";
 import userModel from "@/models/user.model";
-import {
-  generateAccessToken,
-  generateRefreshToken,
-  verifyAccessToken,
-} from "@/utils/jwtTokens";
+import { generateRefreshToken } from "@/utils/jwtTokens";
 import { createSession } from "@/utils/createSession";
 import { JwtPayload } from "@shared/types";
 
 export const LoginUser = async (req: Request, res: Response) => {
-  const { email, password } = req.body as userRegistration;
+  const { email, password } = req.body as userLogin;
 
   try {
     const user = await userModel.findOne({ email });
