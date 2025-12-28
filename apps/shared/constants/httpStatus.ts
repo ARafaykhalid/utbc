@@ -2,13 +2,21 @@ import { httpStatusCode } from "@shared/types/httpStatusCode";
 
 export const statusCodeMap: Record<httpStatusCode, number> = {
   SUCCESS: 200,
+
   BAD_REQUEST: 400,
+
   UNAUTHORIZED: 401,
+  JWT_INVALID: 401,
+  JWT_EXPIRED: 401,
+  JWT_MISSING: 401,
+
   FORBIDDEN: 403,
   NOT_FOUND: 404,
   CONFLICT: 409,
+
   VALIDATION_ERROR: 422,
   TOO_MANY_REQUESTS: 429,
+
   INTERNAL_SERVER_ERROR: 500,
   SERVICE_UNAVAILABLE: 503,
   GATEWAY_TIMEOUT: 504,

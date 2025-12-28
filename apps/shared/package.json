@@ -1,13 +1,14 @@
 {
-  "name": "shared",
+  "name": "@shared",
   "version": "1.0.0",
   "private": true,
   "main": "index.ts",
   "types": "index.ts",
-  "dependencies": {
+  "peerDependencies": {
     "zod": "^4.2.1"
   },
   "devDependencies": {
+    "express": "^5.2.1",
     "typescript": "^5.9.3"
   }
 }

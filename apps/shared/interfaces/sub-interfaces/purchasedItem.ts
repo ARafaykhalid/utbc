@@ -1,4 +1,4 @@
-import { ObjectId } from "../../types/ObjectId";
+import { ObjectId } from "@shared/types";
 
 export interface PurchasedItem {
   product: ObjectId;

@@ -2,7 +2,7 @@ import { UserSession } from "./sub-interfaces/userSession";
 import { CartItem } from "./sub-interfaces/cartItem";
 import { PurchasedItem } from "./sub-interfaces/purchasedItem";
 import { UserAddress } from "./sub-interfaces/userAddress";
-import { ObjectId } from "../types/ObjectId";
+import { ObjectId } from "@shared/types";
 
 export type UserRole = "admin" | "user";
 

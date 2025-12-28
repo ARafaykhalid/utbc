@@ -1,4 +1,4 @@
-import { z, ZodType } from "zod";
+import { z } from "zod";
 
 export const userRegistrationSchema = z
   .object({
@@ -17,7 +17,7 @@ export const userRegistrationSchema = z
       .optional(),
   })
   .strict()
-  .refine((data) => Object.keys(data).length > 0, {
+  .refine((data: {}) => Object.keys(data).length > 0, {
     message: "At least one field must be provided for update",
     path: ["root"],
   });

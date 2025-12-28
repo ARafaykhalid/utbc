@@ -3,18 +3,22 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import morgan from "morgan";
-import router from "./routes"; 
+import router from "./routes";
 import { config } from "./config";
 import { limiter } from "./lib/expressRateLimiter";
 import { CorsOptionsSettings } from "./lib/corsOptions";
 import compression from "compression";
 import { connectDatabase, disconnectDatabase } from "./lib/mongoose";
 import { logger } from "./lib/winston";
+import { express as useragent } from "express-useragent";
 const app = express();
 
 /* ---------- Middlewares ---------- */
 // CORS for Next.js frontend (localhost:3000 or production domain)
 app.use(cors(CorsOptionsSettings));
+
+// User Agent Parser
+app.use(useragent());
 
 // JSON body parsing
 app.use(express.json());
@@ -38,7 +42,6 @@ app.use(cookieParser(config.COOKIE_SECRET));
 
 // For Performance
 app.use(compression({ threshold: 1024 }));
-
 
 /* ---------- Start Server ---------- */
 (async () => {

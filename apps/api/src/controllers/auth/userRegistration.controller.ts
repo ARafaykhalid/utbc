@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { logger } from "@/lib/winston";
 import argon2 from "argon2";
 import { userRegistration } from "@shared/validations";
 import { respond } from "@/utils/respond";
@@ -11,7 +10,6 @@ export const CreateUser = async (req: Request, res: Response) => {
   try {
     const existing = await userModel.findOne({ email });
     if (existing) {
-      logger.warn("User already exists with email:", email);
       return respond(res, "CONFLICT", "User already exists with this email", {
         errors: {
           "body.email": "Email is already in use",
@@ -28,12 +26,19 @@ export const CreateUser = async (req: Request, res: Response) => {
       name: name,
     }).save();
 
-    logger.info("User Created with email:", email);
-
     return respond(res, "SUCCESS", "User created successfully", {
       data: { email: req.body.email, name: req.body.name },
     });
   } catch (error) {
-    logger.error("Create user error:", error);
+    return respond(
+      res,
+      "INTERNAL_SERVER_ERROR",
+      "An error occurred during registration",
+      {
+        errors: {
+          message: (error as Error).message || "Unknown error",
+        },
+      }
+    );
   }
 };
