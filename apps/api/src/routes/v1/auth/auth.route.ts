@@ -1,21 +1,31 @@
-import { validate } from "@/middlewares/validate";
-import { Request, Response, Router } from "express";
-import { userLoginSchema, userRegistrationSchema } from "@shared/validations";
+import { validate } from "@/middlewares/validate.middleware";
+import { Router } from "express";
 import { CreateUser } from "@/controllers/auth/userRegistration.controller";
 import { LoginUser } from "@/controllers/auth/userLogin.controller";
+import { UserLoginSchema, UserRegistrationSchema } from "@shared/validations";
+import { requireAuth } from "@/middlewares/requiresAuth.middleware";
+import { LogoutUser } from "@/controllers/auth/logoutUser.controller";
+import { LogoutDevice } from "@/controllers/auth/logoutDevice.controller";
+import { RenewAccessToken } from "@/controllers/auth/renewAccessToken.controller";
 
-const RouterUser: Router = Router();
+const RouterAuth: Router = Router();
 
-RouterUser.post(
+RouterAuth.post(
   "/register",
-  validate({ body: userRegistrationSchema as any }),
+  validate({ body: UserRegistrationSchema as any }),
   CreateUser
 );
 
-RouterUser.post(
+RouterAuth.post(
   "/login",
-  validate({ body: userLoginSchema as any }),
+  validate({ body: UserLoginSchema as any }),
   LoginUser
 );
 
-export default RouterUser;
+RouterAuth.post("/logout", LogoutUser);
+
+RouterAuth.post("/logout-device/:sessionId", requireAuth, LogoutDevice);
+
+RouterAuth.post("/renew-token", RenewAccessToken);
+
+export default RouterAuth;

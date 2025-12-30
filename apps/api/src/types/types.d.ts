@@ -6,5 +6,10 @@ declare namespace Express {
       platform?: string;
     };
     clientIp?: string;
+    user?: {
+      userId: ObjectId;
+      sessionId: ObjectId;
+      role?: string;
+    };
   }
 }

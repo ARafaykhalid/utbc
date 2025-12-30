@@ -1,3 +1,4 @@
+import { IUserSession } from "@/interfaces/sub-interfaces/userSession";
 import { Request } from "express";
 
 export const getSessionMeta = (req: Request) => {
@@ -8,5 +9,5 @@ export const getSessionMeta = (req: Request) => {
       os: req.useragent?.os ?? "unknown",
       device: req.useragent?.platform ?? "unknown",
     },
-  };
+  } as Partial<IUserSession>;
 };

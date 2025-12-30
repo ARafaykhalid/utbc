@@ -14,7 +14,6 @@
   },
   "include": [
     "src",
-    "../shared/interfaces",
     "../shared/types"
   ],
   "exclude": ["node_modules"]

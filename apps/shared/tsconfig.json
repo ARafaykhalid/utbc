@@ -4,5 +4,5 @@
     "composite": true, // only needed for project references
     "strict": true
   },
-  "include": ["interfaces", "validations", "types", "schemas", "index.ts"]
+  "include": ["../api/src/interfaces", "validations", "types", "schemas", "index.ts", "../api/src/types/jwtPayload.ts"]
 }

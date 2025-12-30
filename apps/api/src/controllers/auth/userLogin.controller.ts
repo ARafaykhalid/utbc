@@ -3,9 +3,10 @@ import argon2 from "argon2";
 import { userLogin } from "@shared/validations";
 import { respond } from "@/utils/respond";
 import userModel from "@/models/user.model";
-import { generateRefreshToken } from "@/utils/jwtTokens";
+import { generateAccessToken, generateRefreshToken } from "@/utils/jwtTokens";
 import { createSession } from "@/utils/createSession";
 import { JwtPayload } from "@shared/types";
+import { Types } from "mongoose";
 
 export const LoginUser = async (req: Request, res: Response) => {
   const { email, password } = req.body as userLogin;
@@ -20,8 +21,7 @@ export const LoginUser = async (req: Request, res: Response) => {
       });
     }
 
-    const userPassword = await argon2.hash(user.password);
-    const mathPassword = await argon2.verify(userPassword, password);
+    const mathPassword = await argon2.verify(user.password, password);
 
     if (!mathPassword) {
       return respond(res, "UNAUTHORIZED", "Incorrect password", {
@@ -35,12 +35,7 @@ export const LoginUser = async (req: Request, res: Response) => {
       return respond(res, "FORBIDDEN", "User account is blocked");
     }
 
-    const refreshToken = generateRefreshToken({
-      _id: user._id,
-      role: user.role,
-    } as JwtPayload);
-
-    await createSession(refreshToken, user, req);
+    const { refreshToken, accessToken } = await createSession(user, req);
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
@@ -51,7 +46,7 @@ export const LoginUser = async (req: Request, res: Response) => {
     });
 
     return respond(res, "SUCCESS", "User logged in successfully", {
-      data: { email: user.email, name: user.name },
+      data: { email: user.email, name: user.name, accessToken: accessToken },
     });
   } catch (error) {
     return respond(

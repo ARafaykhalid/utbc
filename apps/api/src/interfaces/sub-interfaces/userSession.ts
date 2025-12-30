@@ -1,4 +1,7 @@
-export interface UserSession {
+import { Types } from "mongoose";
+
+export interface IUserSession {
+  sessionId: Types.ObjectId;
   token: string;
   ip?: string;
   userAgent?: {

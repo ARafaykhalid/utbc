@@ -3,7 +3,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import morgan from "morgan";
-import router from "./routes";
+import router from "./routes/v1.route";
 import { config } from "./config";
 import { limiter } from "./lib/expressRateLimiter";
 import { CorsOptionsSettings } from "./lib/corsOptions";

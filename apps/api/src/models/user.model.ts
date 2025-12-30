@@ -1,8 +1,8 @@
 import mongoose, { Schema } from "mongoose";
-import { IUser } from "@shared/interfaces/";
-import { Session } from "./sub-models/sesson.model";
+import { Session } from "./sub-models/session.model";
 import { CartItem } from "./sub-models/cartItem.model";
 import { PurchasedItem } from "./sub-models/purchasedItem.model";
+import { IUser } from "@/interfaces/user.interface";
 
 const UserSchema = new Schema<IUser>(
   {

@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const userRegistrationSchema = z
+export const UserRegistrationSchema = z
   .object({
     name: z
       .string("Full name is required")
@@ -22,4 +22,4 @@ export const userRegistrationSchema = z
     path: ["root"],
   });
 
-export type userRegistration = z.infer<typeof userRegistrationSchema>;
+export type UserRegistration = z.infer<typeof UserRegistrationSchema>;
