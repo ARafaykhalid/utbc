@@ -5,7 +5,7 @@ import { LoginUser } from "@/controllers/auth/userLogin.controller";
 import { UserLoginSchema, UserRegistrationSchema } from "@shared/validations";
 import { RequireAuth } from "@/middlewares/requiresAuth.middleware";
 import { LogoutUser } from "@/controllers/auth/logoutUser.controller";
-import { LogoutDevice } from "@/controllers/auth/logoutDevice.controller";
+import { LogoutSession } from "@/controllers/auth/logoutSession.controller";
 import { RenewAccessToken } from "@/controllers/auth/renewAccessToken.controller";
 
 const AuthRouter: Router = Router();
@@ -24,7 +24,7 @@ AuthRouter.post(
 
 AuthRouter.post("/logout", LogoutUser);
 
-AuthRouter.post("/logout-device/:sessionId", RequireAuth, LogoutDevice);
+AuthRouter.post("/logout-device/:sessionId", RequireAuth, LogoutSession);
 
 AuthRouter.post("/renew-token", RenewAccessToken);
 

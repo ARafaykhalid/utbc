@@ -1,7 +1,7 @@
 import { IPurchasedItem } from "@/interfaces/sub-interfaces/purchasedItem";
 import { Schema } from "mongoose";
 
-export const PurchasedItem = new Schema<IPurchasedItem>(
+export const PurchasedItemSchema = new Schema<IPurchasedItem>(
   {
     product: {
       type: Schema.Types.ObjectId,

@@ -1,7 +1,7 @@
 import { IUserSession } from "@/interfaces/sub-interfaces/userSession";
 import { Schema } from "mongoose";
 
-export const Session = new Schema<IUserSession>(
+export const UserSessionSchema = new Schema<IUserSession>(
   {
     sessionId: { type: Schema.Types.ObjectId, required: true },
     token: { type: String, required: true },

@@ -18,7 +18,7 @@ export interface IUser {
 
   cart: ICartItem[];
   purchasedItems: IPurchasedItem[];
-  addresses?: IUserAddress[];
+  address?: IUserAddress;
 
   isBlocked: boolean;
   isEmailVerified: boolean;

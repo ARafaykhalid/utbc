@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
-import { LogoutFromDevice } from "@shared/validations";
+import { TLogoutSession } from "@shared/validations";
 import { respond } from "@/utils/respond.util";
 import { DeleteSession } from "@/utils/deleteSession.util";
 import { Types } from "mongoose";
 
-export const LogoutDevice = async (req: Request, res: Response) => {
+export const LogoutSession = async (req: Request, res: Response) => {
   const userId = req.user?.userId;
-  const { sessionId } = req.params as LogoutFromDevice as unknown as {
+  const { sessionId } = req.params as TLogoutSession as unknown as {
     sessionId: Types.ObjectId;
   };
 

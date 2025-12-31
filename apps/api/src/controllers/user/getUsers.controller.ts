@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import User from "@/models/user.model";
 import { respond } from "@/utils/respond.util";
 
-export const FetchUsers = async (req: Request, res: Response) => {
+export const GetUsers = async (req: Request, res: Response) => {
   try {
     const page = Math.max(Number(req.query.page) || 1, 1);
     const limit = Math.min(Number(req.query.limit) || 10, 100);

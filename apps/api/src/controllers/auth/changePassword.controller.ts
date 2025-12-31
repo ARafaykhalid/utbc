@@ -32,7 +32,7 @@ export const ChangePassword = async (req: Request, res: Response) => {
 
     return respond(res, "SUCCESS", "Password changed successfully");
   } catch (error) {
-    return respond(res, "INTERNAL_SERVER_ERROR", "Failed to fetch users", {
+    return respond(res, "INTERNAL_SERVER_ERROR", "Failed to change password", {
       errors: {
         message: (error as Error).message || "Unknown error",
       },

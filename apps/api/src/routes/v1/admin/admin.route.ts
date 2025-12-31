@@ -1,8 +1,8 @@
-import { BlockUsers } from "@/controllers/admin/blockUsers.controller";
-import { FetchUsers } from "@/controllers/admin/FetchUsers.controller";
+import { BlockUsers } from "@/controllers/user/blockUsers.controller";
+import { GetUsers } from "@/controllers/user/getUsers.controller";
 import { RequireAuth } from "@/middlewares/requiresAuth.middleware";
 import { validate } from "@/middlewares/validate.middleware";
-import { BlockUsersSchema, FetchUsersQuerySchema } from "@shared/validations";
+import { BlockUsersSchema, GetUsersQuerySchema } from "@shared/validations";
 import { Router } from "express";
 
 const AdminRouter: Router = Router();
@@ -16,9 +16,9 @@ AdminRouter.patch(
 
 AdminRouter.get(
   "/fetch-users",
-  validate({ query: FetchUsersQuerySchema as any }),
+  validate({ query: GetUsersQuerySchema as any }),
   RequireAuth,
-  FetchUsers
+  GetUsers
 );
 
 export default AdminRouter;

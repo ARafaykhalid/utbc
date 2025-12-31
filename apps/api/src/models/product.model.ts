@@ -1,38 +1,8 @@
 import mongoose, { Schema } from "mongoose";
-
-/* ======================
-   Sub Schemas
-====================== */
-
-const ProductImageSchema = new Schema(
-  {
-    url: { type: String, required: true },
-    alt: { type: String },
-  },
-  { _id: false }
-);
-
-const ProductVariantSchema = new Schema(
-  {
-    name: { type: String, required: true }, // e.g. "Red / XL"
-    sku: { type: String, required: true },
-    price: { type: Number, required: true },
-    stock: { type: Number, required: true, min: 0 },
-  },
-  { _id: false }
-);
-
-const RatingSchema = new Schema(
-  {
-    average: { type: Number, default: 0 },
-    count: { type: Number, default: 0 },
-  },
-  { _id: false }
-);
-
-/* ======================
-   Product Schema
-====================== */
+import { ProductVariantSchema } from "./sub-schemas/product/productVariant.schema";
+import { ReviewsSchema } from "./sub-schemas/reviews/Reviews.schema";
+import { RatingSchema } from "./sub-schemas/product/rating.schema";
+import { ProductImageSchema } from "./sub-schemas/product/productImage.schema";
 
 const ProductSchema = new Schema(
   {
@@ -86,6 +56,7 @@ const ProductSchema = new Schema(
     tags: [{ type: String, index: true }],
 
     rating: RatingSchema,
+    reviews: [ReviewsSchema],
 
     isActive: {
       type: Boolean,

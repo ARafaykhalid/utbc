@@ -1,8 +1,9 @@
 import mongoose, { Schema } from "mongoose";
-import { Session } from "./sub-models/session.model";
-import { CartItem } from "./sub-models/cartItem.model";
-import { PurchasedItem } from "./sub-models/purchasedItem.model";
+import { UserSessionSchema } from "./sub-schemas/user/userSession.schema";
+import { CartItemSchema } from "./sub-schemas/cartItem.schema";
+import { PurchasedItemSchema } from "./sub-schemas/purchasedItem.schema";
 import { IUser } from "@/interfaces/user.interface";
+import { UserAddressSchema } from "./sub-schemas/user/userAddress.schema";
 
 const UserSchema = new Schema<IUser>(
   {
@@ -18,17 +19,21 @@ const UserSchema = new Schema<IUser>(
 
     password: { type: String, required: true },
 
+    address: UserAddressSchema,
+
     role: {
       type: String,
       enum: ["admin", "user"],
       default: "user",
     },
 
-    sessions: [Session],
+    sessions: [UserSessionSchema],
 
-    cart: [CartItem],
+    cart: [CartItemSchema],
 
-    purchasedItems: [PurchasedItem],
+    purchasedItems: [PurchasedItemSchema],
+
+    isEmailVerified: { type: Boolean, default: false },
 
     isBlocked: { type: Boolean, default: false },
   },

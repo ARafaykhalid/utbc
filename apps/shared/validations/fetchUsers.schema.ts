@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const FetchUsersQuerySchema = z.object({
+export const GetUsersQuerySchema = z.object({
   page: z
     .string()
     .optional()
@@ -41,3 +41,6 @@ export const FetchUsersQuerySchema = z.object({
     .max(100, "search query too long")
     .optional(),
 });
+
+
+export type TGetUsers = z.infer<typeof GetUsersQuerySchema>;
