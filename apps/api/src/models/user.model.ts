@@ -35,6 +35,12 @@ const UserSchema = new Schema<IUser>(
 
     isEmailVerified: { type: Boolean, default: false },
 
+    resetPasswordToken: { type: String, default: null },
+    resetPasswordExpires: { type: Date, default: null },
+
+    emailVerificationToken: { type: String, default: null },
+    emailVerificationExpires: { type: Date, default: null },
+
     isBlocked: { type: Boolean, default: false },
   },
   { timestamps: true }

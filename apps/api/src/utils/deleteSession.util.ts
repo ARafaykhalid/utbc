@@ -2,7 +2,7 @@ import userModel from "@/models/user.model";
 import { Types } from "mongoose";
 
 export const DeleteSession = async (
-  userId: Types.ObjectId,
+  userId: Types.ObjectId | undefined,
   sessionId: Types.ObjectId
 ): Promise<void> => {
   

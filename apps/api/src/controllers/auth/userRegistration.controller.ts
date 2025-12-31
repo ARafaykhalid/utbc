@@ -3,6 +3,8 @@ import argon2 from "argon2";
 import { respond } from "@/utils/respond.util";
 import userModel from "@/models/user.model";
 import { TUserRegistration } from "@shared/validations";
+import { Token } from "@/utils/token.util";
+import { SendEmailVerificationEmail } from "@/emails/emailVerification.email";
 
 export const CreateUser = async (req: Request, res: Response) => {
   const { email, password, name } = req.body as TUserRegistration;
@@ -19,16 +21,30 @@ export const CreateUser = async (req: Request, res: Response) => {
 
     const hashedPassword = await argon2.hash(password);
 
-    await new userModel({
+    const newUser = new userModel({
       email: email,
       password: hashedPassword,
       role: "user",
       name: name,
-    }).save();
-
-    return respond(res, "SUCCESS", "User created successfully", {
-      data: { email: req.body.email, name: req.body.name },
     });
+    await newUser.save();
+
+    const { hashedToken, rawToken, tokenExpiresAt } = Token();
+
+    newUser.emailVerificationToken = hashedToken;
+    newUser.emailVerificationExpires = tokenExpiresAt;
+    await newUser.save();
+
+    await SendEmailVerificationEmail(email, rawToken);
+
+    return respond(
+      res,
+      "SUCCESS",
+      "User created successfully, Also email verification sent.",
+      {
+        data: { email: req.body.email, name: req.body.name },
+      }
+    );
   } catch (error) {
     return respond(
       res,

@@ -1,6 +1,9 @@
 import { Request, Response } from "express";
 import { respond } from "@/utils/respond.util";
-import { generateAccessToken, verifyRefreshToken } from "@/utils/jwtTokens.util";
+import {
+  generateAccessToken,
+  verifyRefreshToken,
+} from "@/utils/jwtTokens.util";
 import userModel from "@/models/user.model";
 import { token } from "morgan";
 import { JwtPayload } from "@shared/types";
@@ -54,6 +57,7 @@ export const RenewAccessToken = async (req: Request, res: Response) => {
     // Generate new access token
     const newAccessToken = generateAccessToken({
       _id: user._id,
+      sessionId: sessionMatch.sessionId,
       role: user.role,
     } as JwtPayload);
 

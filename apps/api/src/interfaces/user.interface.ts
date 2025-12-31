@@ -5,7 +5,6 @@ import { IPurchasedItem } from "./sub-interfaces/purchasedItem";
 import { Types } from "mongoose";
 import { UserRole } from "@shared/types";
 
-
 export interface IUser {
   _id: Types.ObjectId;
 
@@ -22,6 +21,11 @@ export interface IUser {
 
   isBlocked: boolean;
   isEmailVerified: boolean;
+
+  resetPasswordToken?: string | null;
+  resetPasswordExpires?: Date | null;
+  emailVerificationToken?: string | null;
+  emailVerificationExpires?: Date | null;
 
   createdAt: Date;
   updatedAt: Date;

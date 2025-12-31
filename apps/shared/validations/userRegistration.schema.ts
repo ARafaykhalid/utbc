@@ -9,7 +9,7 @@ export const UserRegistrationSchema = z
     email: z.string("Email is required").email("Invalid email address"),
     password: z
       .string("Password is required")
-      .min(6, "Password must be at least 6 characters"),
+      .min(8, "Password must be at least 8 characters"),
     phone: z
       .string()
       .min(10, "Phone number must be at least 10 digits")

@@ -14,7 +14,7 @@
   },
   "include": [
     "src",
-    "../shared/types"
+    "../shared"
   ],
   "exclude": ["node_modules"]
 }

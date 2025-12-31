@@ -1,7 +1,7 @@
 import { Response } from "express";
-import { statusCodeMap } from "@shared/constants/httpStatus";
 import { httpStatusCode } from "@shared/types/httpStatusCode";
 import { logger } from "@/lib/winston";
+import { STATUS_CODE_MAP } from "@shared/constants";
 
 export type FieldError = { path: string; message: string };
 
@@ -30,22 +30,18 @@ export const respond = <T = any>(
   message: string,
   options?: RespondOptions<T>
 ) => {
-  const status = statusCodeMap[code] || 500;
+  const status = STATUS_CODE_MAP[code] || 500;
 
   const formattedErrors = formatErrors(options?.errors);
 
-  /** -----------------------
-   *  CLIENT RESPONSE
-   *  ---------------------- */
   const responseBody: any = {
-    code,
+    code: code,
     message: isInternalServerError(code)
       ? "Something went wrong. Please try again later."
       : message,
     data: options?.data ?? undefined,
   };
 
-  // never expose internal errors to client
   if (!isInternalServerError(code) && formattedErrors) {
     responseBody.errors = formattedErrors;
   }

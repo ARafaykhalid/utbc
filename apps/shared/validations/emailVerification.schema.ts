@@ -1,11 +1,9 @@
 import { z } from "zod";
 
-export const UserLoginSchema = z
+export const EmailVerificationSchema = z
   .object({
     email: z.string("Email is required").email("Invalid email address"),
-    password: z
-      .string("Password is required")
-      .min(8, "Password must be at least 8 characters"),
+    token: z.string("Token is required"),
   })
   .strict()
   .refine((data: {}) => Object.keys(data).length > 0, {
@@ -13,4 +11,4 @@ export const UserLoginSchema = z
     path: ["root"],
   });
 
-export type TUserLogin = z.infer<typeof UserLoginSchema>;
+export type TEmailVerification = z.infer<typeof EmailVerificationSchema>;

@@ -5,20 +5,20 @@ import { validate } from "@/middlewares/validate.middleware";
 import { BlockUsersSchema, GetUsersQuerySchema } from "@shared/validations";
 import { Router } from "express";
 
-const AdminRouter: Router = Router();
+const AdminRoute: Router = Router();
 
-AdminRouter.patch(
+AdminRoute.patch(
   "/block-users",
   validate({ body: BlockUsersSchema as any }),
   RequireAuth,
   BlockUsers
 );
 
-AdminRouter.get(
+AdminRoute.get(
   "/fetch-users",
   validate({ query: GetUsersQuerySchema as any }),
   RequireAuth,
   GetUsers
 );
 
-export default AdminRouter;
+export default AdminRoute;

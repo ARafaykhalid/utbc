@@ -2,10 +2,12 @@ import { Request, Response } from "express";
 import User from "@/models/user.model";
 import { respond } from "@/utils/respond.util";
 import argon2 from "argon2";
+import { TChangePassword } from "@shared/validations";
+import { TAuthData } from "@/types/userId";
 
 export const ChangePassword = async (req: Request, res: Response) => {
-  const { userId } = req.user?.userId;
-  const { oldPassword, newPassword } = req.body;
+  const { userId } = req.user as TAuthData;
+  const { oldPassword, newPassword } = req.body as TChangePassword;
 
   try {
     const user = await User.findById(userId);

@@ -1,14 +1,10 @@
 import { Request, Response } from "express";
-import { TLogoutSession } from "@shared/validations";
 import { respond } from "@/utils/respond.util";
 import { DeleteSession } from "@/utils/deleteSession.util";
-import { Types } from "mongoose";
+import { TAuthData } from "@/types/userId";
 
-export const LogoutSession = async (req: Request, res: Response) => {
-  const userId = req.user?.userId;
-  const { sessionId } = req.params as TLogoutSession as unknown as {
-    sessionId: Types.ObjectId;
-  };
+export const RevokeSession = async (req: Request, res: Response) => {
+  const { userId, sessionId } = req.user as TAuthData;
 
   try {
     if (!sessionId) {

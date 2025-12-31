@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import User from "@/models/user.model";
 import { respond } from "@/utils/respond.util";
+import { TAuthData } from "@/types/userId";
 
 export const UpdateProfile = async (req: Request, res: Response) => {
   const {
@@ -8,7 +9,7 @@ export const UpdateProfile = async (req: Request, res: Response) => {
     address: { fullName, phone, street, city, state, postalCode, country },
   } = req.body;
 
-  const { userId } = req.user?.userId;
+  const { userId } = req.user as TAuthData;
 
   try {
     const user = await User.findById(userId).select("-password -sessions");

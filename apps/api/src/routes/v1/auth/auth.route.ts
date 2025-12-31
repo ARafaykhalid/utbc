@@ -2,30 +2,49 @@ import { validate } from "@/middlewares/validate.middleware";
 import { Router } from "express";
 import { CreateUser } from "@/controllers/auth/userRegistration.controller";
 import { LoginUser } from "@/controllers/auth/userLogin.controller";
-import { UserLoginSchema, UserRegistrationSchema } from "@shared/validations";
+import {
+  ForgotPasswordSchema,
+  ResetPasswordSchema,
+  UserLoginSchema,
+  UserRegistrationSchema,
+} from "@shared/validations";
 import { RequireAuth } from "@/middlewares/requiresAuth.middleware";
 import { LogoutUser } from "@/controllers/auth/logoutUser.controller";
-import { LogoutSession } from "@/controllers/auth/logoutSession.controller";
+import { RevokeSession } from "@/controllers/auth/revokeSession.controller";
 import { RenewAccessToken } from "@/controllers/auth/renewAccessToken.controller";
+import { forgotPassword } from "@/controllers/auth/forgotPassword.controller";
+import { resetPassword } from "@/controllers/auth/resetPassword.controller";
 
-const AuthRouter: Router = Router();
+const AuthRoute: Router = Router();
 
-AuthRouter.post(
+AuthRoute.post(
   "/register",
   validate({ body: UserRegistrationSchema as any }),
   CreateUser
 );
 
-AuthRouter.post(
+AuthRoute.post(
   "/login",
   validate({ body: UserLoginSchema as any }),
   LoginUser
 );
 
-AuthRouter.post("/logout", LogoutUser);
+AuthRoute.post("/logout", LogoutUser);
 
-AuthRouter.post("/logout-device/:sessionId", RequireAuth, LogoutSession);
+AuthRoute.post("/logout-device/:sessionId", RequireAuth, RevokeSession);
 
-AuthRouter.post("/renew-token", RenewAccessToken);
+AuthRoute.post("/renew-token", RenewAccessToken);
 
-export default AuthRouter;
+AuthRoute.post(
+  "/forgot-password",
+  validate({ body: ForgotPasswordSchema as any }),
+  forgotPassword
+);
+
+AuthRoute.post(
+  "/reset-password",
+  validate({ body: ResetPasswordSchema as any }),
+  resetPassword
+);
+
+export default AuthRoute;

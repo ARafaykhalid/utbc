@@ -7,7 +7,7 @@ declare namespace Express {
     };
     clientIp?: string;
     user?: {
-      userId: ObjectId;
+      userId?: ObjectId;
       sessionId: ObjectId;
       role?: string;
     };

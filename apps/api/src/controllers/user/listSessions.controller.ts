@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
 import User from "@/models/user.model";
 import { respond } from "@/utils/respond.util";
+import { TAuthData } from "@/types/userId";
 
 export const ListSessions = async (req: Request, res: Response) => {
-  const { userId } = req.user?.userId;
+  const { userId } = req.user as TAuthData;
 
   try {
     const user = await User.findById(userId);

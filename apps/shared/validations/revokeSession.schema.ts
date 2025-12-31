@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const LogoutSessionSchema = z
+export const RevokeSessionSchema = z
   .object({
     sessionId: z
       .string("Object Id for device is required")
@@ -12,4 +12,4 @@ export const LogoutSessionSchema = z
     path: ["root"],
   });
 
-export type TLogoutSession = z.infer<typeof LogoutSessionSchema>;
+export type TRevokeSession = z.infer<typeof RevokeSessionSchema>;

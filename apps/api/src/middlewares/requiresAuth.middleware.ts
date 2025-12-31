@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { respond } from "@/utils/respond.util";
 import { verifyAccessToken } from "@/utils/jwtTokens.util";
 import userModel from "@/models/user.model";
+import jwt from "jsonwebtoken";
 
 export const RequireAuth = async (
   req: Request,
@@ -12,14 +13,25 @@ export const RequireAuth = async (
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return respond(res, "UNAUTHORIZED", "Authorization token missing");
+      return respond(res, "JWT_MISSING", "Authorization token missing");
     }
 
     const token = authHeader.split(" ")[1];
+    let payload: any;
 
-    const payload = verifyAccessToken(token);
-    if (!payload) {
-      return respond(res, "UNAUTHORIZED", "Invalid or expired token");
+    try {
+      payload = verifyAccessToken(token);
+
+    } catch (err) {
+      if (err instanceof jwt.TokenExpiredError) {
+        return respond(res, "JWT_EXPIRED", "Access token expired");
+      }
+
+      if (err instanceof jwt.JsonWebTokenError) {
+        return respond(res, "JWT_INVALID", "Invalid access token");
+      }
+
+      return respond(res, "UNAUTHORIZED", "Authentication failed");
     }
 
     const { _id: userId, sessionId } = payload;
@@ -27,7 +39,7 @@ export const RequireAuth = async (
 
     const user = await userModel.findById(userId).select("sessions isBlocked");
     if (!user) {
-      return respond(res, "UNAUTHORIZED", "User no longer exists");
+      return respond(res, "JWT_INVALID", "User no longer exists");
     }
 
     if (user.isBlocked) {
@@ -39,7 +51,7 @@ export const RequireAuth = async (
     );
 
     if (!sessionExists) {
-      return respond(res, "UNAUTHORIZED", "Session expired or logged out");
+      return respond(res, "JWT_INVALID", "Session expired or logged out");
     }
 
     // attach trusted data
