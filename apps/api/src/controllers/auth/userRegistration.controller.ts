@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 import argon2 from "argon2";
-import { respond } from "@/utils/respond";
+import { respond } from "@/utils/respond.util";
 import userModel from "@/models/user.model";
-import { UserRegistration } from "@shared/validations";
+import { TUserRegistration } from "@shared/validations";
 
 export const CreateUser = async (req: Request, res: Response) => {
-  const { email, password, name } = req.body as UserRegistration;
+  const { email, password, name } = req.body as TUserRegistration;
 
   try {
     const existing = await userModel.findOne({ email });

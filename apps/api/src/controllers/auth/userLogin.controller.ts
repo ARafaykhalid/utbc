@@ -1,15 +1,12 @@
 import { Request, Response } from "express";
 import argon2 from "argon2";
-import { userLogin } from "@shared/validations";
-import { respond } from "@/utils/respond";
+import { TUserLogin } from "@shared/validations";
+import { respond } from "@/utils/respond.util";
 import userModel from "@/models/user.model";
-import { generateAccessToken, generateRefreshToken } from "@/utils/jwtTokens";
-import { createSession } from "@/utils/createSession";
-import { JwtPayload } from "@shared/types";
-import { Types } from "mongoose";
+import { createSession } from "@/utils/createSession.util";
 
 export const LoginUser = async (req: Request, res: Response) => {
-  const { email, password } = req.body as userLogin;
+  const { email, password } = req.body as TUserLogin;
 
   try {
     const user = await userModel.findOne({ email });
@@ -48,6 +45,7 @@ export const LoginUser = async (req: Request, res: Response) => {
     return respond(res, "SUCCESS", "User logged in successfully", {
       data: { email: user.email, name: user.name, accessToken: accessToken },
     });
+    
   } catch (error) {
     return respond(
       res,

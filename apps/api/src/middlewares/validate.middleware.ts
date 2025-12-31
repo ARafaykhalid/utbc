@@ -1,4 +1,4 @@
-import { respond } from "@/utils/respond";
+import { respond } from "@/utils/respond.util";
 import { Request, Response, NextFunction, RequestHandler } from "express";
 import { z, ZodAny, ZodError } from "zod";
 

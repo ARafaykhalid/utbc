@@ -22,4 +22,4 @@ export const UserRegistrationSchema = z
     path: ["root"],
   });
 
-export type UserRegistration = z.infer<typeof UserRegistrationSchema>;
+export type TUserRegistration = z.infer<typeof UserRegistrationSchema>;

@@ -1,8 +1,8 @@
-import { getSessionMeta } from "./getSessionMeta";
+import { getSessionMeta } from "./getSessionMeta.util";
 import { Request } from "express";
 import { IUserSession } from "@/interfaces/sub-interfaces/userSession";
 import { Types } from "mongoose";
-import { generateAccessToken, generateRefreshToken } from "./jwtTokens";
+import { generateAccessToken, generateRefreshToken } from "./jwtTokens.util";
 import { JwtPayload } from "@shared/types";
 
 export const createSession = async (user: any, req: Request) => {

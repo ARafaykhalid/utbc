@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from "express";
-import { respond } from "@/utils/respond";
-import { verifyAccessToken } from "@/utils/jwtTokens";
+import { respond } from "@/utils/respond.util";
+import { verifyAccessToken } from "@/utils/jwtTokens.util";
 import userModel from "@/models/user.model";
 
-export const requireAuth = async (
+export const RequireAuth = async (
   req: Request,
   res: Response,
   next: NextFunction

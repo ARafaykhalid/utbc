@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { respond } from "@/utils/respond";
-import { generateAccessToken, verifyRefreshToken } from "@/utils/jwtTokens";
+import { respond } from "@/utils/respond.util";
+import { generateAccessToken, verifyRefreshToken } from "@/utils/jwtTokens.util";
 import userModel from "@/models/user.model";
 import { token } from "morgan";
 import { JwtPayload } from "@shared/types";

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { LogoutFromDevice } from "@shared/validations";
-import { respond } from "@/utils/respond";
-import { DeleteSession } from "@/utils/deleteSession";
+import { respond } from "@/utils/respond.util";
+import { DeleteSession } from "@/utils/deleteSession.util";
 import { Types } from "mongoose";
 
 export const LogoutDevice = async (req: Request, res: Response) => {

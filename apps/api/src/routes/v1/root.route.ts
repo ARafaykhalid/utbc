@@ -1,5 +1,7 @@
 import { Request, Response, Router } from "express";
-import RouterAuth from "./auth/auth.route";
+import { RequireAuth } from "@/middlewares/requiresAuth.middleware";
+import AdminRouter from "./admin/admin.route";
+import AuthRouter from "./auth/auth.route";
 
 const Routerv1: Router = Router();
 
@@ -12,6 +14,8 @@ Routerv1.get("/", (req: Request, res: Response) => {
   });
 });
 
-Routerv1.use("/auth", RouterAuth);
+Routerv1.use("/auth", AuthRouter);
+
+Routerv1.use("/admin", RequireAuth, AdminRouter);
 
 export default Routerv1;

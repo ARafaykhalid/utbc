@@ -13,4 +13,4 @@ export const UserLoginSchema = z
     path: ["root"],
   });
 
-export type userLogin = z.infer<typeof UserLoginSchema>;
+export type TUserLogin = z.infer<typeof UserLoginSchema>;
