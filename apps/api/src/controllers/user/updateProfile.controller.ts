@@ -2,46 +2,34 @@ import { Request, Response } from "express";
 import User from "@/models/user.model";
 import { respond } from "@/utils/respond.util";
 import { TAuthData } from "@/types/userId";
+import { TUpdateProfile } from "@shared/validations/updateProfile.schema";
 
 export const UpdateProfile = async (req: Request, res: Response) => {
-  const {
-    name,
-    address: { fullName, phone, street, city, state, postalCode, country },
-  } = req.body;
-
+  const { name, address } = req.body as TUpdateProfile;
   const { userId } = req.user as TAuthData;
 
   try {
     const user = await User.findById(userId).select("-password -sessions");
     if (!user) {
-      return respond(res, "NOT_FOUND", "User not found", {
-        errors: {
-          message: "No user found with the provided ID",
-        },
-      });
+      return respond(res, "NOT_FOUND", "User not found");
     }
-    user.name = name || user.name;
-    user.address = {
-      fullName: fullName || user.address?.fullName || "",
-      phone: phone || user.address?.phone || "",
-      street: street || user.address?.street || "",
-      city: city || user.address?.city || "",
-      state: state || user.address?.state || "",
-      postalCode: postalCode || user.address?.postalCode || "",
-      country: country || user.address?.country || "",
-    };
-    const updatedUser = await user.save();
 
-    return respond(res, "SUCCESS", "User profile updated successfully", {
-      data: {
-        user: updatedUser,
-      },
-    });
+    if (name !== undefined) {
+      user.name = name;
+    }
+
+    if (address) {
+      user.address = {
+        ...user.address,
+        ...address,
+      };
+    }
+
+    await user.save();
+    return respond(res, "SUCCESS", "User profile updated successfully");
   } catch (error) {
     return respond(res, "INTERNAL_SERVER_ERROR", "Failed to update profile", {
-      errors: {
-        message: (error as Error).message || "Unknown error",
-      },
+      errors: { message: (error as Error).message },
     });
   }
 };

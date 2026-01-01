@@ -1,46 +1,27 @@
 import { z } from "zod";
 
-export const GetUsersQuerySchema = z.object({
-  page: z
-    .string()
-    .optional()
-    .transform((v) => Number(v))
-    .refine((v) => !isNaN(v) && v >= 1, {
-      message: "page must be a number >= 1",
-    })
-    .optional(),
+export const FetchUsersSchema = z.object({
+  page: z.coerce.number().int().min(1).default(1),
 
-  limit: z
-    .string()
-    .optional()
-    .transform((v) => Number(v))
-    .refine((v) => !isNaN(v) && v >= 1 && v <= 100, {
-      message: "limit must be between 1 and 100",
-    })
-    .optional(),
+  limit: z.coerce.number().int().min(1).max(100).default(10),
 
-  sortBy: z
-    .enum(["createdAt", "name", "email", "role"])
-    .optional(),
+  sortBy: z.enum(["createdAt", "name", "email", "role"]).default("createdAt"),
 
   order: z
     .enum(["asc", "desc"])
-    .optional(),
+    .default("desc")
+    .transform((val) => (val === "asc" ? 1 : -1)),
 
-  role: z
-    .enum(["admin", "user"])
-    .optional(),
+  role: z.string().optional(),
 
   blocked: z
     .enum(["true", "false"])
-    .optional(),
+    .optional()
+    .transform((val) =>
+      val === "true" ? true : val === "false" ? false : undefined
+    ),
 
-  q: z
-    .string()
-    .min(1, "search query cannot be empty")
-    .max(100, "search query too long")
-    .optional(),
+  search: z.string().min(1).optional(),
 });
 
-
-export type TGetUsers = z.infer<typeof GetUsersQuerySchema>;
+export type TFetchUsers = z.infer<typeof FetchUsersSchema>;

@@ -1,24 +1,25 @@
-import { BlockUsers } from "@/controllers/user/blockUsers.controller";
-import { GetUsers } from "@/controllers/user/getUsers.controller";
+import { BlockUsers } from "@/controllers/admin/blockUsers.controller";
+import { GetUsers } from "@/controllers/admin/getUsers.controller";
+import { unBlockUsers } from "@/controllers/admin/unBlockUsers.controller";
 import { RequireAuth } from "@/middlewares/requiresAuth.middleware";
 import { validate } from "@/middlewares/validate.middleware";
-import { BlockUsersSchema, GetUsersQuerySchema } from "@shared/validations";
+import { BlockUsersSchema, FetchUsersSchema } from "@shared/validations";
 import { Router } from "express";
 
 const AdminRoute: Router = Router();
 
 AdminRoute.patch(
   "/block-users",
-  validate({ body: BlockUsersSchema as any }),
-  RequireAuth,
+  validate({ body: BlockUsersSchema }),
   BlockUsers
 );
 
-AdminRoute.get(
-  "/fetch-users",
-  validate({ query: GetUsersQuerySchema as any }),
-  RequireAuth,
-  GetUsers
+AdminRoute.patch(
+  "/unblock-users",
+  validate({ body: BlockUsersSchema }),
+  unBlockUsers
 );
+
+AdminRoute.get("/fetch-users", validate({ query: FetchUsersSchema }), GetUsers);
 
 export default AdminRoute;

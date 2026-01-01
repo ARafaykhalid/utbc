@@ -2,9 +2,12 @@ import { Request, Response } from "express";
 import { respond } from "@/utils/respond.util";
 import { DeleteSession } from "@/utils/deleteSession.util";
 import { TAuthData } from "@/types/userId";
+import { TRevokeSession } from "@shared/validations";
+import { Types } from "mongoose";
 
 export const RevokeSession = async (req: Request, res: Response) => {
-  const { userId, sessionId } = req.user as TAuthData;
+  const { userId } = req.user as TAuthData;
+  const { sessionId } = req.params as TRevokeSession;
 
   try {
     if (!sessionId) {
@@ -12,8 +15,8 @@ export const RevokeSession = async (req: Request, res: Response) => {
         errors: { "params.sessionId": "Device ID is missing" },
       });
     }
-
-    await DeleteSession(userId, sessionId);
+    
+    await DeleteSession(userId, new Types.ObjectId(sessionId));
 
     return respond(res, "SUCCESS", "Logged out from device successfully");
   } catch (error) {

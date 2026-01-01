@@ -22,6 +22,7 @@ export interface IUser {
   isBlocked: boolean;
   isEmailVerified: boolean;
 
+  newEmail?: string;
   resetPasswordToken?: string | null;
   resetPasswordExpires?: Date | null;
   emailVerificationToken?: string | null;

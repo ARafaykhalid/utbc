@@ -35,7 +35,6 @@ export const RequireAuth = async (
     }
 
     const { _id: userId, sessionId } = payload;
-    console.log("Payload in requireAuth:", payload);
 
     const user = await userModel.findById(userId).select("sessions isBlocked");
     if (!user) {

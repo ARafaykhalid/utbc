@@ -8,9 +8,7 @@ import {
   UserLoginSchema,
   UserRegistrationSchema,
 } from "@shared/validations";
-import { RequireAuth } from "@/middlewares/requiresAuth.middleware";
 import { LogoutUser } from "@/controllers/auth/logoutUser.controller";
-import { RevokeSession } from "@/controllers/auth/revokeSession.controller";
 import { RenewAccessToken } from "@/controllers/auth/renewAccessToken.controller";
 import { forgotPassword } from "@/controllers/auth/forgotPassword.controller";
 import { resetPassword } from "@/controllers/auth/resetPassword.controller";
@@ -19,31 +17,22 @@ const AuthRoute: Router = Router();
 
 AuthRoute.post(
   "/register",
-  validate({ body: UserRegistrationSchema as any }),
+  validate({ body: UserRegistrationSchema }),
   CreateUser
 );
-
-AuthRoute.post(
-  "/login",
-  validate({ body: UserLoginSchema as any }),
-  LoginUser
-);
+AuthRoute.post("/login", validate({ body: UserLoginSchema }), LoginUser);
+AuthRoute.post("/renew-token", RenewAccessToken);
 
 AuthRoute.post("/logout", LogoutUser);
 
-AuthRoute.post("/logout-device/:sessionId", RequireAuth, RevokeSession);
-
-AuthRoute.post("/renew-token", RenewAccessToken);
-
 AuthRoute.post(
   "/forgot-password",
-  validate({ body: ForgotPasswordSchema as any }),
+  validate({ body: ForgotPasswordSchema }),
   forgotPassword
 );
-
 AuthRoute.post(
   "/reset-password",
-  validate({ body: ResetPasswordSchema as any }),
+  validate({ body: ResetPasswordSchema }),
   resetPassword
 );
 

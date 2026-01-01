@@ -1,25 +1,19 @@
 import { Request, Response } from "express";
 import User from "@/models/user.model";
 import { respond } from "@/utils/respond.util";
+import { FetchUsersSchema } from "@shared/validations/fetchUsers.schema";
 
 export const GetUsers = async (req: Request, res: Response) => {
   try {
-    const page = Math.max(Number(req.query.page) || 1, 1);
-    const limit = Math.min(Number(req.query.limit) || 10, 100);
-    const skip = (page - 1) * limit;
-    const sortBy = (req.query.sortBy as string) || "createdAt";
-    const order = req.query.order === "asc" ? 1 : -1;
+    const parsed = FetchUsersSchema.parse(req.query);
 
+    const { page, limit, sortBy, order, role, blocked, search } = parsed;
+
+    const skip = (page - 1) * limit;
     const filter: Record<string, any> = {};
 
-    const role = req.query.role as string | undefined;
-    const search = req.query.q as string | undefined;
-    const blocked = req.query.blocked as string | undefined;
-
     if (role) filter.role = role;
-
-    if (blocked === "true") filter.isBlocked = true;
-    if (blocked === "false") filter.isBlocked = false;
+    if (blocked !== undefined) filter.isBlocked = blocked;
 
     if (search) {
       filter.$or = [
@@ -48,16 +42,12 @@ export const GetUsers = async (req: Request, res: Response) => {
           total,
           totalPages: Math.ceil(total / limit),
         },
-        filters: {
-          role: role ?? "all",
-          blocked: blocked ?? "all",
-        },
       },
     });
   } catch (error) {
-    return respond(res, "INTERNAL_SERVER_ERROR", "Failed to fetch users", {
+    return respond(res, "BAD_REQUEST", "Invalid query parameters", {
       errors: {
-        message: (error as Error).message || "Unknown error",
+        message: (error as Error).message,
       },
     });
   }

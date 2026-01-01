@@ -2,21 +2,16 @@ import { validate } from "@/middlewares/validate.middleware";
 import { Router } from "express";
 import { EmailVerification } from "@/controllers/verification/emailVerification.controller";
 import { EmailVerificationSchema } from "@shared/validations/emailVerification.schema";
-import { SendEmailVerification } from "@/controllers/user/sendEmailVerification.controller";
-import { RequireAuth } from "@/middlewares/requiresAuth.middleware";
+import { ChangeEmailVerification } from "@/controllers/verification/changeEmailVerification.controller";
 
 const VerificationRoute: Router = Router();
 
 VerificationRoute.post(
-  "/verify-email",
-  validate({ body: EmailVerificationSchema as any }),
+  "/email",
+  validate({ body: EmailVerificationSchema }),
   EmailVerification
 );
 
-VerificationRoute.post(
-  "/send-verification-email",
-  RequireAuth,
-  SendEmailVerification
-);
+VerificationRoute.post("/change-email", ChangeEmailVerification);
 
 export default VerificationRoute;

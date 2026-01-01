@@ -1,6 +1,6 @@
 import { respond } from "@/utils/respond.util";
 import { Request, Response, NextFunction, RequestHandler } from "express";
-import { z, ZodAny, ZodError } from "zod";
+import { z, ZodAny, ZodError, ZodType } from "zod";
 
 export type ValidatedData<
   B extends ZodAny | undefined,
@@ -19,9 +19,9 @@ declare module "express" {
 }
 
 type Schemas = {
-  body?: ZodAny;
-  params?: ZodAny;
-  query?: ZodAny;
+  body?: any;
+  params?: any;
+  query?: any;
 };
 
 type Options = {

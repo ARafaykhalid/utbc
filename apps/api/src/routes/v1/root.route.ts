@@ -2,11 +2,12 @@ import { Request, Response, Router } from "express";
 import { RequireAuth } from "@/middlewares/requiresAuth.middleware";
 import AdminRoute from "./admin/admin.route";
 import AuthRoute from "./auth/auth.route";
-import VerificationRoute from "./verification/verification.route";
+import UserRoute from "./user/user.route";
+import EmailRoute from "./email/email.route";
 
-const Routerv1: Router = Router();
+const RootRouter: Router = Router();
 
-Routerv1.get("/", (req: Request, res: Response) => {
+RootRouter.get("/", (req: Request, res: Response) => {
   res.status(200).json({
     message: "Api is Live!",
     status: "200 ok",
@@ -15,10 +16,12 @@ Routerv1.get("/", (req: Request, res: Response) => {
   });
 });
 
-Routerv1.use("/auth", AuthRoute);
+RootRouter.use("/auth", AuthRoute);
 
-Routerv1.use("/admin", RequireAuth, AdminRoute);
+RootRouter.use("/admin", RequireAuth, AdminRoute);
 
-Routerv1.use("/verification", VerificationRoute);
+RootRouter.use("/user", RequireAuth, UserRoute);
 
-export default Routerv1;
+RootRouter.use("/email", EmailRoute);
+
+export default RootRouter;

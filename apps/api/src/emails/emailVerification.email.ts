@@ -9,8 +9,7 @@ export const SendEmailVerificationEmail = async (to: string, token: string) => {
   const resetUrl = VerificationTokenURL(
     config.DOMAIN,
     "verification/verify-email",
-    token,
-    to
+    `token=${token}&email=${encodeURIComponent(to)}`
   );
 
   const html = `

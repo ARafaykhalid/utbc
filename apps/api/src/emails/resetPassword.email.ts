@@ -9,8 +9,7 @@ export const ResetPasswordEmail = async (to: string, token: string) => {
   const resetUrl = VerificationTokenURL(
     config.DOMAIN,
     "auth/reset-password",
-    token,
-    to
+    `token=${token}&email=${encodeURIComponent(to)}`
   );
 
   const html = `
