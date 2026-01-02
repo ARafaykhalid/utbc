@@ -1,12 +1,14 @@
-import { Types } from "mongoose";
+import { HydratedDocument, Types } from "mongoose";
 import { Request } from "express";
-import { getSessionMeta } from "./getSessionMeta.util";
-import { generateAccessToken, generateRefreshToken } from "./jwtTokens.util";
-import { IUserSession } from "@/interfaces/";
+import { IUser, IUserSession } from "@/interfaces/";
 import { TJwtPayload } from "@shared/types";
+import { generateAccessToken, generateRefreshToken, getSessionMeta } from "@/utils";
 
-export const createSession = async (user: any, req: Request) => {
-  const { ip, userAgent } = getSessionMeta(req);
+export const createSession = async (
+  user: HydratedDocument<IUser>,
+  req: Request
+) => {
+  const { ip, userAgent, location } = getSessionMeta(req);
   const ExistingSession = user.sessions?.find(
     (s: IUserSession) =>
       s.userAgent?.device === userAgent?.device && s.ip === ip
@@ -25,17 +27,20 @@ export const createSession = async (user: any, req: Request) => {
     role: user.role,
   } as TJwtPayload);
 
+  console.log("location:", location);
+
   if (ExistingSession) {
-    ExistingSession.sessionId = sessionId;
+    ExistingSession._id = sessionId;
     ExistingSession.token = refreshToken;
     ExistingSession.createdAt = new Date();
     ExistingSession.expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
   } else {
     user.sessions.push({
-      sessionId: sessionId,
+      _id: sessionId,
       token: refreshToken,
       ip,
       userAgent,
+      location,
       createdAt: new Date(),
       expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
     } as IUserSession);

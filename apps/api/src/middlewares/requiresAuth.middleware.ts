@@ -1,8 +1,7 @@
 import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
-import { respond } from "@/utils/respond.util";
-import { verifyAccessToken } from "@/utils/jwtTokens.util";
 import { UserModel } from "@/models";
+import { respond, verifyAccessToken } from "@/utils";
 
 export const requireAuth = async (
   req: Request,
@@ -44,8 +43,8 @@ export const requireAuth = async (
       return respond(res, "FORBIDDEN", "User account is blocked");
     }
 
-    const sessionExists = user.sessions?.some((s) =>
-      s.sessionId.equals(sessionId)
+    const sessionExists = user.sessions?.some((session) =>
+      session._id.equals(sessionId)
     );
 
     if (!sessionExists) {

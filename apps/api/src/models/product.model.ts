@@ -1,12 +1,12 @@
 import { Schema, model } from "mongoose";
 import {
-  ProductImageSchema,
   ProductRatingSchema,
   ProductVariantSchema,
   ReviewsSchema,
 } from "./sub-schemas";
+import { IProduct } from "@/interfaces";
 
-const ProductSchema = new Schema(
+const ProductSchema = new Schema<IProduct>(
   {
     title: {
       type: String,
@@ -45,7 +45,7 @@ const ProductSchema = new Schema(
 
     variants: [ProductVariantSchema],
 
-    images: [ProductImageSchema],
+    media: [{ type: Schema.Types.ObjectId, ref: "Media", required: true }],
 
     category: {
       type: Schema.Types.ObjectId,
@@ -77,4 +77,4 @@ const ProductSchema = new Schema(
   }
 );
 
-export const ProductModel = model("Product", ProductSchema);
+export const ProductModel = model<IProduct>("Product", ProductSchema);

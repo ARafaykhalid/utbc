@@ -52,7 +52,7 @@ export const RenewAccessToken = async (req: Request, res: Response) => {
     // Generate new access token
     const newAccessToken = generateAccessToken({
       _id: user._id,
-      sessionId: sessionMatch.sessionId,
+      sessionId: sessionMatch._id,
       role: user.role,
     } as TJwtPayload);
 

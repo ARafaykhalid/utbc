@@ -1,6 +1,5 @@
 import { Schema } from "mongoose";
 import { ProductVariant } from "@/interfaces";
-import { ProductImageSchema } from "./productImage.schema";
 
 export const ProductVariantSchema = new Schema<ProductVariant>(
   {
@@ -29,7 +28,7 @@ export const ProductVariantSchema = new Schema<ProductVariant>(
       material: { type: String },
     },
 
-    image: ProductImageSchema,
+    media: { type: Schema.Types.ObjectId, ref: "Media", required: true },
   },
   { _id: false }
 );

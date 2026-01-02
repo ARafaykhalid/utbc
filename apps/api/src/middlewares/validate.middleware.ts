@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction, RequestHandler } from "express";
 import { ZodAny, ZodError } from "zod";
-import { respond } from "@/utils/respond.util";
+import { respond } from "@/utils";
 
 type Schemas = {
   body?: any;

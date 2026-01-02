@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { respond } from "@/utils/respond.util";
+import { respond } from "@/utils";
 import { TAuthData } from "@shared/types";
 import { UserModel } from "@/models";
 
@@ -23,8 +23,9 @@ export const ListSessions = async (req: Request, res: Response) => {
     }
 
     const sessions = user.sessions.map((session) => ({
-      sessionId: session.sessionId,
+      sessionId: session._id,
       userAgent: session.userAgent,
+      location: session.location,
       createdAt: session.createdAt,
       expiresAt: session.expiresAt,
     }));
@@ -32,7 +33,6 @@ export const ListSessions = async (req: Request, res: Response) => {
     return respond(res, "SUCCESS", "Sessions fetched successfully", {
       data: { sessions },
     });
-
   } catch (error) {
     return respond(res, "INTERNAL_SERVER_ERROR", "Failed to fetch sessions", {
       errors: {

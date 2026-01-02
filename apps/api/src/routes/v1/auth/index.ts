@@ -22,6 +22,7 @@ AuthRoute.post(
   validate({ body: VUserRegistration }),
   UserRegistration
 );
+
 AuthRoute.post("/login", validate({ body: VUserLogin }), LoginUser);
 AuthRoute.post("/renew-token", RenewAccessToken);
 

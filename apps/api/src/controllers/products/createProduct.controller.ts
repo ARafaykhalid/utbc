@@ -66,7 +66,7 @@ export const CreateProduct = async (req: Request, res: Response) => {
       stock: stock,
       variants: variants ?? [],
       category: new Types.ObjectId(category),
-      images: images,
+      media: images,
       tags: tags ?? [],
       isActive: isActive ?? true,
       createdBy: userId,

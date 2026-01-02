@@ -21,14 +21,16 @@ const app = express();
 // CORS for Next.js frontend (localhost:3000 or production domain)
 app.use(cors(corsOptionsSettings));
 
+// Morgan for request logging (only in development)
+if (config.NODE_ENV !== "production") {
+  app.use(morgan("dev"));
+}
+
+// Trust proxy (for correct IP address and protocol detection behind proxies)
+app.set("trust proxy", true);
+
 // User Agent Parser
 app.use(useragent());
-
-// JSON body parsing
-app.use(express.json());
-
-// For Rich Control
-app.use(express.urlencoded({ extended: true }));
 
 // Helmet for security headers (with relaxed CSP for Next.js)
 app.use(helmet());
@@ -36,10 +38,11 @@ app.use(helmet());
 // For spam
 app.use(limiter);
 
-// Morgan for request logging (only in development)
-if (config.NODE_ENV !== "production") {
-  app.use(morgan("dev"));
-}
+// JSON body parsing
+app.use(express.json());
+
+// For Rich Control
+app.use(express.urlencoded({ extended: true }));
 
 // Cookie parser (for signed cookies, like refreshToken)
 app.use(cookieParser(config.COOKIE_SECRET));

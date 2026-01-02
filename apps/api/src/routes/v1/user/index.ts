@@ -1,3 +1,4 @@
+import { Router } from "express";
 import {
   GetNavSummary,
   GetProfile,
@@ -6,7 +7,6 @@ import {
 } from "@/controllers/user";
 import { validate } from "@/middlewares";
 import { VUpdateProfile } from "@shared/validations";
-import { Router } from "express";
 import UserSettingsRoute from "./settings";
 
 const UserRoute: Router = Router();

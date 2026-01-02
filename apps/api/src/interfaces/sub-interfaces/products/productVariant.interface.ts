@@ -1,4 +1,4 @@
-import { ProductImage } from "./productImage.interface";
+import { IMedia } from "@/interfaces";
 
 export interface ProductVariant {
   sku: string;
@@ -9,5 +9,5 @@ export interface ProductVariant {
     color?: string;
     material?: string;
   };
-  image: ProductImage;
+  media: IMedia;
 }

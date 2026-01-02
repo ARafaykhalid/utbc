@@ -42,10 +42,8 @@ const UserSchema = new Schema<IUser>(
 
     newEmail: {
       type: String,
-      required: true,
       unique: true,
       lowercase: true,
-      index: true,
     },
     emailVerificationToken: { type: String, default: null },
     emailVerificationExpires: { type: Date, default: null },

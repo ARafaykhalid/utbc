@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { respond } from "@/utils/respond.util";
+import { respond } from "@/utils";
 import { TAuthData } from "@shared/types";
 import { UserModel } from "@/models";
 

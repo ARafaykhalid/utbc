@@ -9,7 +9,7 @@ export const deleteSession = async (
     { _id: userId },
     {
       $pull: {
-        sessions: { sessionId },
+        sessions: { _id: sessionId },
       },
     }
   );

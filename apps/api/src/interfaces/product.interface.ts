@@ -5,6 +5,7 @@ import {
   ProductVariant,
   Review,
 } from "./sub-interfaces";
+import { IMedia } from "@/interfaces";
 
 export interface IProduct {
   _id: Types.ObjectId;
@@ -15,7 +16,7 @@ export interface IProduct {
   discountPrice?: number;
   stock: number;
   variants: ProductVariant[];
-  images: ProductImage[];
+  media: IMedia[];
   category?: Types.ObjectId;
   tags: string[];
   rating?: ProductRating;

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import multer from "multer";
-import { respond } from "@/utils/respond.util";
+import { respond } from "@/utils";
 
 export const multerErrorHandler = (
   err: any,
