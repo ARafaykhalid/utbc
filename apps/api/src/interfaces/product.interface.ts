@@ -5,7 +5,7 @@ import {
   ProductVariant,
   Review,
 } from "./sub-interfaces";
-import { IMedia } from "@/interfaces";
+import { ICategory, IMedia, IUser } from "@/interfaces";
 
 export interface IProduct {
   _id: Types.ObjectId;
@@ -13,7 +13,7 @@ export interface IProduct {
   slug: string;
   description: string;
   price: number;
-  discountPrice?: number;
+  discountedPrice?: number;
   stock: number;
   variants: ProductVariant[];
   media: IMedia[];

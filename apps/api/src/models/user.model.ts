@@ -9,7 +9,7 @@ import {
 
 const UserSchema = new Schema<IUser>(
   {
-    name: { type: String, required: true, trim: true },
+    name: { type: String, required: true, trim: true, index: true },
 
     email: {
       type: String,
@@ -27,6 +27,7 @@ const UserSchema = new Schema<IUser>(
       type: String,
       enum: ["admin", "user"],
       default: "user",
+      index: true,
     },
 
     sessions: [UserSessionSchema],
@@ -35,7 +36,7 @@ const UserSchema = new Schema<IUser>(
 
     purchasedItems: [PurchasedItemSchema],
 
-    isEmailVerified: { type: Boolean, default: false },
+    isEmailVerified: { type: Boolean, default: false, index: true },
 
     resetPasswordToken: { type: String, default: null },
     resetPasswordExpires: { type: Date, default: null },
@@ -48,7 +49,7 @@ const UserSchema = new Schema<IUser>(
     emailVerificationToken: { type: String, default: null },
     emailVerificationExpires: { type: Date, default: null },
 
-    isBlocked: { type: Boolean, default: false },
+    isBlocked: { type: Boolean, default: false, index: true },
   },
   { timestamps: true }
 );

@@ -21,3 +21,5 @@ export * from "./blockUsers.validation";
 export * from "./fetchUsers.validation";
 export * from "./revokeSession.validation";
 export * from "./sendChangeEmailVerification.validation";
+export * from "./removeFromWishlist.validation";
+export * from "./addToWishlist.validation";

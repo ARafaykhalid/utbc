@@ -32,7 +32,7 @@ const ProductSchema = new Schema<IProduct>(
       min: 0,
     },
 
-    discountPrice: {
+    discountedPrice: {
       type: Number,
       min: 0,
     },

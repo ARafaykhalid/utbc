@@ -27,7 +27,7 @@ if (config.NODE_ENV !== "production") {
 }
 
 // Trust proxy (for correct IP address and protocol detection behind proxies)
-app.set("trust proxy", true);
+// app.set("trust proxy", true);
 
 // User Agent Parser
 app.use(useragent());
