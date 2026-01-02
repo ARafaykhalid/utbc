@@ -4,6 +4,7 @@ export const ProductImageSchema = new Schema(
   {
     url: { type: String, required: true },
     alt: { type: String },
+    publicId: { type: String, required: true },
   },
   { _id: false }
 );

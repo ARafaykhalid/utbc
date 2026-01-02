@@ -3,13 +3,14 @@ import { UserModel } from "@/models";
 import { TAuthData } from "@shared/types";
 import { sendChangeEmailVerificationEmail } from "@/emails";
 import { respond, token } from "@/utils";
+import { TSendChangeEmailVerification } from "@shared/validations";
 
 export const SendChangeEmailVerification = async (
   req: Request,
   res: Response
 ) => {
   const { userId } = req.user as TAuthData;
-  const { newEmail } = req.validated?.body;
+  const { newEmail } = req.validated?.body as TSendChangeEmailVerification;
 
   try {
     const user = await UserModel.findById(userId).select("-password -sessions");
