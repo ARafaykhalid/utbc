@@ -1,10 +1,10 @@
+import jwt from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
 import { respond } from "@/utils/respond.util";
 import { verifyAccessToken } from "@/utils/jwtTokens.util";
-import userModel from "@/models/user.model";
-import jwt from "jsonwebtoken";
+import { UserModel } from "@/models";
 
-export const RequireAuth = async (
+export const requireAuth = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -21,7 +21,6 @@ export const RequireAuth = async (
 
     try {
       payload = verifyAccessToken(token);
-
     } catch (err) {
       if (err instanceof jwt.TokenExpiredError) {
         return respond(res, "JWT_EXPIRED", "Access token expired");
@@ -36,7 +35,7 @@ export const RequireAuth = async (
 
     const { _id: userId, sessionId } = payload;
 
-    const user = await userModel.findById(userId).select("sessions isBlocked");
+    const user = await UserModel.findById(userId).select("sessions isBlocked");
     if (!user) {
       return respond(res, "JWT_INVALID", "User no longer exists");
     }

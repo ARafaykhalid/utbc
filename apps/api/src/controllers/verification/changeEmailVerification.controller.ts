@@ -1,16 +1,16 @@
 import { Request, Response } from "express";
-import User from "@/models/user.model";
-import { hashToken } from "@/utils/token.util";
-import { respond } from "@/utils/respond.util";
-import { TChangeEmailVerification } from "@shared/validations/changeEmailVerification.schema";
+import { UserModel } from "@/models";
+import { hashToken, respond } from "@/utils";
+import { TChangeEmailVerification } from "@shared/validations";
 
 export const ChangeEmailVerification = async (req: Request, res: Response) => {
-  const { token, email, newEmail } = req.body as TChangeEmailVerification;
+  const { token, email, newEmail } = req.validated
+    ?.body as TChangeEmailVerification;
 
   try {
     const hashed = hashToken(token);
 
-    const user = await User.findOne({
+    const user = await UserModel.findOne({
       email,
       newEmail: newEmail,
       emailVerificationToken: hashed,

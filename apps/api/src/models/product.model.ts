@@ -1,8 +1,10 @@
-import mongoose, { Schema } from "mongoose";
-import { ProductVariantSchema } from "./sub-schemas/product/productVariant.schema";
-import { ReviewsSchema } from "./sub-schemas/reviews/Reviews.schema";
-import { RatingSchema } from "./sub-schemas/product/rating.schema";
-import { ProductImageSchema } from "./sub-schemas/product/productImage.schema";
+import { Schema, model } from "mongoose";
+import {
+  ProductImageSchema,
+  ProductRatingSchema,
+  ProductVariantSchema,
+  ReviewsSchema,
+} from "./sub-schemas";
 
 const ProductSchema = new Schema(
   {
@@ -10,7 +12,6 @@ const ProductSchema = new Schema(
       type: String,
       required: true,
       trim: true,
-      index: true,
     },
 
     slug: {
@@ -18,7 +19,6 @@ const ProductSchema = new Schema(
       required: true,
       unique: true,
       lowercase: true,
-      index: true,
     },
 
     description: {
@@ -50,24 +50,21 @@ const ProductSchema = new Schema(
     category: {
       type: Schema.Types.ObjectId,
       ref: "Category",
-      index: true,
     },
 
     tags: [{ type: String, index: true }],
 
-    rating: RatingSchema,
+    rating: { type: ProductRatingSchema, optional: true },
     reviews: [ReviewsSchema],
 
     isActive: {
       type: Boolean,
       default: true,
-      index: true,
     },
 
     isDeleted: {
       type: Boolean,
       default: false,
-      index: true,
     },
 
     createdBy: {
@@ -80,12 +77,4 @@ const ProductSchema = new Schema(
   }
 );
 
-/* ======================
-   Indexes (performance)
-====================== */
-
-ProductSchema.index({ title: "text", description: "text" });
-ProductSchema.index({ price: 1 });
-ProductSchema.index({ createdAt: -1 });
-
-export default mongoose.model("Product", ProductSchema);
+export const ProductModel = model("Product", ProductSchema);

@@ -1,9 +1,9 @@
-import { getSessionMeta } from "./getSessionMeta.util";
-import { Request } from "express";
-import { IUserSession } from "@/interfaces/sub-interfaces/userSession";
 import { Types } from "mongoose";
+import { Request } from "express";
+import { getSessionMeta } from "./getSessionMeta.util";
 import { generateAccessToken, generateRefreshToken } from "./jwtTokens.util";
-import { JwtPayload } from "@shared/types";
+import { IUserSession } from "@/interfaces/";
+import { TJwtPayload } from "@shared/types";
 
 export const createSession = async (user: any, req: Request) => {
   const { ip, userAgent } = getSessionMeta(req);
@@ -17,13 +17,13 @@ export const createSession = async (user: any, req: Request) => {
     _id: user._id,
     sessionId,
     role: user.role,
-  } as JwtPayload);
+  } as TJwtPayload);
 
   const accessToken = generateAccessToken({
     _id: user._id,
     sessionId,
     role: user.role,
-  } as JwtPayload);
+  } as TJwtPayload);
 
   if (ExistingSession) {
     ExistingSession.sessionId = sessionId;

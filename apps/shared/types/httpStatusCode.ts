@@ -1,4 +1,4 @@
-export type httpStatusCode =
+export type HttpStatusCode =
   | "SUCCESS"
   | "BAD_REQUEST"
   | "UNAUTHORIZED"

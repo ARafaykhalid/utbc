@@ -1,4 +1,4 @@
-import { IUserSession } from "@/interfaces/sub-interfaces/userSession";
+import { IUserSession } from "@/interfaces/";
 import { Request } from "express";
 
 export const getSessionMeta = (req: Request) => {

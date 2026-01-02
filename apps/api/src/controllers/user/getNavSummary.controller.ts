@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
-import User from "@/models/user.model";
+import { UserModel } from "@/models";
 import { respond } from "@/utils/respond.util";
-import { TAuthData } from "@/types/userId";
+import { TAuthData } from "@shared/types";
 
 export const GetNavSummary = async (req: Request, res: Response) => {
   const { userId } = req.user as TAuthData;
 
   try {
-    const user = await User.findById(userId).select(
+    const user = await UserModel.findById(userId).select(
       "email name isEmailVerified"
     );
     if (!user) {
@@ -18,16 +18,26 @@ export const GetNavSummary = async (req: Request, res: Response) => {
       });
     }
 
-    return respond(res, "SUCCESS", "User navigation summary fetched successfully", {
-      data: {
-        user,
-      },
-    });
+    return respond(
+      res,
+      "SUCCESS",
+      "User navigation summary fetched successfully",
+      {
+        data: {
+          user,
+        },
+      }
+    );
   } catch (error) {
-    return respond(res, "INTERNAL_SERVER_ERROR", "Failed to fetch user navigation summary", {
-      errors: {
-        message: (error as Error).message || "Unknown error",
-      },
-    });
+    return respond(
+      res,
+      "INTERNAL_SERVER_ERROR",
+      "Failed to fetch user navigation summary",
+      {
+        errors: {
+          message: (error as Error).message || "Unknown error",
+        },
+      }
+    );
   }
 };

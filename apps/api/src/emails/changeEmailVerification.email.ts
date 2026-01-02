@@ -1,18 +1,18 @@
 import { Resend } from "resend";
 import { config } from "@/config";
-import { VerificationTokenURL } from "@/utils/verificationTokenURL.util";
+import { verificationTokenURL } from "@/utils";
 import { TOKEN_EXPIRES_MINUTES } from "@shared/constants";
-import { MaskEmail } from "@/utils/maskEmail.util";
+import { maskEmail } from "@/utils";
 
 const resend = new Resend(config.RESEND_API_KEY);
 
-export const SendChangeEmailVerificationEmail = async (
+export const sendChangeEmailVerificationEmail = async (
   isEmailVerified: boolean,
   newEmail: string,
   oldEmail: string,
   token: string
 ) => {
-  const resetUrl = VerificationTokenURL(
+  const resetUrl = verificationTokenURL(
     config.DOMAIN,
     "verification/change-email",
     `token=${token}&email=${encodeURIComponent(
@@ -32,7 +32,7 @@ export const SendChangeEmailVerificationEmail = async (
   const htmlForVerifiedEmail = `
     <div style="font-family: system-ui, sans-serif; line-height:1.4;">
       <h2>Confirm your new email</h2>
-      <p>You're updating your account email to ${newEmail} from ${MaskEmail(
+      <p>You're updating your account email to ${newEmail} from ${maskEmail(
     oldEmail
   )}. Please verify it to complete the change. The link expires in ${TOKEN_EXPIRES_MINUTES} minutes.</p>
       <p><a href="${resetUrl}">Confirm new email</a></p>

@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
-import User from "@/models/user.model";
 import { respond } from "@/utils/respond.util";
-import { TAuthData } from "@/types/userId";
+import { TAuthData } from "@shared/types";
+import { UserModel } from "@/models";
 
 export const ListSessions = async (req: Request, res: Response) => {
   const { userId } = req.user as TAuthData;
 
   try {
-    const user = await User.findById(userId);
+    const user = await UserModel.findById(userId);
     if (!user) {
       return respond(res, "NOT_FOUND", "User not found", {
         errors: {

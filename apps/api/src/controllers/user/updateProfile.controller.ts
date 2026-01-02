@@ -1,15 +1,15 @@
 import { Request, Response } from "express";
-import User from "@/models/user.model";
-import { respond } from "@/utils/respond.util";
-import { TAuthData } from "@/types/userId";
-import { TUpdateProfile } from "@shared/validations/updateProfile.schema";
+import { UserModel } from "@/models";
+import { respond } from "@/utils";
+import { TAuthData } from "@shared/types";
+import { TUpdateProfile } from "@shared/validations";
 
 export const UpdateProfile = async (req: Request, res: Response) => {
-  const { name, address } = req.body as TUpdateProfile;
+  const { name, address } = req.validated?.body as TUpdateProfile;
   const { userId } = req.user as TAuthData;
 
   try {
-    const user = await User.findById(userId).select("-password -sessions");
+    const user = await UserModel.findById(userId).select("-password -sessions");
     if (!user) {
       return respond(res, "NOT_FOUND", "User not found");
     }

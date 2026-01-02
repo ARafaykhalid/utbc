@@ -1,4 +1,7 @@
-declare namespace Express {
+import { Types } from "mongoose";
+import { ValidatedData } from "@shared/types";
+
+declare module "express" {
   interface Request {
     useragent?: {
       browser?: string;
@@ -6,10 +9,12 @@ declare namespace Express {
       platform?: string;
     };
     clientIp?: string;
+
     user?: {
-      userId?: ObjectId;
-      sessionId: ObjectId;
+      userId?: Types.ObjectId;
+      sessionId: Types.ObjectId;
       role?: string;
     };
+    validated?: Partial<ValidatedData<any, any, any>>;
   }
 }

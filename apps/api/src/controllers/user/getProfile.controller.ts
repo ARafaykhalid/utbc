@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
-import User from "@/models/user.model";
 import { respond } from "@/utils/respond.util";
-import { TAuthData } from "@/types/userId";
+import { TAuthData } from "@shared/types";
+import { UserModel } from "@/models";
 
 export const GetProfile = async (req: Request, res: Response) => {
   const { userId } = req.user as TAuthData;
 
   try {
-    const user = await User.findById(userId).select("-password -sessions");
+    const user = await UserModel.findById(userId).select("-password -sessions");
     if (!user) {
       return respond(res, "NOT_FOUND", "User not found", {
         errors: {
@@ -21,7 +21,6 @@ export const GetProfile = async (req: Request, res: Response) => {
         user,
       },
     });
-
   } catch (error) {
     return respond(res, "INTERNAL_SERVER_ERROR", "Failed to change password", {
       errors: {

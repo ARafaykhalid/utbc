@@ -1,16 +1,15 @@
 import { Request, Response } from "express";
 import argon2 from "argon2";
-import { respond } from "@/utils/respond.util";
-import userModel from "@/models/user.model";
+import { UserModel } from "@/models";
 import { TUserRegistration } from "@shared/validations";
-import { Token } from "@/utils/token.util";
-import { SendEmailVerificationEmail } from "@/emails/emailVerification.email";
+import { respond, token } from "@/utils";
+import { sendEmailVerificationEmail } from "@/emails";
 
-export const CreateUser = async (req: Request, res: Response) => {
-  const { email, password, name } = req.body as TUserRegistration;
+export const UserRegistration = async (req: Request, res: Response) => {
+  const { email, password, name } = req.validated?.body as TUserRegistration;
 
   try {
-    const existing = await userModel.findOne({ email });
+    const existing = await UserModel.findOne({ email });
     if (existing) {
       return respond(res, "CONFLICT", "User already exists with this email", {
         errors: {
@@ -21,28 +20,27 @@ export const CreateUser = async (req: Request, res: Response) => {
 
     const hashedPassword = await argon2.hash(password);
 
-    const newUser = new userModel({
+    const newUser = await UserModel.create({
       email: email,
       password: hashedPassword,
       role: "user",
       name: name,
     });
-    await newUser.save();
 
-    const { hashedToken, rawToken, tokenExpiresAt } = Token();
+    const { hashedToken, rawToken, tokenExpiresAt } = token();
 
     newUser.emailVerificationToken = hashedToken;
     newUser.emailVerificationExpires = tokenExpiresAt;
     await newUser.save();
 
-    await SendEmailVerificationEmail(email, rawToken);
+    await sendEmailVerificationEmail(email, rawToken);
 
     return respond(
       res,
       "SUCCESS",
       "User created successfully, Also email verification sent.",
       {
-        data: { email: req.body.email, name: req.body.name },
+        data: { email: email, name: name },
       }
     );
   } catch (error) {

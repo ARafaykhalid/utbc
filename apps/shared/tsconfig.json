@@ -1,8 +1,12 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "composite": true, // only needed for project references
-    "strict": true
+    "composite": true,
+    "strict": true,
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
-  "include": ["../api/src/interfaces", "validations", "types", "schemas", "index.ts", "../api/src/types/jwtPayload.ts"]
+  "include": ["validations", "types", "constants"]
 }

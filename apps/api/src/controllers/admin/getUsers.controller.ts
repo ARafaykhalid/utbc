@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import User from "@/models/user.model";
-import { respond } from "@/utils/respond.util";
-import { FetchUsersSchema } from "@shared/validations/fetchUsers.schema";
+import { UserModel } from "@/models";
+import { respond } from "@/utils";
+import { VFetchUsers } from "@shared/validations";
 
 export const GetUsers = async (req: Request, res: Response) => {
   try {
-    const parsed = FetchUsersSchema.parse(req.query);
+    const parsed = VFetchUsers.parse(req.query);
 
     const { page, limit, sortBy, order, role, blocked, search } = parsed;
 
@@ -23,14 +23,14 @@ export const GetUsers = async (req: Request, res: Response) => {
     }
 
     const [users, total] = await Promise.all([
-      User.find(filter)
+      UserModel.find(filter)
         .select("-password -sessions")
         .sort({ [sortBy]: order })
         .skip(skip)
         .limit(limit)
         .lean(),
 
-      User.countDocuments(filter),
+      UserModel.countDocuments(filter),
     ]);
 
     return respond(res, "SUCCESS", "Users fetched successfully", {

@@ -5,6 +5,7 @@
   "main": "index.ts",
   "types": "index.ts",
   "peerDependencies": {
+    "mongoose": "^9.0.2",
     "zod": "^4.2.1"
   },
   "devDependencies": {

@@ -1,11 +1,11 @@
-import userModel from "@/models/user.model";
+import { UserModel } from "@/models";
 import { Types } from "mongoose";
 
-export const DeleteSession = async (
-  userId: Types.ObjectId | undefined | string,
+export const deleteSession = async (
+  userId: Types.ObjectId | undefined,
   sessionId: Types.ObjectId
 ): Promise<void> => {
-  await userModel.updateOne(
+  await UserModel.updateOne(
     { _id: userId },
     {
       $pull: {

@@ -12,9 +12,6 @@
       "@shared/*": ["../shared/*"]
     }
   },
-  "include": [
-    "src",
-    "../shared"
-  ],
+  "include": ["src", "@shared/types", "@shared/validations", "@shared/constants"],
   "exclude": ["node_modules"]
 }

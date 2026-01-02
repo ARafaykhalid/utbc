@@ -1,8 +1,6 @@
 import { Request, Response } from "express";
-import { respond } from "@/utils/respond.util";
-import { verifyRefreshToken } from "@/utils/jwtTokens.util";
-import { DeleteSession } from "@/utils/deleteSession.util";
 import jwt from "jsonwebtoken";
+import { deleteSession, respond, verifyRefreshToken } from "@/utils";
 import { config } from "@/config";
 
 export const LogoutUser = async (req: Request, res: Response) => {
@@ -36,7 +34,7 @@ export const LogoutUser = async (req: Request, res: Response) => {
       });
     }
 
-    await DeleteSession(verifiedToken._id, verifiedToken.sessionId);
+    await deleteSession(verifiedToken._id, verifiedToken.sessionId);
 
     res.clearCookie("refreshToken", {
       httpOnly: true,

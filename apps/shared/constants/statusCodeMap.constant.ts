@@ -1,6 +1,6 @@
-import { httpStatusCode } from "@shared/types/httpStatusCode";
+import { HttpStatusCode } from "@/types";
 
-export const STATUS_CODE_MAP: Record<httpStatusCode, number> = {
+export const STATUS_CODE_MAP: Record<HttpStatusCode, number> = {
   SUCCESS: 200,
 
   BAD_REQUEST: 400,

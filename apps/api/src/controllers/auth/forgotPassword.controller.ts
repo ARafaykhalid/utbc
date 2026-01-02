@@ -1,23 +1,22 @@
 import { Request, Response } from "express";
-import User from "@/models/user.model";
-import { genToken, hashToken, Token } from "@/utils/token.util";
-import { respond } from "@/utils/respond.util";
-import { ResetPasswordEmail } from "@/emails/resetPassword.email";
+import { UserModel } from "@/models/user.model";
+import { respond, token } from "@/utils";
+import { sendResetPasswordEmail } from "@/emails";
 
-export const forgotPassword = async (req: Request, res: Response) => {
-  const { email } = req.body as { email: string };
+export const ForgotPassword = async (req: Request, res: Response) => {
+  const { email } = req.validated?.body as { email: string };
 
   try {
-    const user = await User.findOne({ email });
+    const user = await UserModel.findOne({ email });
 
     if (user) {
-      const { hashedToken, rawToken, tokenExpiresAt } = Token();
+      const { hashedToken, rawToken, tokenExpiresAt } = token();
 
       user.resetPasswordToken = hashedToken;
       user.resetPasswordExpires = tokenExpiresAt;
       await user.save();
 
-      await ResetPasswordEmail(email, rawToken);
+      await sendResetPasswordEmail(email, rawToken);
     }
 
     return respond(

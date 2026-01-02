@@ -1,9 +1,8 @@
 import { Request, Response } from "express";
-import { respond } from "@/utils/respond.util";
-import { verifyRefreshToken } from "@/utils/jwtTokens.util";
 import jwt from "jsonwebtoken";
 import { config } from "@/config";
-import userModel from "@/models/user.model";
+import { respond, verifyRefreshToken } from "@/utils";
+import { UserModel } from "@/models";
 
 export const RevokeAllSessions = async (req: Request, res: Response) => {
   const refreshToken = req.signedCookies?.refreshToken;
@@ -36,11 +35,10 @@ export const RevokeAllSessions = async (req: Request, res: Response) => {
       });
     }
 
-    await userModel.updateOne(
+    await UserModel.updateOne(
       { _id: verifiedToken._id },
       { $set: { sessions: [] } }
     );
-
 
     res.clearCookie("refreshToken", {
       httpOnly: true,
@@ -50,7 +48,6 @@ export const RevokeAllSessions = async (req: Request, res: Response) => {
     });
 
     return respond(res, "SUCCESS", "All Sessions revoked successfully");
-    
   } catch (error) {
     return respond(
       res,

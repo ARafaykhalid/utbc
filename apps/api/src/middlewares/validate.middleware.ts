@@ -1,22 +1,6 @@
-import { respond } from "@/utils/respond.util";
 import { Request, Response, NextFunction, RequestHandler } from "express";
-import { z, ZodAny, ZodError, ZodType } from "zod";
-
-export type ValidatedData<
-  B extends ZodAny | undefined,
-  P extends ZodAny | undefined,
-  Q extends ZodAny | undefined
-> = {
-  body: B extends ZodAny ? z.infer<B> : undefined;
-  params: P extends ZodAny ? z.infer<P> : undefined;
-  query: Q extends ZodAny ? z.infer<Q> : undefined;
-};
-
-declare module "express" {
-  interface Request {
-    validated?: Partial<ValidatedData<any, any, any>>;
-  }
-}
+import { ZodAny, ZodError } from "zod";
+import { respond } from "@/utils/respond.util";
 
 type Schemas = {
   body?: any;
@@ -25,7 +9,6 @@ type Schemas = {
 };
 
 type Options = {
-  /** If true, return first error only (defaults to false) */
   abortEarly?: boolean;
   onError?: (err: ZodError, req: Request, res: Response) => void;
 };

@@ -1,6 +1,6 @@
 import { Response } from "express";
-import { httpStatusCode } from "@shared/types/httpStatusCode";
-import { logger } from "@/lib/winston";
+import { HttpStatusCode } from "@shared/types";
+import { logger } from "@/lib/winston.lib";
 import { STATUS_CODE_MAP } from "@shared/constants";
 
 export type FieldError = { path: string; message: string };
@@ -10,7 +10,7 @@ export type RespondOptions<T = any> = {
   errors?: FieldError[] | Record<string, string>;
 };
 
-const isInternalServerError = (code: httpStatusCode) =>
+const isInternalServerError = (code: HttpStatusCode) =>
   code === "INTERNAL_SERVER_ERROR";
 
 const formatErrors = (
@@ -26,7 +26,7 @@ const formatErrors = (
 
 export const respond = <T = any>(
   res: Response,
-  code: httpStatusCode,
+  code: HttpStatusCode,
   message: string,
   options?: RespondOptions<T>
 ) => {

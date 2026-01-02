@@ -1,12 +1,12 @@
 import { Resend } from "resend";
 import { config } from "@/config";
-import { VerificationTokenURL } from "@/utils/verificationTokenURL.util";
+import { verificationTokenURL } from "@/utils";
 import { TOKEN_EXPIRES_MINUTES } from "@shared/constants";
 
 const resend = new Resend(config.RESEND_API_KEY);
 
-export const SendEmailVerificationEmail = async (to: string, token: string) => {
-  const resetUrl = VerificationTokenURL(
+export const sendEmailVerificationEmail = async (to: string, token: string) => {
+  const resetUrl = verificationTokenURL(
     config.DOMAIN,
     "verification/verify-email",
     `token=${token}&email=${encodeURIComponent(to)}`

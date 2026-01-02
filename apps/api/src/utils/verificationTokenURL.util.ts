@@ -1,4 +1,4 @@
-export const VerificationTokenURL = (
+export const verificationTokenURL = (
   domain: string,
   route: string,
   query: string,

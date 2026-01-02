@@ -1,19 +1,18 @@
 import { Request, Response } from "express";
-import { respond } from "@/utils/respond.util";
-import userModel from "@/models/user.model";
-import { TAuthData } from "@/types/userId";
-import { Token } from "@/utils/token.util";
-import { SendChangeEmailVerificationEmail } from "@/emails/changeEmailVerification.email";
+import { UserModel } from "@/models";
+import { TAuthData } from "@shared/types";
+import { sendChangeEmailVerificationEmail } from "@/emails";
+import { respond, token } from "@/utils";
 
 export const SendChangeEmailVerification = async (
   req: Request,
   res: Response
 ) => {
   const { userId } = req.user as TAuthData;
-  const { newEmail } = req.body;
+  const { newEmail } = req.validated?.body;
 
   try {
-    const user = await userModel.findById(userId).select("-password -sessions");
+    const user = await UserModel.findById(userId).select("-password -sessions");
     if (!user) {
       return respond(res, "NOT_FOUND", "User not found", {
         errors: {
@@ -22,7 +21,7 @@ export const SendChangeEmailVerification = async (
       });
     }
 
-    const existing = await userModel.findOne({ email: newEmail });
+    const existing = await UserModel.findOne({ email: newEmail });
     if (existing) {
       return respond(res, "CONFLICT", "Email is already in use", {
         errors: {
@@ -31,14 +30,14 @@ export const SendChangeEmailVerification = async (
       });
     }
 
-    const { hashedToken, rawToken, tokenExpiresAt } = Token();
+    const { hashedToken, rawToken, tokenExpiresAt } = token();
 
     user.newEmail = newEmail;
     user.emailVerificationToken = hashedToken;
     user.emailVerificationExpires = tokenExpiresAt;
     await user.save();
 
-    await SendChangeEmailVerificationEmail(
+    await sendChangeEmailVerificationEmail(
       user.isEmailVerified,
       newEmail,
       user.email,

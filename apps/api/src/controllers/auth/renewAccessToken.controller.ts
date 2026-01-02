@@ -1,12 +1,7 @@
 import { Request, Response } from "express";
-import { respond } from "@/utils/respond.util";
-import {
-  generateAccessToken,
-  verifyRefreshToken,
-} from "@/utils/jwtTokens.util";
-import userModel from "@/models/user.model";
-import { token } from "morgan";
-import { JwtPayload } from "@shared/types";
+import { generateAccessToken, respond, verifyRefreshToken } from "@/utils";
+import { TJwtPayload } from "@shared/types";
+import { UserModel } from "@/models";
 
 export const RenewAccessToken = async (req: Request, res: Response) => {
   const refreshToken = req.signedCookies?.refreshToken;
@@ -30,7 +25,7 @@ export const RenewAccessToken = async (req: Request, res: Response) => {
       });
     }
 
-    const user = await userModel.findById(verifyToken._id);
+    const user = await UserModel.findById(verifyToken._id);
     if (!user) {
       return respond(res, "NOT_FOUND", "User not found", {
         errors: {
@@ -59,7 +54,7 @@ export const RenewAccessToken = async (req: Request, res: Response) => {
       _id: user._id,
       sessionId: sessionMatch.sessionId,
       role: user.role,
-    } as JwtPayload);
+    } as TJwtPayload);
 
     res.status(200).json({
       status: "SUCCESS",

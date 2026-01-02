@@ -1,9 +1,11 @@
-import mongoose, { Schema } from "mongoose";
-import { UserSessionSchema } from "./sub-schemas/user/userSession.schema";
-import { CartItemSchema } from "./sub-schemas/cartItem.schema";
-import { PurchasedItemSchema } from "./sub-schemas/purchasedItem.schema";
-import { IUser } from "@/interfaces/user.interface";
-import { UserAddressSchema } from "./sub-schemas/user/userAddress.schema";
+import { IUser } from "@/interfaces";
+import { model, Schema } from "mongoose";
+import {
+  CartItemSchema,
+  PurchasedItemSchema,
+  UserAddressSchema,
+  UserSessionSchema,
+} from "./sub-schemas";
 
 const UserSchema = new Schema<IUser>(
   {
@@ -53,4 +55,4 @@ const UserSchema = new Schema<IUser>(
   { timestamps: true }
 );
 
-export default mongoose.model<IUser>("User", UserSchema);
+export const UserModel = model<IUser>("User", UserSchema);

@@ -1,16 +1,15 @@
 import { Request, Response } from "express";
-import User from "@/models/user.model";
-import { hashToken } from "@/utils/token.util";
-import { respond } from "@/utils/respond.util";
-import { TEmailVerification } from "@shared/validations/emailVerification.schema";
+import { UserModel } from "@/models";
+import { TEmailVerification } from "@shared/validations";
+import { hashToken, respond } from "@/utils";
 
 export const EmailVerification = async (req: Request, res: Response) => {
-  const { token, email } = req.body as TEmailVerification;
+  const { token, email } = req.validated?.body as TEmailVerification;
 
   try {
     const hashed = hashToken(token);
 
-    const user = await User.findOne({
+    const user = await UserModel.findOne({
       email,
       emailVerificationToken: hashed,
       emailVerificationExpires: { $gt: new Date() },

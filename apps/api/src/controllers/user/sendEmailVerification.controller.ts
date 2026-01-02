@@ -1,15 +1,14 @@
 import { Request, Response } from "express";
-import { Token } from "@/utils/token.util";
-import { respond } from "@/utils/respond.util";
-import userModel from "@/models/user.model";
-import { SendEmailVerificationEmail } from "@/emails/emailVerification.email";
-import { TAuthData } from "@/types/userId";
+import { UserModel } from "@/models";
+import { sendEmailVerificationEmail } from "@/emails";
+import { TAuthData } from "@shared/types";
+import { respond, token } from "@/utils";
 
 export const SendEmailVerification = async (req: Request, res: Response) => {
   const { userId } = req.user as TAuthData;
 
   try {
-    const user = await userModel.findById(userId);
+    const user = await UserModel.findById(userId);
     console.log("User found for email verification:", userId);
 
     if (!user) {
@@ -22,13 +21,13 @@ export const SendEmailVerification = async (req: Request, res: Response) => {
       return respond(res, "SUCCESS", "Email is already verified.");
     }
 
-    const { hashedToken, rawToken, tokenExpiresAt } = Token();
+    const { hashedToken, rawToken, tokenExpiresAt } = token();
 
     user.emailVerificationToken = hashedToken;
     user.emailVerificationExpires = tokenExpiresAt;
     await user.save();
 
-    await SendEmailVerificationEmail(user.email, rawToken);
+    await sendEmailVerificationEmail(user.email, rawToken);
 
     return respond(res, "SUCCESS", "Verification email sent successfully.");
   } catch (error) {

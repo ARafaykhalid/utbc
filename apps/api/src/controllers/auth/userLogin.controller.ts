@@ -1,16 +1,15 @@
 import { Request, Response } from "express";
 import argon2 from "argon2";
 import { TUserLogin } from "@shared/validations";
-import { respond } from "@/utils/respond.util";
-import userModel from "@/models/user.model";
-import { createSession } from "@/utils/createSession.util";
 import { config } from "@/config";
+import { UserModel } from "@/models";
+import { createSession, respond } from "@/utils";
 
 export const LoginUser = async (req: Request, res: Response) => {
-  const { email, password } = req.body as TUserLogin;
+  const { email, password } = req.validated?.body as TUserLogin;
 
   try {
-    const user = await userModel.findOne({ email });
+    const user = await UserModel.findOne({ email });
     if (!user) {
       return respond(res, "NOT_FOUND", "User does not exist with this email", {
         errors: {
@@ -46,7 +45,6 @@ export const LoginUser = async (req: Request, res: Response) => {
     return respond(res, "SUCCESS", "User logged in successfully", {
       data: { email: user.email, name: user.name, accessToken: accessToken },
     });
-    
   } catch (error) {
     return respond(
       res,

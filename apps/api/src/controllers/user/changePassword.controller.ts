@@ -1,16 +1,16 @@
 import { Request, Response } from "express";
-import User from "@/models/user.model";
-import { respond } from "@/utils/respond.util";
 import argon2 from "argon2";
+import { respond } from "@/utils";
 import { TChangePassword } from "@shared/validations";
-import { TAuthData } from "@/types/userId";
+import { TAuthData } from "@shared/types";
+import { UserModel } from "@/models";
 
 export const ChangePassword = async (req: Request, res: Response) => {
   const { userId } = req.user as TAuthData;
-  const { oldPassword, newPassword } = req.body as TChangePassword;
+  const { oldPassword, newPassword } = req.validated?.body as TChangePassword;
 
   try {
-    const user = await User.findById(userId);
+    const user = await UserModel.findById(userId);
     if (!user) {
       return respond(res, "NOT_FOUND", "User not found", {
         errors: {

@@ -1,17 +1,16 @@
 import { Request, Response } from "express";
 import argon2 from "argon2";
-import User from "@/models/user.model";
-import { hashToken } from "@/utils/token.util";
-import { respond } from "@/utils/respond.util";
 import { TResetPassword } from "@shared/validations";
+import { UserModel } from "@/models";
+import { hashToken, respond } from "@/utils";
 
-export const resetPassword = async (req: Request, res: Response) => {
-  const { token, email, password } = req.body as TResetPassword;
+export const ResetPassword = async (req: Request, res: Response) => {
+  const { token, email, password } = req.validated?.body as TResetPassword;
 
   try {
     const hashed = hashToken(token);
 
-    const user = await User.findOne({
+    const user = await UserModel.findOne({
       email,
       resetPasswordToken: hashed,
       resetPasswordExpires: { $gt: new Date() },
