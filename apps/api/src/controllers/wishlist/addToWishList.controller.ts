@@ -4,7 +4,7 @@ import { respond } from "@/utils";
 import { TAuthData } from "@shared/types";
 import { Types } from "mongoose";
 import { TAddToWishlist } from "@shared/validations";
-import { getFormatedWishList } from "@/utils/getFormatedWishList.util";
+import { getFormatedWishList } from "@/services";
 
 export const AddToWishlist = async (req: Request, res: Response) => {
   const { userId } = req?.user as TAuthData;

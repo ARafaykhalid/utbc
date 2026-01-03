@@ -1,24 +1,23 @@
-import cloudinary from "@/lib/cloudinary.lib";
+import { cloudinaryV2 } from "@/lib";
 
-export const uploadToCloudinary = (
-  buffer: Buffer,
-  folder: string
-): Promise<{ url: string; public_id: string }> => {
-  return new Promise((resolve, reject) => {
-    cloudinary.uploader
+export const uploadToCloudinary = (buffer: Buffer, type: "image" | "video") => {
+  return new Promise<{
+    secure_url: string;
+    public_id: string;
+  }>((resolve, reject) => {
+    cloudinaryV2.uploader
       .upload_stream(
         {
-          folder,
-          resource_type: "image",
-          format: "webp", // modern
-          quality: "auto",
+          resource_type: type,
+          folder: "media",
+          transformation:
+            type === "image"
+              ? [{ quality: "auto", fetch_format: "auto" }]
+              : undefined,
         },
         (error, result) => {
           if (error || !result) return reject(error);
-          resolve({
-            url: result.secure_url,
-            public_id: result.public_id,
-          });
+          resolve(result);
         }
       )
       .end(buffer);

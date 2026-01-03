@@ -3,7 +3,7 @@ import { UserModel } from "@/models";
 import { respond } from "@/utils";
 import { VFetchUsers } from "@shared/validations";
 
-export const GetUsers = async (req: Request, res: Response) => {
+export const FetchUsers = async (req: Request, res: Response) => {
   try {
     const parsed = VFetchUsers.parse(req.query);
 

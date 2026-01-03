@@ -14,6 +14,7 @@ import {
   limiter,
   logger,
 } from "./lib";
+import { jsonParseErrorHandler } from "./middlewares";
 
 const app = express();
 
@@ -40,6 +41,7 @@ app.use(limiter);
 
 // JSON body parsing
 app.use(express.json());
+app.use(jsonParseErrorHandler);
 
 // For Rich Control
 app.use(express.urlencoded({ extended: true }));

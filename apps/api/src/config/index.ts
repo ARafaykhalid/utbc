@@ -5,8 +5,8 @@ dotenv.config();
 export const config = {
   PORT: process.env.PORT || 5000,
   MONGO_URI: process.env.MONGO_URI,
-  MONGO_DB_NAME: process.env.DP_NAME,
-  MONGO_APP_NAME: process.env.APP_NAME,
+  MONGO_DB_NAME: process.env.MONGO_DB_NAME!,
+  MONGO_APP_NAME: process.env.MONGO_APP_NAME!,
   JWT_SECRET: process.env.JWT_SECRET!,
   JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET!,
   COOKIE_SECRET: process.env.COOKIE_SECRET,

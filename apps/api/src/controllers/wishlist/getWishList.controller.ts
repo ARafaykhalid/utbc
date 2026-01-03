@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { WishlistModel } from "@/models/wishlist.model";
 import { respond } from "@/utils";
 import { TAuthData } from "@shared/types";
-import { getFormatedWishList } from "@/utils/getFormatedWishList.util";
+import { getFormatedWishList } from "@/services/wishlist/getFormatedWishList.service";
 
 export const GetWishlist = async (req: Request, res: Response) => {
   const { userId } = req?.user as TAuthData;

@@ -23,3 +23,7 @@ export * from "./revokeSession.validation";
 export * from "./sendChangeEmailVerification.validation";
 export * from "./removeFromWishlist.validation";
 export * from "./addToWishlist.validation";
+export * from "./getMedia.validation";
+export * from "./updateMedia.validation";
+export * from "./deleteMedia.validation";
+export * from "./addMedia.validation";
