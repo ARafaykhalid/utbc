@@ -53,7 +53,6 @@ export const validate = <
         }
         return result.data;
       } catch (err) {
-        // Unexpected error from schema (rare); convert to message
         if (err instanceof ZodError) {
           err.issues.forEach((issue) =>
             errors.push({
@@ -73,7 +72,6 @@ export const validate = <
       }
     };
 
-    // Validate in parallel for speed (but we need to await)
     const [parsedBody, parsedParams, parsedQuery] = await Promise.all([
       parsePiece("body", bodySchema),
       parsePiece("params", paramsSchema),
@@ -81,23 +79,20 @@ export const validate = <
     ]);
 
     if (errors.length > 0) {
-      // Optionally call user-provided hook
-      // Attempt to build a ZodError from issues — but call with available information
-      // Not all errors come from a single ZodError; we skip constructing it reliably.
-      if (onError && bodySchema instanceof ZodAny) {
+      if (onError) {
         try {
+          // optional hook: user provided
+          // build a ZodError etc. (skipped here)
         } catch {
           /* no-op */
         }
       }
 
-      // Standardized error response
       return respond(res, "VALIDATION_ERROR", "Validation failed", {
         errors,
       });
     }
 
-    // Attach parsed results to req.validated (only pieces that were validated)
     req.validated = {
       ...(parsedBody !== undefined ? { body: parsedBody } : {}),
       ...(parsedParams !== undefined ? { params: parsedParams } : {}),
