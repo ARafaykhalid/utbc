@@ -1,10 +1,7 @@
 import { Schema, model } from "mongoose";
-import {
-  ProductRatingSchema,
-  ProductVariantSchema,
-  ReviewsSchema,
-} from "./sub-schemas";
+import { ProductRatingSchema, ProductVariantSchema } from "./sub-schemas";
 import { IProduct } from "@/interfaces";
+import { ReviewsSchema } from "@/models";
 
 const ProductSchema = new Schema<IProduct>(
   {
@@ -43,6 +40,19 @@ const ProductSchema = new Schema<IProduct>(
       min: 0,
     },
 
+    totalSold: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+
+    buyers: [
+      {
+        userId: { type: Schema.Types.ObjectId, ref: "User" },
+        orderId: { type: Schema.Types.ObjectId, ref: "Order" },
+      },
+    ],
+
     variants: [ProductVariantSchema],
 
     media: [{ type: Schema.Types.ObjectId, ref: "Media", required: true }],
@@ -54,20 +64,23 @@ const ProductSchema = new Schema<IProduct>(
 
     tags: [{ type: String, index: true }],
 
-    rating: { type: ProductRatingSchema, optional: true },
-    reviews: [ReviewsSchema],
+    ratings: {
+      type: ProductRatingSchema,
+      default: () => ({ average: 0, totalRatings: 0 }),
+    },
+    reviews: [{ type: Schema.Types.ObjectId, ref: "Review" }],
 
     isActive: {
       type: Boolean,
       default: true,
     },
 
-    isDeleted: {
-      type: Boolean,
-      default: false,
+    createdBy: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
     },
 
-    createdBy: {
+    updatedBy: {
       type: Schema.Types.ObjectId,
       ref: "User",
     },

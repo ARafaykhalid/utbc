@@ -5,12 +5,16 @@ export const VFetchUsers = z.object({
 
   limit: z.coerce.number().int().min(1).max(100).default(10),
 
-  sortBy: z.enum(["createdAt", "name", "email", "role"]).default("createdAt"),
+  sortBy: z
+    .enum(["createdAt", "name", "email", "role"])
+    .default("createdAt")
+    .optional(),
 
   order: z
     .enum(["asc", "desc"])
     .default("desc")
-    .transform((val) => (val === "asc" ? 1 : -1)),
+    .transform((val) => (val === "asc" ? 1 : -1))
+    .optional(),
 
   role: z.string().optional(),
 

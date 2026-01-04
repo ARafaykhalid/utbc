@@ -1,42 +1,23 @@
 import { z } from "zod";
-import {
-  ObjectIdSchema,
-  ProductImageSchema,
-  ProductVariantSchema,
-} from "./sub-schema";
+import { ObjectIdSchema, ProductVariantSchema } from "./sub-schema";
 
 export const VCreateProduct = z.object({
   title: z.string().min(3).max(200),
   description: z.string().min(10),
+  slug: z.string().min(3).max(200).optional(),
+  price: z.number().min(0),
+  discountedPrice: z.number().min(0).optional(),
+  stock: z.number().int().min(0),
+  variants: z.array(ProductVariantSchema).optional(),
 
-  price: z.coerce.number().min(0),
-  discountPrice: z.coerce.number().min(0).optional(),
-  stock: z.coerce.number().min(0),
-
-  variants: z
-    .array(ProductVariantSchema)
-    .min(1)
-    .superRefine((variants, ctx) => {
-      const skus = variants.map((v) => v.sku);
-      const duplicates = skus.filter((sku, i) => skus.indexOf(sku) !== i);
-
-      if (duplicates.length) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Duplicate SKUs are not allowed",
-        });
-      }
-    }),
-
-  images: z.array(ProductImageSchema).optional(),
+  media: z
+    .array(ObjectIdSchema)
+    .min(1, "At least one media item is required")
+    .max(5, "Maximum 5 media items allowed"),
 
   category: ObjectIdSchema,
-
-  tags: z
-    .union([z.array(z.string()), z.string().transform((v) => v.split(","))])
-    .optional(),
-
-  isActive: z.coerce.boolean().optional(),
+  tags: z.array(z.string().min(1)).optional(),
+  isActive: z.boolean().optional(),
 });
 
 export type TCreateProduct = z.infer<typeof VCreateProduct>;

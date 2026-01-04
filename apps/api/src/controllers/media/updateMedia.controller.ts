@@ -7,7 +7,7 @@ import { TUpdateMediaBody, TUpdateMediaParams } from "@shared/validations";
 export const UpdateMedia = async (req: Request, res: Response) => {
   const { userId } = req.user as TAuthData;
   const { alt, tags } = req.body as TUpdateMediaBody;
-  const { mediaId } = req.params as TUpdateMediaParams;
+  const { mediaId } = req.validated?.params as TUpdateMediaParams;
 
   try {
     const media = await MediaModel.findOne({

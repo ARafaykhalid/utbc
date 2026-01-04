@@ -6,7 +6,7 @@ import { cloudinaryV2 } from "@/lib";
 import { TDeleteMediaParams } from "@shared/validations";
 
 export const DeleteMedia = async (req: Request, res: Response) => {
-  const { mediaId } = req.params as TDeleteMediaParams;
+  const { mediaId } = req.validated?.params as TDeleteMediaParams;
   const { userId } = req.user as TAuthData;
 
   try {

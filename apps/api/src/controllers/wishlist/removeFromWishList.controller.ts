@@ -6,7 +6,7 @@ import { TRemoveFromWishlist } from "@shared/validations";
 
 export const RemoveFromWishlist = async (req: Request, res: Response) => {
   const { userId } = req?.user as TAuthData;
-  const { productId } = req.params as TRemoveFromWishlist;
+  const { productId } = req.validated?.params as TRemoveFromWishlist;
 
   try {
     const wishlist = await WishlistModel.findOne({ user: userId });

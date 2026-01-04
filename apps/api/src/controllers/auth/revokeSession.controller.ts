@@ -6,7 +6,7 @@ import { deleteSession, respond } from "@/utils";
 
 export const RevokeSession = async (req: Request, res: Response) => {
   const { userId } = req.user as TAuthData;
-  const { sessionId } = req.params as TRevokeSession;
+  const { sessionId } = req.validated?.params as TRevokeSession;
 
   try {
     if (!sessionId) {

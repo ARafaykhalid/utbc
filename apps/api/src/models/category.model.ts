@@ -6,8 +6,9 @@ const categorySchema = new Schema<ICategory>(
     name: {
       type: String,
       required: true,
-      trim: true,
-      unique: true,
+    },
+    description: {
+      type: String,
     },
     slug: {
       type: String,
@@ -15,6 +16,9 @@ const categorySchema = new Schema<ICategory>(
       unique: true,
       lowercase: true,
     },
+    tags: [{ type: String, index: true }],
+    createdBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    updatedBy: { type: Schema.Types.ObjectId, ref: "User" },
   },
   { timestamps: true }
 );

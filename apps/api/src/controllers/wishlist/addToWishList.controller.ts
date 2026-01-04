@@ -8,7 +8,7 @@ import { getFormatedWishList } from "@/services";
 
 export const AddToWishlist = async (req: Request, res: Response) => {
   const { userId } = req?.user as TAuthData;
-  const { productId } = req.params as TAddToWishlist;
+  const { productId } = req.validated?.params as TAddToWishlist;
 
   try {
     const Wishlist = await WishlistModel.findOne({ user: userId });

@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import { UserRole } from "@shared/types";
+import { TUserRole } from "@shared/types";
 import {
   ICartItem,
   IPurchasedItem,
@@ -13,7 +13,7 @@ export interface IUser {
   name: string;
   email: string;
   password: string;
-  role: UserRole;
+  role: TUserRole;
 
   sessions: IUserSession[];
 

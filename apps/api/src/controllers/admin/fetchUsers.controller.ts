@@ -1,13 +1,12 @@
 import { Request, Response } from "express";
 import { UserModel } from "@/models";
 import { respond } from "@/utils";
-import { VFetchUsers } from "@shared/validations";
+import { TFetchUsers } from "@shared/validations";
 
 export const FetchUsers = async (req: Request, res: Response) => {
   try {
-    const parsed = VFetchUsers.parse(req.query);
-
-    const { page, limit, sortBy, order, role, blocked, search } = parsed;
+    const { page, limit, sortBy, order, role, blocked, search } = req?.validated
+      ?.query as TFetchUsers;
 
     const skip = (page - 1) * limit;
     const filter: Record<string, any> = {};

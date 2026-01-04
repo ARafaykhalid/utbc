@@ -13,7 +13,7 @@ declare module "express" {
     user?: {
       userId?: Types.ObjectId;
       sessionId: Types.ObjectId;
-      role?: string;
+      userRole?: string;
     };
     validated?: Partial<ValidatedData<any, any, any>>;
   }

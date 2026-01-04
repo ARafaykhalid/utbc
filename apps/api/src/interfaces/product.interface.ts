@@ -1,11 +1,5 @@
 import { Types } from "mongoose";
-import {
-  ProductImage,
-  ProductRating,
-  ProductVariant,
-  Review,
-} from "./sub-interfaces";
-import { ICategory, IMedia, IUser } from "@/interfaces";
+import { ProductRating, ProductVariant } from "./sub-interfaces";
 
 export interface IProduct {
   _id: Types.ObjectId;
@@ -15,15 +9,22 @@ export interface IProduct {
   price: number;
   discountedPrice?: number;
   stock: number;
+  totalSold: number;
   variants: ProductVariant[];
-  media: IMedia[];
+  media: Types.ObjectId[];
   category?: Types.ObjectId;
   tags: string[];
-  rating?: ProductRating;
-  reviews: Review[];
+  buyers: [
+    {
+      userId: Types.ObjectId;
+      orderId: Types.ObjectId;
+    }
+  ];
+  ratings: ProductRating;
+  reviews: Types.ObjectId[];
   isActive: boolean;
-  isDeleted: boolean;
   createdBy?: Types.ObjectId;
+  updatedBy?: Types.ObjectId;
   createdAt: Date;
   updatedAt: Date;
 }

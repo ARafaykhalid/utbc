@@ -1,83 +1,76 @@
-// import { Request, Response } from "express";
-// import { isValidObjectId, Types } from "mongoose";
-// import { TCreateProduct } from "@shared/validations";
-// import { TAuthData } from "@shared/types";
-// import { ProductModel } from "@/models";
-// import {
-//   assertDiscount,
-//   generateUniqueSlug,
-//   respond,
-//   uploadToCloudinary,
-// } from "@/utils";
+import { Request, Response } from "express";
+import { CategoryModel, ProductModel } from "@/models";
+import { generateUniqueSlug, respond } from "@/utils";
+import { TAuthData } from "@shared/types";
+import { TCreateProduct } from "@shared/validations";
+import { Types } from "mongoose";
 
-// export const CreateProduct = async (req: Request, res: Response) => {
-//   const {
-//     title,
-//     description,
-//     price,
-//     discountPrice,
-//     stock,
-//     variants,
-//     images: imagesFromBody,
-//     category,
-//     tags,
-//     isActive,
-//   } = req.validated?.body as TCreateProduct;
-//   const { userId } = req.user as TAuthData;
+export const CreateProduct = async (req: Request, res: Response) => {
+  const {
+    title,
+    description,
+    price,
+    discountedPrice,
+    stock,
+    variants,
+    media,
+    category,
+    tags,
+    isActive,
+  } = req.validated?.body as TCreateProduct;
 
-//   try {
-//     assertDiscount(price, discountPrice);
+  const { userId } = req.user as TAuthData;
 
-//     // Multer files (memoryStorage) if present
-//     const files = Array.isArray(req.files)
-//       ? (req.files as Express.Multer.File[])
-//       : [];
+  try {
+    const slug = await generateUniqueSlug(title, "Product");
 
-//     if (!files.length && (!imagesFromBody || imagesFromBody.length === 0)) {
-//       return respond(
-//         res,
-//         "BAD_REQUEST",
-//         "At least one product image is required",
-//         {
-//           errors: { "body.images": "images are required" },
-//         }
-//       );
-//     }
+    const categoryExists = await CategoryModel.findById(category);
+    if (!categoryExists) {
+      return respond(
+        res,
+        "BAD_REQUEST",
+        "Invalid category ID or category does not exist"
+      );
+    }
 
-//     let images = imagesFromBody ?? [];
-//     if (files.length) {
-//       const uploaded = await Promise.all(
-//         files.map(async (f) => {
-//           const { url } = await uploadToCloudinary(f.buffer, "products");
-//           return { url, alt: title };
-//         })
-//       );
-//       images = [...images, ...uploaded];
-//     }
+    const normalizedVariants = variants?.map((variant) => {
+      const { sku, price, stock, attributes, media: variantMedia } = variant;
 
-//     const slug = await generateUniqueSlug(title);
+      return {
+        sku,
+        price,
+        stock,
+        attributes,
+        media: new Types.ObjectId(variantMedia),
+      };
+    });
 
-//     const product = await ProductModel.create({
-//       title: title,
-//       slug: slug,
-//       description: description,
-//       price: price,
-//       discountPrice: discountPrice,
-//       stock: stock,
-//       variants: variants ?? [],
-//       category: new Types.ObjectId(category),
-//       media: images,
-//       tags: tags ?? [],
-//       isActive: isActive ?? true,
-//       createdBy: userId,
-//     });
+    const product = await ProductModel.create({
+      title,
+      slug,
+      description,
+      price,
+      discountedPrice,
+      stock,
+      variants: normalizedVariants,
+      media: media?.map((id) => new Types.ObjectId(id)),
+      category: new Types.ObjectId(category),
+      tags,
+      isActive: isActive ?? false,
+      createdBy: new Types.ObjectId(userId),
+    });
 
-//     return respond(res, "SUCCESS", "Product created", {
-//       data: { id: product._id, slug: product.slug },
-//     });
-//   } catch (err) {
-//     return respond(res, "INTERNAL_SERVER_ERROR", "Product creation failed", {
-//       errors: { message: (err as Error).message || "Unknown error" },
-//     });
-//   }
-// };
+    return respond(res, "SUCCESS", "Product created successfully", {
+      data: {
+        id: product._id,
+        slug: product.slug,
+      },
+    });
+  } catch (error) {
+    return respond(res, "INTERNAL_SERVER_ERROR", "Product creation failed", {
+      errors: {
+        message: (error as Error).message,
+      },
+    });
+  }
+};

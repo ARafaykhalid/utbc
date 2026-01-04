@@ -14,7 +14,7 @@ export const GetMedia = async (req: Request, res: Response) => {
     tag,
     sortBy = "createdAt",
     order = "desc",
-  } = req.query as unknown as TGetMediaQuery;
+  } = req.validated?.query as TGetMediaQuery;
 
   const safePage = Math.max(page, 1);
   const safeLimit = Math.min(limit, 50);

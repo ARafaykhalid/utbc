@@ -1,75 +1,61 @@
-// import { Request, Response } from "express";
-// import { Types } from "mongoose";
-// import { ProductModel } from "@/models";
-// import { TUpdateProduct, TUpdateProductParam } from "@shared/validations";
-// import {
-//   assertDiscount,
-//   generateUniqueSlug,
-//   respond,
-//   uploadToCloudinary,
-// } from "@/utils";
+import { Request, Response } from "express";
+import { ProductModel } from "@/models";
+import { respond } from "@/utils";
+import { TAuthData } from "@shared/types";
+import { TUpdateProductBody, TUpdateProductParams } from "@shared/validations";
+import { Types } from "mongoose";
+import { normalizedProductVariants } from "@/services";
+import { ProductVariant } from "@/interfaces";
 
-// export const UpdateProduct = async (req: Request, res: Response) => {
-//   const {
-//     title,
-//     description,
-//     price,
-//     discountPrice,
-//     stock,
-//     variants,
-//     images: imagesFromBody,
-//     category,
-//     tags,
-//     isActive,
-//   } = req.validated?.body as TUpdateProduct;
-//   const { productId } = req.params as TUpdateProductParam;
+export const UpdateProduct = async (req: Request, res: Response) => {
+  const { userId } = req.user as TAuthData;
+  const { productId } = req.validated?.params as TUpdateProductParams;
+  const {
+    category,
+    description,
+    discountedPrice,
+    isActive,
+    media,
+    tags,
+    price,
+    stock,
+    title,
+    variants,
+  } = req.validated?.body as TUpdateProductBody;
 
-//   try {
-//     assertDiscount(price, discountPrice);
+  try {
+    const product = await ProductModel.findById(productId);
+    if (!product) {
+      return respond(res, "NOT_FOUND", "Product not found");
+    }
 
-//     const product = await ProductModel.findById(productId);
-//     if (!product) return respond(res, "NOT_FOUND", "Product not found");
+    if (category !== undefined) product.category = new Types.ObjectId(category);
+    if (description !== undefined) product.description = description;
+    if (discountedPrice !== undefined)
+      product.discountedPrice = discountedPrice;
+    if (isActive !== undefined) product.isActive = isActive;
+    if (media !== undefined)
+      product.media = media.map((id) => new Types.ObjectId(id));
+    if (tags !== undefined) product.tags = tags;
+    if (price !== undefined) product.price = price;
+    if (stock !== undefined) product.stock = stock;
 
-//     // Apply partial updates only for provided fields
-//     if (title !== undefined && title !== product.title) {
-//       product.title = title;
-//       product.slug = await generateUniqueSlug(title);
-//     }
-//     if (description !== undefined) product.description = description;
-//     if (price !== undefined) product.price = price;
-//     if (discountPrice !== undefined) product.discountPrice = discountPrice;
-//     if (stock !== undefined) product.stock = stock;
-//     if (variants !== undefined) product.variants = variants;
-//     if (category !== undefined) {
-//       product.category = Types.ObjectId.isValid(category)
-//         ? new Types.ObjectId(category)
-//         : undefined;
-//     }
-//     if (tags !== undefined) product.tags = tags;
-//     if (isActive !== undefined) product.isActive = isActive;
+    if (title !== undefined) product.title = title;
+    if (variants !== undefined)
+      product.variants = normalizedProductVariants(
+        variants as unknown as ProductVariant[]
+      );
 
-//     // handle uploaded files
-//     const files = Array.isArray(req.files)
-//       ? (req.files as Express.Multer.File[])
-//       : [];
-//     if (files.length) {
-//       const uploaded = await Promise.all(
-//         files.map(async (f) => {
-//           const { url } = await uploadToCloudinary(f.buffer, "products");
-//           return { url, alt: title ?? product.title };
-//         })
-//       );
-//       product.images = [...(product.images ?? []), ...uploaded];
-//     }
+    product.updatedBy = new Types.ObjectId(userId);
 
-//     await product.save();
+    await product.save();
 
-//     return respond(res, "SUCCESS", "Product updated", {
-//       data: { id: product._id, slug: product.slug },
-//     });
-//   } catch (err) {
-//     return respond(res, "INTERNAL_SERVER_ERROR", "Failed to update product", {
-//       errors: { message: (err as Error).message || "Unknown error" },
-//     });
-//   }
-// };
+    return respond(res, "SUCCESS", "Product updated successfully", {
+      data: { product },
+    });
+  } catch (error) {
+    return respond(res, "INTERNAL_SERVER_ERROR", "Product update failed", {
+      errors: { message: (error as Error).message },
+    });
+  }
+};

@@ -73,8 +73,8 @@ export const validate = <
     };
 
     const [parsedBody, parsedParams, parsedQuery] = await Promise.all([
-      parsePiece("body", bodySchema),
-      parsePiece("params", paramsSchema),
+      parsePiece("body", bodySchema?.strict()),
+      parsePiece("params", paramsSchema?.strict()),
       parsePiece("query", querySchema),
     ]);
 

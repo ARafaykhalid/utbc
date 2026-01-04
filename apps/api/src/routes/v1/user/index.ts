@@ -3,6 +3,7 @@ import {
   GetNavSummary,
   GetProfile,
   ListSessions,
+  MyReviews,
   UpdateProfile,
 } from "@/controllers/user";
 import { validate } from "@/middlewares";
@@ -15,6 +16,7 @@ const UserRoute: Router = Router();
 UserRoute.get("/profile", GetProfile);
 UserRoute.get("/nav-summary", GetNavSummary);
 UserRoute.get("/list-sessions", ListSessions);
+UserRoute.get("/my-reviews", MyReviews);
 
 UserRoute.patch("/profile", validate({ body: VUpdateProfile }), UpdateProfile);
 

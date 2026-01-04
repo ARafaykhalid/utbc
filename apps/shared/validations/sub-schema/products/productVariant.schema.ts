@@ -1,26 +1,17 @@
 import { z } from "zod";
 
 export const ProductVariantSchema = z.object({
-  sku: z
-    .string()
-    .trim()
-    .min(1, "SKU is required")
-    .transform((v) => v.toUpperCase()),
-
-  price: z
-    .number()
-    .min(0, "Price must be >= 0"),
-
-  stock: z
-    .number()
-    .int("Stock must be an integer")
-    .min(0, "Stock must be >= 0"),
-
-  attributes: z.object({
-    size: z.string().optional(),
-    color: z.string().optional(),
-    material: z.string().optional(),
-  }),
+  sku: z.string().min(2),
+  price: z.number().min(0),
+  stock: z.number().min(0),
+  attributes: z
+    .object({
+      size: z.string().optional(),
+      color: z.string().optional(),
+      material: z.string().optional(),
+    })
+    .optional(),
+  media: z.string().regex(/^[0-9a-fA-F]{24}$/),
 });
 
 export type TProductVariant = z.infer<typeof ProductVariantSchema>;

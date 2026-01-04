@@ -1,13 +1,13 @@
-import { IMedia } from "@/interfaces";
+import { Types } from "mongoose";
 
 export interface ProductVariant {
   sku: string;
   price: number;
   stock: number;
-  attributes: {
+  attributes?: {
     size?: string;
     color?: string;
     material?: string;
   };
-  media: IMedia;
+  media: Types.ObjectId;
 }
