@@ -1,9 +1,12 @@
 import { Request, Response } from "express";
-import { CategoryModel, ProductModel } from "@/models";
+import { CategoryModel, MediaModel, ProductModel } from "@/models";
 import { generateUniqueSlug, respond } from "@/utils";
 import { TAuthData } from "@shared/types";
 import { TCreateProduct } from "@shared/validations";
 import { Types } from "mongoose";
+import { ProductVariant } from "@/interfaces";
+import { normalizedProductVariants } from "@/services";
+import { ProductVariantSchema } from "@/models/sub-schemas";
 
 export const CreateProduct = async (req: Request, res: Response) => {
   const {
@@ -32,18 +35,26 @@ export const CreateProduct = async (req: Request, res: Response) => {
         "Invalid category ID or category does not exist"
       );
     }
+    const mediaExists = await MediaModel.find({ _id: { $in: media } });
+    if (mediaExists.length !== media.length) {
+      return respond(
+        res,
+        "BAD_REQUEST",
+        "One or more media IDs are invalid or do not exist"
+      );
+    }
 
-    const normalizedVariants = variants?.map((variant) => {
-      const { sku, price, stock, attributes, media: variantMedia } = variant;
-
-      return {
-        sku,
-        price,
-        stock,
-        attributes,
-        media: new Types.ObjectId(variantMedia),
-      };
-    });
+    if (variants) {
+      for (const variant of variants) {
+        if (!media.includes(variant.media)) {
+          return respond(
+            res,
+            "BAD_REQUEST",
+            `Variant media ID ${variant.media} does not exist in provided media array`
+          );
+        }
+      }
+    }
 
     const product = await ProductModel.create({
       title,
@@ -52,12 +63,18 @@ export const CreateProduct = async (req: Request, res: Response) => {
       price,
       discountedPrice,
       stock,
-      variants: normalizedVariants,
-      media: media?.map((id) => new Types.ObjectId(id)),
-      category: new Types.ObjectId(category),
+      variants: variants?.map((variant) => ({
+        sku: variant.sku,
+        price: variant.price,
+        stock: variant.stock,
+        attributes: variant.attributes,
+        media: variant.media,
+      })) as ProductVariant[],
+      media: media,
+      category: category,
       tags,
       isActive: isActive ?? false,
-      createdBy: new Types.ObjectId(userId),
+      createdBy: userId,
     });
 
     return respond(res, "SUCCESS", "Product created successfully", {

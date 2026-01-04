@@ -19,7 +19,7 @@ export const UpdateReview = async (req: Request, res: Response) => {
         "Review not found. Cannot delete review."
       );
     }
-    if (review.from !== new Types.ObjectId(userId)) {
+    if (review.from.toString() !== (userId as Types.ObjectId).toString()) {
       return respond(
         res,
         "FORBIDDEN",

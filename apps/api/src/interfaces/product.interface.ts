@@ -20,6 +20,7 @@ export interface IProduct {
       orderId: Types.ObjectId;
     }
   ];
+  wishedBy: Types.ObjectId[];
   ratings: ProductRating;
   reviews: Types.ObjectId[];
   isActive: boolean;

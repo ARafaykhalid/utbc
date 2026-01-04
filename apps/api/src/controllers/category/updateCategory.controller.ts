@@ -22,7 +22,7 @@ export const UpdateCategory = async (req: Request, res: Response) => {
     if (name !== undefined) category.name = name;
     if (slug !== undefined) category.slug = slug;
     if (description !== undefined) category.description = description;
-    category.updatedBy = new Types.ObjectId(userId);
+    category.updatedBy = userId as Types.ObjectId;
 
     await category.save();
     return respond(res, "SUCCESS", "Category updated successfully", {

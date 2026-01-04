@@ -6,19 +6,19 @@ import { ProductModel, ReviewModel } from "@/models";
 import { TAddReviewBody, TAddReviewParams } from "@shared/validations";
 
 export const AddReview = async (req: Request, res: Response) => {
-  const { productId } = req.validated?.params as TAddReviewParams;
+  const { slug } = req.validated?.params as TAddReviewParams;
   const { ratings, comment } = req.validated?.body as TAddReviewBody;
 
   const { userId } = req.user as TAuthData;
 
   try {
-    const product = await ProductModel.findById(productId);
+    const product = await ProductModel.findOne({ slug: slug });
     if (!product) {
       return respond(res, "NOT_FOUND", "Product not found. Cannot add review.");
     }
     const newReview = {
-      from: new Types.ObjectId(userId),
-      product: new Types.ObjectId(productId),
+      from: userId,
+      product: product._id,
       ratings,
       comment,
       createdAt: new Date(),

@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 import { ProductRatingSchema, ProductVariantSchema } from "./sub-schemas";
 import { IProduct } from "@/interfaces";
-import { ReviewsSchema } from "@/models";
+import { optional } from "zod";
 
 const ProductSchema = new Schema<IProduct>(
   {
@@ -53,7 +53,7 @@ const ProductSchema = new Schema<IProduct>(
       },
     ],
 
-    variants: [ProductVariantSchema],
+    variants: [{ type: ProductVariantSchema, optional: true }],
 
     media: [{ type: Schema.Types.ObjectId, ref: "Media", required: true }],
 
@@ -63,6 +63,8 @@ const ProductSchema = new Schema<IProduct>(
     },
 
     tags: [{ type: String, index: true }],
+
+    wishedBy: [{ type: Schema.Types.ObjectId, ref: "User" }],
 
     ratings: {
       type: ProductRatingSchema,

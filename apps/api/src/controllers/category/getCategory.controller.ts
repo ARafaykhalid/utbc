@@ -4,9 +4,9 @@ import { CategoryModel } from "@/models";
 import { TGetCategory } from "@shared/validations";
 
 export const GetCategory = async (req: Request, res: Response) => {
-  const { categoryId } = req.validated?.params as TGetCategory;
+  const { slug } = req.validated?.params as TGetCategory;
   try {
-    const category = await CategoryModel.findById(categoryId);
+    const category = await CategoryModel.findOne({ slug: slug });
     if (!category) {
       return respond(res, "NOT_FOUND", "Category not found");
     }

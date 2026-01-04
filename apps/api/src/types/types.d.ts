@@ -11,9 +11,9 @@ declare module "express" {
     clientIp?: string;
 
     user?: {
-      userId?: Types.ObjectId;
+      userId: Types.ObjectId;
       sessionId: Types.ObjectId;
-      userRole?: string;
+      userRole: string;
     };
     validated?: Partial<ValidatedData<any, any, any>>;
   }

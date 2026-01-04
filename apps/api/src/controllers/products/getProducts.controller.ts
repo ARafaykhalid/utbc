@@ -3,7 +3,7 @@ import { ProductModel } from "@/models";
 import { respond } from "@/utils";
 import { TGetProducts } from "@shared/validations";
 import { TAuthData } from "@shared/types";
-import { getProductsRoleBased } from "@/services";
+import { getProductsPopulated } from "@/services";
 
 export const GetProducts = async (req: Request, res: Response) => {
   const { userRole } = req.user as TAuthData;
@@ -22,28 +22,20 @@ export const GetProducts = async (req: Request, res: Response) => {
     ratings,
   } = req.validated?.query as TGetProducts;
 
-  const safePage = Math.max(page, 1);
-  const safeLimit = Math.min(limit, 100);
+  const safePage = Math.max(1, page);
+  const safeLimit = Math.min(100, limit);
   const skip = (safePage - 1) * safeLimit;
 
   // Base filter
   const filter: Record<string, any> = {};
-
-  // Role-based visibility
-  if (userRole !== "admin") {
-    filter.isActive = true;
-  }
-
-  // Filtering
   if (category) filter.category = category;
   if (tag) filter.tags = tag;
-
   if (minPrice || maxPrice) {
     filter.price = {};
     if (minPrice) filter.price.$gte = minPrice;
     if (maxPrice) filter.price.$lte = maxPrice;
   }
-
+  if (ratings) filter["ratings.average"] = { $gte: Number(ratings) };
   if (search) {
     filter.$or = [
       { title: { $regex: search, $options: "i" } },
@@ -51,31 +43,39 @@ export const GetProducts = async (req: Request, res: Response) => {
     ];
   }
 
-  if (ratings) {
-    filter["ratings.average"] = { $gte: Number(ratings) };
-  }
-
   try {
-    let query = getProductsRoleBased(userRole, "multiple", filter);
+    let query = getProductsPopulated(userRole, filter, "multiple");
 
     // Sorting
-    if (bestSelling) {
-      query = query.sort({ totalSold: -1 });
-    } else if (highestRated) {
-      query = query.sort({ "ratings.average": -1 });
-    } else {
-      query = query.sort({ [sortBy]: order } as Record<string, 1 | -1>);
-    }
+    if (bestSelling) query = query.sort({ totalSold: -1 });
+    else if (highestRated) query = query.sort({ "ratings.average": -1 });
+    else query = query.sort({ [sortBy]: order } as Record<string, 1 | -1>);
 
     // Pagination
     query = query.skip(skip).limit(safeLimit);
 
-    // Execute in parallel with total count
+    // Execute query and count in parallel
     const [products, total] = await Promise.all([
       query.lean(),
       ProductModel.countDocuments(filter),
     ]);
 
+    // Return empty array if nothing found
+    if (!products || total === 0) {
+      return respond(res, "SUCCESS", "No products found", {
+        data: {
+          products: [],
+          pagination: {
+            page: safePage,
+            limit: safeLimit,
+            total,
+            totalPages: 0,
+          },
+        },
+      });
+    }
+
+    // Success response
     return respond(res, "SUCCESS", "Products fetched successfully", {
       data: {
         products,

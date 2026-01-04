@@ -1,8 +1,7 @@
 import { z } from "zod";
-import { ObjectIdSchema } from "./sub-schema";
 
 export const VGetCategory = z.object({
-  categoryId: ObjectIdSchema,
+  slug: z.string().min(3).max(200),
 });
 
 export type TGetCategory = z.infer<typeof VGetCategory>;

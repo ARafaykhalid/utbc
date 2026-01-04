@@ -16,7 +16,7 @@ export const DeleteReview = async (req: Request, res: Response) => {
         "Review not found. Cannot delete review."
       );
     }
-    if (review.from.equals(userId)) {
+    if (review.from === userId) {
       return respond(
         res,
         "FORBIDDEN",
@@ -47,7 +47,7 @@ export const DeleteReview = async (req: Request, res: Response) => {
       product.ratings.average = 0;
       product.ratings.totalRatings = 0;
     }
-    
+
     await product.save();
     await review.deleteOne();
 

@@ -8,6 +8,7 @@ import {
   VUpdateProductBody,
   VUpdateProductParams,
   VAddReviewBody,
+  VAddToWishlist,
 } from "@shared/validations";
 import { validate } from "@/middlewares";
 import {
@@ -18,11 +19,12 @@ import {
   UpdateProduct,
 } from "@/controllers/products";
 import { AddReview } from "@/controllers/reviews";
+import { AddToWishlist } from "@/controllers/wishlist";
 
 const ProductRoute = Router();
 
 ProductRoute.get("/", validate({ query: VGetProducts }), GetProducts);
-ProductRoute.get("/:productId", validate({ params: VGetProduct }), GetProduct);
+ProductRoute.get("/:slug", validate({ params: VGetProduct }), GetProduct);
 ProductRoute.post("/", validate({ body: VCreateProduct }), CreateProduct);
 
 ProductRoute.patch(
@@ -41,6 +43,12 @@ ProductRoute.post(
   "/:productId/review",
   validate({ body: VAddReviewBody, params: VAddReviewParams }),
   AddReview
+);
+
+ProductRoute.post(
+  "/:slug/add-to-wishlist",
+  validate({ params: VAddToWishlist }),
+  AddToWishlist
 );
 
 export default ProductRoute;

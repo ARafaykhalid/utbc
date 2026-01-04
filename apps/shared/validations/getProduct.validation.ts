@@ -1,8 +1,7 @@
 import { z } from "zod";
-import { ObjectIdSchema } from "./sub-schema";
 
 export const VGetProduct = z.object({
-  productId: ObjectIdSchema,
+  slug: z.string().min(1).max(200),
 });
 
 export type TGetProduct = z.infer<typeof VGetProduct>;

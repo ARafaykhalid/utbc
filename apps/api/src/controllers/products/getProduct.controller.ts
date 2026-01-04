@@ -1,22 +1,20 @@
-import { ProductModel } from "@/models";
-import { getProductsRoleBased } from "@/services";
+import { getProductsPopulated } from "@/services";
 import { respond } from "@/utils";
 import { TAuthData } from "@shared/types";
 import { TGetProduct } from "@shared/validations";
 import { Request, Response } from "express";
-import { Types } from "mongoose";
 
 export const GetProduct = async (req: Request, res: Response) => {
-  const { productId } = req.validated?.params as TGetProduct;
+  const { slug } = req.validated?.params as TGetProduct;
   const { userRole } = req.user as TAuthData;
 
   try {
-    let query = getProductsRoleBased(userRole, "single", productId);
+    const query = getProductsPopulated(userRole, { slug: slug }, "single");
+
     const product = await query.lean();
 
-    if (!product) {
+    if (!product || (Array.isArray(product) && product.length === 0))
       return respond(res, "NOT_FOUND", "Product not found");
-    }
 
     return respond(res, "SUCCESS", "Product fetched successfully", {
       data: { product },

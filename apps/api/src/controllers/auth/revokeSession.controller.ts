@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { TAuthData } from "@shared/types";
 import { TRevokeSession } from "@shared/validations";
-import { Types } from "mongoose";
 import { deleteSession, respond } from "@/utils";
 
 export const RevokeSession = async (req: Request, res: Response) => {
@@ -15,7 +14,7 @@ export const RevokeSession = async (req: Request, res: Response) => {
       });
     }
 
-    await deleteSession(userId, new Types.ObjectId(sessionId));
+    await deleteSession(userId, sessionId);
 
     return respond(res, "SUCCESS", "Logged out from device successfully");
   } catch (error) {

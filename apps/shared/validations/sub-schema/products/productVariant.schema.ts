@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { ObjectIdSchema } from "../objectId/objectId.schema";
 
 export const ProductVariantSchema = z.object({
   sku: z.string().min(2),
@@ -11,7 +12,7 @@ export const ProductVariantSchema = z.object({
       material: z.string().optional(),
     })
     .optional(),
-  media: z.string().regex(/^[0-9a-fA-F]{24}$/),
+  media: ObjectIdSchema,
 });
 
 export type TProductVariant = z.infer<typeof ProductVariantSchema>;

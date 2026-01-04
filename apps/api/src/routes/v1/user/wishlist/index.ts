@@ -1,24 +1,14 @@
 import { Router } from "express";
 import { validate } from "@/middlewares";
-import { VAddToWishlist, VRemoveFromWishlist } from "@shared/validations";
-import {
-  AddToWishlist,
-  GetWishlist,
-  RemoveFromWishlist,
-} from "@/controllers/wishlist";
+import { VRemoveFromWishlist } from "@shared/validations";
+import { GetWishlist, RemoveFromWishlist } from "@/controllers/wishlist";
 
 const UserWishListRoute: Router = Router();
 
 UserWishListRoute.get("/", GetWishlist);
 
-UserWishListRoute.post(
-  "/:productId",
-  validate({ params: VAddToWishlist }),
-  AddToWishlist
-);
-
 UserWishListRoute.delete(
-  "/:productId",
+  "/:slug",
   validate({ params: VRemoveFromWishlist }),
   RemoveFromWishlist
 );

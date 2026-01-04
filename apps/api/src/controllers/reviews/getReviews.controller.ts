@@ -35,7 +35,17 @@ export const GetReviews = async (req: Request, res: Response) => {
   try {
     const [reviews, total] = await Promise.all([
       ReviewModel.find(filter)
-        .populate("from", "name _id email")
+        .populate("from", "name email")
+        .populate({
+          path: "product",
+          select: "title slug",
+          populate: {
+            path: "media",
+            model: "Media",
+            select: "url type -_id",
+          },
+        })
+
         .sort({ [sortBy]: order })
         .skip(skip)
         .limit(safeLimit)

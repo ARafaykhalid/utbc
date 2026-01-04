@@ -1,38 +1,38 @@
-import { IProduct, IWishlist } from "@/interfaces";
-import { HydratedDocument, Types } from "mongoose";
+import { WishlistModel } from "@/models/wishlist.model";
+import { TUserRole } from "@shared/types";
+import { Types } from "mongoose";
 
-export const getFormatedWishList = async (
-  Wishlist: HydratedDocument<IWishlist>
+export const getWishlistItemsPopulated = (
+  userRole: TUserRole | undefined,
+  prop?: Record<string, any> | Types.ObjectId | string,
+  quantity: "single" | "multiple" = "single"
 ) => {
-  const populatedWishlist = await Wishlist.populate({
-    path: "items.product",
-    select: "title description price discountedPrice media",
+  const isAdmin = userRole === "admin";
+
+  const productSelect =
+    quantity === "single"
+      ? "title price discountedPrice media"
+      : "title slug ratings price discountedPrice stock media";
+
+  const query =
+    quantity === "single"
+      ? WishlistModel.findOne(prop as Record<string, any>)
+      : WishlistModel.find(prop as Record<string, any>);
+
+  query.select("-user");
+  query.populate({
+    path: "items",
+    populate: {
+      path: "product",
+      match: isAdmin ? {} : { isActive: true },
+      select: isAdmin ? productSelect : `${productSelect} -isActive`,
+      populate: {
+        path: "media",
+        model: "Media",
+        select: "url type -_id",
+      },
+    },
   });
 
-  const wishlistObj = populatedWishlist.toObject() as unknown as {
-    _id: Types.ObjectId;
-    user: Types.ObjectId;
-    createdAt: Date;
-    updatedAt: Date;
-    items: { addedAt: Date; product: IProduct }[];
-  };
-
-  const formattedWishlist = {
-    _id: wishlistObj._id,
-    user: wishlistObj.user,
-    createdAt: wishlistObj.createdAt,
-    updatedAt: wishlistObj.updatedAt,
-    items: wishlistObj.items.map((item) => ({
-      addedAt: item.addedAt,
-      product: {
-        _id: item.product._id,
-        title: item.product.title,
-        description: item.product.description,
-        price: item.product.price,
-        discountedPrice: item?.product?.discountedPrice,
-        media: item.product.media?.slice(0, 2) || [],
-      },
-    })),
-  };
-  return formattedWishlist;
+  return query;
 };
