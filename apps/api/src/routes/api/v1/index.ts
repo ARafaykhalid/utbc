@@ -8,9 +8,9 @@ import ProductRoute from "./product";
 import CategoryRoute from "./category";
 import ReviewRoute from "./review";
 
-const RootRouter: Router = Router();
+const V1RootRouter: Router = Router();
 
-RootRouter.get("/", (req: Request, res: Response) => {
+V1RootRouter.get("/", (req: Request, res: Response) => {
   res.status(200).json({
     message: "Api is Live!",
     status: "200 ok",
@@ -19,18 +19,18 @@ RootRouter.get("/", (req: Request, res: Response) => {
   });
 });
 
-RootRouter.use("/auth", AuthRoute);
+V1RootRouter.use("/auth", AuthRoute);
 
-RootRouter.use("/admin", requireAuth, AdminRoute);
+V1RootRouter.use("/admin", requireAuth, AdminRoute);
 
-RootRouter.use("/user", requireAuth, UserRoute);
+V1RootRouter.use("/user", requireAuth, UserRoute);
 
-RootRouter.use("/products", requireAuth, ProductRoute);
+V1RootRouter.use("/products", requireAuth, ProductRoute);
 
-RootRouter.use("/reviews", requireAuth, ReviewRoute);
+V1RootRouter.use("/reviews", requireAuth, ReviewRoute);
 
-RootRouter.use("/categories", requireAuth, CategoryRoute);
+V1RootRouter.use("/categories", requireAuth, CategoryRoute);
 
-RootRouter.use("/email", EmailRoute);
+V1RootRouter.use("/email", EmailRoute);
 
-export default RootRouter;
+export default V1RootRouter;

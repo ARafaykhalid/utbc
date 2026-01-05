@@ -1,4 +1,4 @@
-export * from "./cartItem.schema";
+export * from "./cart/cartItem.schema";
 export * from "./purchasedItem.schema";
 export * from "./user/userAddress.schema";
 export * from "./user/userSession.schema";

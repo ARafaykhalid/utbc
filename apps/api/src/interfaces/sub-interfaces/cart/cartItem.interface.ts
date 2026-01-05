@@ -2,7 +2,11 @@ import { Types } from "mongoose";
 
 export interface ICartItem {
   product: Types.ObjectId;
+  variant?: Types.ObjectId;
   quantity: number;
-  priceAtAdd: number;
-  variant?: string;
+
+  price: number;
+
+  title: string;
+  media: Types.ObjectId;
 }

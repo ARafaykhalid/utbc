@@ -1,9 +1,8 @@
 import { Request, Response } from "express";
-import { ProductModel } from "@/models";
+import { MediaModel, ProductModel } from "@/models";
 import { respond } from "@/utils";
 import { TAuthData } from "@shared/types";
 import { TUpdateProductBody, TUpdateProductParams } from "@shared/validations";
-import { ProductVariant } from "@/interfaces";
 
 export const UpdateProduct = async (req: Request, res: Response) => {
   const { userId } = req.user as TAuthData;
@@ -18,7 +17,6 @@ export const UpdateProduct = async (req: Request, res: Response) => {
     price,
     stock,
     title,
-    variants,
   } = req.validated?.body as TUpdateProductBody;
 
   try {
@@ -32,31 +30,22 @@ export const UpdateProduct = async (req: Request, res: Response) => {
     if (discountedPrice !== undefined)
       product.discountedPrice = discountedPrice;
     if (isActive !== undefined) product.isActive = isActive;
-    if (media !== undefined) product.media = media;
+
     if (tags !== undefined) product.tags = tags;
     if (price !== undefined) product.price = price;
     if (stock !== undefined) product.stock = stock;
 
     if (title !== undefined) product.title = title;
 
-    if (variants !== undefined)
-      for (const variant of variants) {
-        if (!media.includes(variant.media)) {
-          return respond(
-            res,
-            "BAD_REQUEST",
-            `Variant media ID ${variant.media} does not exist in provided media array`
-          );
-        }
+    if (media) {
+      const mediaCount = await MediaModel.countDocuments({
+        _id: { $in: media },
+      });
+      if (mediaCount !== media.length) {
+        return respond(res, "BAD_REQUEST", "Invalid media IDs provided");
       }
-
-    product.variants = variants?.map((variant) => ({
-      sku: variant.sku,
-      price: variant.price,
-      stock: variant.stock,
-      attributes: variant.attributes,
-      media: variant.media,
-    })) as ProductVariant[];
+      product.media = media;
+    }
 
     product.updatedBy = userId;
 

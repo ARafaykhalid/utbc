@@ -1,4 +1,4 @@
-export interface ProductRating {
+export interface IProductRating {
   average: number;
   totalRatings: number;
 }

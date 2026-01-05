@@ -19,4 +19,6 @@ export const config = {
   RESEND_API_KEY: process.env.RESEND_API_KEY,
   FROM_EMAIL: process.env.FROM_EMAIL || "scarygamer30@gmail.com",
   DOMAIN: process.env.DOMAIN || "localhost:3000",
+  STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
+  STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
 };

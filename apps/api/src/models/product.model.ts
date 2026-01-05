@@ -53,7 +53,9 @@ const ProductSchema = new Schema<IProduct>(
       },
     ],
 
-    variants: [{ type: ProductVariantSchema, optional: true }],
+    variants: [
+      { type: Schema.Types.ObjectId, ref: "ProductVariant", required: false },
+    ],
 
     media: [{ type: Schema.Types.ObjectId, ref: "Media", required: true }],
 

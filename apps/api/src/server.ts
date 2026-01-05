@@ -5,7 +5,6 @@ import helmet from "helmet";
 import morgan from "morgan";
 import compression from "compression";
 import { express as useragent } from "express-useragent";
-import router from "./routes";
 import { config } from "./config";
 import {
   connectDatabase,
@@ -15,6 +14,8 @@ import {
   logger,
 } from "./lib";
 import { jsonParseErrorHandler } from "./middlewares";
+import WebhookRoute from "./routes/webhooks";
+import APIRoute from "./routes/api";
 
 const app = express();
 
@@ -39,6 +40,9 @@ app.use(helmet());
 // For spam
 app.use(limiter);
 
+// --- Mount webhook BEFORE express.json() so Stripe signature works ---
+app.use("/webhook", WebhookRoute);
+
 // JSON body parsing
 app.use(express.json());
 app.use(jsonParseErrorHandler);
@@ -59,7 +63,7 @@ app.use(compression({ threshold: 1024 }));
     await connectDatabase();
 
     /* ---------- Routes ---------- */
-    app.use("/api", router);
+    app.use("/api", APIRoute);
 
     app.listen(config.PORT, async () => {
       logger.info(`Server running on http://localhost:${config.PORT}`);

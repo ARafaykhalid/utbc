@@ -16,9 +16,6 @@ export interface IUser {
   role: TUserRole;
 
   sessions: IUserSession[];
-
-  cart: ICartItem[];
-  purchasedItems: IPurchasedItem[];
   address?: IUserAddress;
 
   isBlocked: boolean;

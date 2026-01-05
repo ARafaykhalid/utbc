@@ -1,11 +1,6 @@
 import { IUser } from "@/interfaces";
 import { model, Schema } from "mongoose";
-import {
-  CartItemSchema,
-  PurchasedItemSchema,
-  UserAddressSchema,
-  UserSessionSchema,
-} from "./sub-schemas";
+import { UserAddressSchema, UserSessionSchema } from "./sub-schemas";
 
 const UserSchema = new Schema<IUser>(
   {
@@ -31,10 +26,6 @@ const UserSchema = new Schema<IUser>(
     },
 
     sessions: [UserSessionSchema],
-
-    cart: [CartItemSchema],
-
-    purchasedItems: [PurchasedItemSchema],
 
     isEmailVerified: { type: Boolean, default: false, index: true },
 

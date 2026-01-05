@@ -13,9 +13,7 @@ export const DeleteProduct = async (req: Request, res: Response) => {
     }
     await product.deleteOne();
 
-    return respond(res, "SUCCESS", "Product deleted successfully", {
-      data: { product },
-    });
+    return respond(res, "SUCCESS", "Product deleted successfully");
   } catch (error) {
     return respond(res, "INTERNAL_SERVER_ERROR", "Failed to delete product", {
       errors: { message: (error as Error).message },

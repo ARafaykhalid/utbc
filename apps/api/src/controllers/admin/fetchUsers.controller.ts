@@ -24,7 +24,7 @@ export const FetchUsers = async (req: Request, res: Response) => {
     const [users, total] = await Promise.all([
       UserModel.find(filter)
         .select("-password -sessions")
-        .sort({ [sortBy]: order })
+        .sort({ [sortBy as string]: order } as Record<string, 1 | -1>)
         .skip(skip)
         .limit(limit)
         .lean(),
@@ -44,9 +44,9 @@ export const FetchUsers = async (req: Request, res: Response) => {
       },
     });
   } catch (error) {
-    return respond(res, "BAD_REQUEST", "Invalid query parameters", {
+    return respond(res, "INTERNAL_SERVER_ERROR", "Failed to unblock users", {
       errors: {
-        message: (error as Error).message,
+        message: (error as Error).message || "Unknown error",
       },
     });
   }

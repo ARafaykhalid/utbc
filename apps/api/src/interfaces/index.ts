@@ -4,5 +4,7 @@ export * from "./product.interface";
 export * from "./media.interface";
 export * from "./wishlist.interface";
 export * from "./review.interface";
+export * from "./cart.interface";
+export * from "./productVariant.interface";
 
 export * from "./sub-interfaces";

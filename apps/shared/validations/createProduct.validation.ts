@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ObjectIdSchema, ProductVariantSchema } from "./sub-schema";
+import { ObjectIdSchema } from "./sub-schema";
 
 export const VCreateProduct = z.object({
   title: z.string().min(3).max(200),
@@ -8,7 +8,6 @@ export const VCreateProduct = z.object({
   price: z.number().min(0),
   discountedPrice: z.number().min(0).optional(),
   stock: z.number().int().min(0),
-  variants: z.array(ProductVariantSchema).optional(),
 
   media: z
     .array(ObjectIdSchema)

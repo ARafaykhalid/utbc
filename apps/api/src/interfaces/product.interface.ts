@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import { ProductRating, ProductVariant } from "./sub-interfaces";
+import { IProductRating } from "./sub-interfaces";
 
 export interface IProduct {
   _id: Types.ObjectId;
@@ -10,20 +10,20 @@ export interface IProduct {
   discountedPrice?: number;
   stock: number;
   totalSold: number;
-  variants: ProductVariant[];
+  variants: Types.ObjectId[];
   media: Types.ObjectId[];
   category?: Types.ObjectId;
   tags: string[];
+  wishedBy: Types.ObjectId[];
+  ratings: IProductRating;
+  reviews: Types.ObjectId[];
+  isActive: boolean;
   buyers: [
     {
       userId: Types.ObjectId;
       orderId: Types.ObjectId;
     }
   ];
-  wishedBy: Types.ObjectId[];
-  ratings: ProductRating;
-  reviews: Types.ObjectId[];
-  isActive: boolean;
   createdBy?: Types.ObjectId;
   updatedBy?: Types.ObjectId;
   createdAt: Date;

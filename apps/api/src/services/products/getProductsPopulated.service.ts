@@ -24,7 +24,12 @@ export const getProductsPopulated = (
     .populate({ path: "media", select: "url type -_id", model: "Media" })
     .populate({
       path: "variants",
-      populate: { path: "media", model: "Media", select: "url type -_id" },
+      model: "ProductVariant",
+      populate: {
+        path: "media",
+        model: "Media",
+        select: "url type -_id -product",
+      },
     })
     .populate({
       path: "reviews",

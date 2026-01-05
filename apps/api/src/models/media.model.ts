@@ -10,7 +10,7 @@ const MediaSchema = new Schema<IMedia>(
     uploadedBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
     tags: [{ type: String }],
   },
-  { timestamps: { createdAt: "createdAt" } }
+  { timestamps: { createdAt: "createdAt" }, _id: true }
 );
 
 export const MediaModel = model<IMedia>("Media", MediaSchema);

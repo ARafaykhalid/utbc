@@ -2,6 +2,7 @@ import { z } from "zod";
 import { ObjectIdSchema } from "../objectId/objectId.schema";
 
 export const ProductVariantSchema = z.object({
+  _id: ObjectIdSchema,
   sku: z.string().min(2),
   price: z.number().min(0),
   stock: z.number().min(0),
