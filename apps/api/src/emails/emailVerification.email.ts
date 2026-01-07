@@ -1,7 +1,7 @@
 import { Resend } from "resend";
 import { config } from "@/config";
 import { verificationTokenURL } from "@/utils";
-import { TOKEN_EXPIRES_MINUTES } from "@shared/constants";
+import { CONFIRMATION_EXPIRY_TIME } from "@shared/constants";
 
 const resend = new Resend(config.RESEND_API_KEY);
 
@@ -15,7 +15,7 @@ export const sendEmailVerificationEmail = async (to: string, token: string) => {
   const html = `
     <div style="font-family: system-ui, sans-serif; line-height:1.4;">
       <h2>Verify your email</h2>
-      <p>Click the link below to verify your email address. The link expires in ${TOKEN_EXPIRES_MINUTES} minutes.</p>
+      <p>Click the link below to verify your email address. The link expires in ${CONFIRMATION_EXPIRY_TIME} minutes.</p>
       <p><a href="${resetUrl}">Verify email</a></p>
       <p>If you didn't request this, ignore this email.</p>
     </div>

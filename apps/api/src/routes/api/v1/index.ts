@@ -6,7 +6,7 @@ import UserRoute from "./user";
 import EmailRoute from "./email";
 import ProductRoute from "./product";
 import CategoryRoute from "./category";
-import ReviewRoute from "./review";
+import ReviewRoute from "./product/review";
 
 const V1RootRouter: Router = Router();
 

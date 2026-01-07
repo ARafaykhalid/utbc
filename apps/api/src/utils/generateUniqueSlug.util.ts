@@ -1,17 +1,21 @@
-import { CategoryModel, ProductModel } from "@/models";
+import { CategoryModel, ProductModel, ProductVariantModel } from "@/models";
 import slugify from "slugify";
 
 export const generateUniqueSlug = async (
   title: string,
-  type: "Category" | "Product"
+  type: "Category" | "Product" | "ProductVariant"
 ) => {
   const base = slugify(title, { lower: true, strict: true }).slice(0, 200);
   let slug = base;
   let i = 0;
   while (
-    type === "Category"
-      ? await CategoryModel.exists({ slug })
-      : await ProductModel.exists({ slug })
+    await (type === "Category"
+      ? CategoryModel.exists({ slug })
+      : type === "Product"
+      ? ProductModel.exists({ slug })
+      : type === "ProductVariant"
+      ? ProductVariantModel.exists({ slug })
+      : false)
   ) {
     i += 1;
     slug = `${base}-${i}`;

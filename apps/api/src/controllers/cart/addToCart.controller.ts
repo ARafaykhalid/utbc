@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { CartModel, ProductModel } from "@/models";
+import { CartModel, ProductModel, ProductVariantModel } from "@/models";
 import { respond } from "@/utils";
 import { TAuthData } from "@shared/types";
 import { TAddToCart } from "@shared/validations";
@@ -21,21 +21,23 @@ export const AddToCart = async (req: Request, res: Response) => {
     if (!product || !product.isActive) {
       return respond(res, "NOT_FOUND", "Product not available");
     }
+    
+    if (product.variants && product.variants.length > 0 && !variantId) {
+      return respond(res, "BAD_REQUEST", "Product variant is required");
+    }
 
     let price = product.discountedPrice ?? product.price;
     let media = product.media[0];
 
     // Variant handling
     if (variantId) {
-      const variant = product.variants?.find(
-        (v) => v._id.toString() === variantId.toString()
-      );
+      const variant = await ProductVariantModel.findById(variantId);
 
       if (!variant) {
         return respond(res, "BAD_REQUEST", "Invalid product variant");
       }
 
-      price = variant.price;
+      price = variant.price ?? variant.discountedPrice;
       media = variant.media;
     }
 

@@ -1,7 +1,8 @@
 import z from "zod";
+import { ObjectIdSchema } from "./sub-schema";
 
 export const VRemoveFromWishlist = z.object({
-  slug: z.string().min(1).max(200),
+  productId: ObjectIdSchema,
 });
 
 export type TRemoveFromWishlist = z.infer<typeof VRemoveFromWishlist>;

@@ -3,3 +3,5 @@
 export * from "./updateCartItem.controller"
 export * from "./addToCart.controller"
 export * from "./removeCartItem.controller"
+export * from "./getCart.controller"
+export * from "./checkout.controller"

@@ -8,14 +8,14 @@ import { Types } from "mongoose";
 
 export const RemoveFromWishlist = async (req: Request, res: Response) => {
   const { userId } = req?.user as TAuthData;
-  const { slug } = req.validated?.params as TRemoveFromWishlist;
+  const { productId } = req.validated?.params as TRemoveFromWishlist;
 
   try {
     const wishlist = await WishlistModel.findOne({ user: userId });
-    const product = await ProductModel.findOne({ slug: slug });
+    const product = await ProductModel.findById(productId);
     if (!product) {
       return respond(res, "NOT_FOUND", "Product not found", {
-        errors: { slug: "Invalid product slug" },
+        errors: { productId: "Invalid product ID" },
       });
     }
 

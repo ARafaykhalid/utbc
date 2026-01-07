@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { ProductModel, MediaModel, ProductVariantModel } from "@/models";
-import { respond } from "@/utils";
+import { generateUniqueSlug, respond } from "@/utils";
 import { TAuthData } from "@shared/types";
 import {
   TUpdateProductVariantBody,
@@ -29,7 +29,9 @@ export const UpdateProductVariant = async (req: Request, res: Response) => {
     if (!mediaExists) {
       return respond(res, "BAD_REQUEST", "Invalid media ID");
     }
-    if (sku) productVariant.sku = sku;
+
+    const unigueSku = await generateUniqueSlug(sku as string, "ProductVariant");
+    if (sku) productVariant.sku = unigueSku;
     if (price) productVariant.price = price;
     if (stock) productVariant.stock = stock;
     if (attributes) productVariant.attributes = attributes;
@@ -40,7 +42,7 @@ export const UpdateProductVariant = async (req: Request, res: Response) => {
     await productVariant.save();
 
     return respond(res, "SUCCESS", "Variant updated successfully", {
-      data: { id: productVariant._id, sku: productVariant.sku },
+      data: { id: productVariant._id, sku: productVariant._id },
     });
   } catch (error) {
     return respond(res, "INTERNAL_SERVER_ERROR", "Failed to update variant", {

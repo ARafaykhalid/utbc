@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { deleteSession, respond, verifyRefreshToken } from "@/utils";
+import { respond, verifyRefreshToken } from "@/utils";
 import { config } from "@/config";
+import { deleteSession } from "@/services/sessions";
 
 export const LogoutUser = async (req: Request, res: Response) => {
   const refreshToken = req.signedCookies?.refreshToken;

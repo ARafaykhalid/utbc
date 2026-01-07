@@ -3,7 +3,8 @@ import argon2 from "argon2";
 import { TUserLogin } from "@shared/validations";
 import { config } from "@/config";
 import { UserModel } from "@/models";
-import { createSession, respond } from "@/utils";
+import { respond } from "@/utils";
+import { createSession } from "@/services/sessions";
 
 export const LoginUser = async (req: Request, res: Response) => {
   const { email, password } = req.validated?.body as TUserLogin;

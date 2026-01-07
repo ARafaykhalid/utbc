@@ -14,9 +14,8 @@ export const VCreateProduct = z.object({
     .min(1, "At least one media item is required")
     .max(5, "Maximum 5 media items allowed"),
 
-  category: ObjectIdSchema,
+  categoryId: ObjectIdSchema,
   tags: z.array(z.string().min(1)).optional(),
-  isActive: z.boolean().optional(),
 });
 
 export type TCreateProduct = z.infer<typeof VCreateProduct>;

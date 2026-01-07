@@ -2,7 +2,7 @@ import { z } from "zod";
 import { ObjectIdSchema } from "./sub-schema";
 
 export const VAddReviewParams = z.object({
-  slug: z.string().min(1).max(200),
+  productId: ObjectIdSchema,
 });
 
 export const VAddReviewBody = z.object({

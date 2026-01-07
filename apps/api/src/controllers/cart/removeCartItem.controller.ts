@@ -16,25 +16,33 @@ export const RemoveCartItem = async (req: Request, res: Response) => {
 
     const initialLength = cart.items.length;
 
-    cart.items = cart.items.filter(
+    const cartItem = cart.items.find(
       (item) =>
-        !(
-          item.product.toString() === productId.toString() &&
-          (item.variant ? item.variant.toString() : "") ===
-            (variantId ? variantId.toString() : "")
-        )
+        item.product.toString() === productId.toString() &&
+        (variantId ? item.variant?.toString() === variantId.toString() : true)
     );
 
-    if (cart.items.length === initialLength) {
+    if (!cartItem) {
       return respond(res, "NOT_FOUND", "Cart item not found");
     }
 
+    if (cartItem.variant && !variantId) {
+      return respond(res, "BAD_REQUEST", "Product variant is required");
+    }
+    cart.items = cart.items.filter(
+      (item) =>
+        !(item.product.toString() === productId.toString() &&
+        (variantId ? item.variant?.toString() === variantId.toString() : true))
+    );
+    if (cart.items.length === initialLength) {
+      return respond(res, "NOT_FOUND", "Cart item not found");
+    }
+    
     // Recalculate totals
     cart.subtotal = cart.items.reduce(
       (sum, item) => sum + item.price * item.quantity,
       0
     );
-
     cart.total = Math.max(cart.subtotal - cart.discount, 0);
 
     await cart.save();

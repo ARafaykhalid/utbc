@@ -1,4 +1,4 @@
-import { TOKEN_EXPIRES_MINUTES } from "@shared/constants";
+import { CONFIRMATION_EXPIRY_TIME } from "@shared/constants";
 import crypto from "crypto";
 
 export const genToken = (bytes = 32) => {
@@ -13,7 +13,7 @@ export const token = () => {
   const rawToken = genToken();
   const hashedToken = hashToken(rawToken);
   const tokenExpiresAt = new Date(
-    Date.now() + TOKEN_EXPIRES_MINUTES * 60 * 1000
+    Date.now() + CONFIRMATION_EXPIRY_TIME * 60 * 1000
   );
 
   return {

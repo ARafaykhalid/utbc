@@ -1,0 +1,1 @@
+export const CONFIRMATION_EXPIRY_TIME = 15;

@@ -1,7 +1,8 @@
 import { Schema, model, Types } from "mongoose";
-import { CartItemSchema } from "./sub-schemas";
+import { CartItemSchema, UserAddressSchema } from "./sub-schemas";
+import { IOrder } from "@/interfaces";
 
-const OrderSchema = new Schema(
+const OrderSchema = new Schema<IOrder>(
   {
     user: { type: Types.ObjectId, ref: "User", required: true },
     items: [CartItemSchema],
@@ -10,30 +11,37 @@ const OrderSchema = new Schema(
     shipping: { type: Number, default: 0 },
     total: { type: Number, required: true },
     coupon: { type: String, default: "" },
-    status: {
+    paymentStatus: {
       type: String,
       enum: [
-        "pending",
+        "pending confirmation",
+        "pending payment",
+        "expired",
+        "confirmed",
         "paid",
-        "shipped",
-        "delivered",
-        "cancelled",
         "refunded",
       ],
-      default: "pending",
+      default: "pending payment",
     },
+    deliveryStatus: {
+      type: String,
+      enum: ["processing", "pending", "shipped", "delivered", "cancelled"],
+      default: "processing",
+    },
+
     paymentIntentId: { type: String },
-    paymentMethod: { type: String },
-    shippingAddress: {
-      line1: String,
-      line2: String,
-      city: String,
-      state: String,
-      postal_code: String,
-      country: String,
+    paymentMethod: {
+      type: String,
+      enum: ["STRIPE", "COD"],
+      default: "COD",
     },
+    shippingAddress: { type: UserAddressSchema, required: true },
+    confirmationToken: { type: String, default: null },
+    confirmationTokenExpiresAt: { type: Date, default: null },
+    reservedUntil: { type: Date },
+    canceledBy: { type: Types.ObjectId, ref: "User", default: null },
   },
   { timestamps: true }
 );
 
-export const OrderModel = model("Order", OrderSchema);
+export const OrderModel = model<IOrder>("Order", OrderSchema);

@@ -8,10 +8,9 @@ export const UpdateProduct = async (req: Request, res: Response) => {
   const { userId } = req.user as TAuthData;
   const { productId } = req.validated?.params as TUpdateProductParams;
   const {
-    category: categoryId,
+    categoryId,
     description,
     discountedPrice,
-    isActive,
     media,
     tags,
     price,
@@ -29,7 +28,6 @@ export const UpdateProduct = async (req: Request, res: Response) => {
     if (description !== undefined) product.description = description;
     if (discountedPrice !== undefined)
       product.discountedPrice = discountedPrice;
-    if (isActive !== undefined) product.isActive = isActive;
 
     if (tags !== undefined) product.tags = tags;
     if (price !== undefined) product.price = price;
@@ -47,6 +45,7 @@ export const UpdateProduct = async (req: Request, res: Response) => {
       product.media = media;
     }
 
+    product.isActive = false;
     product.updatedBy = userId;
 
     await product.save();

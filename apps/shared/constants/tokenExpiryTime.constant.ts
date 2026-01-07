@@ -1,1 +1,0 @@
-export const TOKEN_EXPIRES_MINUTES = 15;

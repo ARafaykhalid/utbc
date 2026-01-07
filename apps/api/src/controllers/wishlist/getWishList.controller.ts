@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { WishlistModel } from "@/models/wishlist.model";
 import { respond } from "@/utils";
 import { TAuthData } from "@shared/types";
-import { getWishlistItemsPopulated } from "@/services";
+import { getWishlistItemsPopulated } from "@/services/wishlist";
 
 export const GetWishlist = async (req: Request, res: Response) => {
   const { userId, userRole } = req?.user as TAuthData;
@@ -18,9 +18,8 @@ export const GetWishlist = async (req: Request, res: Response) => {
 
     const formattedWishlist = await getWishlistItemsPopulated(
       userRole,
-      wishlist,
-      "single"
-    ).lean();
+      wishlist
+    );
 
     return respond(res, "SUCCESS", "Wishlist fetched successfully", {
       data: formattedWishlist,

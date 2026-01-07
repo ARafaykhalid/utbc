@@ -1,0 +1,4 @@
+export * from "./changePassword.controller"
+export * from "./listSessions.controller"
+export * from "./revokeAllSessions.controller"
+export * from "./revokeSession.controller"

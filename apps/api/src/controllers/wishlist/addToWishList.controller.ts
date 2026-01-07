@@ -8,14 +8,11 @@ import { ProductModel } from "@/models";
 
 export const AddToWishlist = async (req: Request, res: Response) => {
   const { userId } = req?.user as TAuthData;
-  const { slug } = req.validated?.params as TAddToWishlist;
+  const { productId } = req.validated?.body as TAddToWishlist;
 
   try {
     const Wishlist = await WishlistModel.findOne({ user: userId });
-    const productExists = await ProductModel.findOne({
-      slug: slug,
-      isActive: true,
-    });
+    const productExists = await ProductModel.findById(productId);
     if (!productExists) {
       return respond(res, "NOT_FOUND", "Product not found", {
         errors: { "body.productId": "Invalid product ID" },

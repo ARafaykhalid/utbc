@@ -10,7 +10,7 @@ export const getProductsPopulated = (
   const filter = normalizeFilter(prop);
   const isAdmin = userRole === "admin";
 
-  if (userRole !== "admin") {
+  if (!isAdmin) {
     filter.isActive = true;
   }
 
@@ -19,19 +19,42 @@ export const getProductsPopulated = (
       ? ProductModel.find(filter)
       : ProductModel.findOne(filter);
 
+  /* -------------------- base populates -------------------- */
   query
-    .populate({ path: "category", select: "_id name slug", model: "Category" })
-    .populate({ path: "media", select: "url type -_id", model: "Media" })
     .populate({
-      path: "variants",
-      model: "ProductVariant",
-      populate: {
-        path: "media",
-        model: "Media",
-        select: "url type -_id -product",
-      },
+      path: "category",
+      model: "Category",
+      select: "_id name slug",
     })
     .populate({
+      path: "media",
+      model: "Media",
+      select: "url type -_id",
+    });
+
+  /* -------------------- SINGLE PRODUCT -------------------- */
+  if (quantity === "single") {
+    if (isAdmin) {
+      query.populate({
+        path: "variants",
+        model: "ProductVariant",
+        select: "sku price stock attributes media createdBy updatedBy",
+        populate: [
+          { path: "media", model: "Media", select: "url type -_id" },
+          { path: "createdBy", model: "User", select: "name email _id" },
+          { path: "updatedBy", model: "User", select: "name email _id" },
+        ],
+      });
+    } else {
+      query.populate({
+        path: "variants",
+        model: "ProductVariant",
+        select: "sku price stock attributes media",
+        populate: { path: "media", model: "Media", select: "url type -_id" },
+      });
+    }
+
+    query.populate({
       path: "reviews",
       populate: {
         path: "from",
@@ -40,8 +63,6 @@ export const getProductsPopulated = (
       },
     });
 
-  // select fields based on role & quantity
-  if (quantity === "single") {
     const singleFields = [
       "title",
       "description",
@@ -51,14 +72,13 @@ export const getProductsPopulated = (
       "discountedPrice",
       "stock",
       "totalSold",
-      "variants",
       "media",
       "category",
       "tags",
+      "variants",
     ];
 
     if (isAdmin) {
-      // admin sees internal fields and creator/updater info
       singleFields.push(
         "isActive",
         "buyers",
@@ -66,22 +86,32 @@ export const getProductsPopulated = (
         "createdBy",
         "updatedBy"
       );
-      query.select(singleFields.join(" "));
-      query.populate({
-        path: "createdBy",
-        model: "User",
-        select: "name email _id",
-      });
-      query.populate({
-        path: "updatedBy",
-        model: "User",
-        select: "name email _id",
-      });
+      query
+        .select(singleFields.join(" "))
+        .populate({
+          path: "createdBy",
+          model: "User",
+          select: "name email _id",
+        })
+        .populate({
+          path: "updatedBy",
+          model: "User",
+          select: "name email _id",
+        });
     } else {
       query.select(singleFields.join(" "));
     }
   } else {
-    // multiple results list
+
+  /* -------------------- MULTIPLE PRODUCTS -------------------- */
+    // Populate only variant media (so we can merge later) but don't include variants in selection
+    query.populate({
+      path: "variants",
+      model: "ProductVariant",
+      select: "media", // only fetch media for variants
+      populate: { path: "media", model: "Media", select: "url type -_id" },
+    });
+
     const listFields = [
       "title",
       "slug",
@@ -89,25 +119,25 @@ export const getProductsPopulated = (
       "price",
       "discountedPrice",
       "stock",
-      "variants",
       "media",
     ];
 
     if (isAdmin) {
       listFields.push("isActive", "createdBy", "updatedBy");
-      query.populate({
-        path: "createdBy",
-        model: "User",
-        select: "name email _id",
-      });
-      query.populate({
-        path: "updatedBy",
-        model: "User",
-        select: "name email _id",
-      });
+      query
+        .populate({
+          path: "createdBy",
+          model: "User",
+          select: "name email _id",
+        })
+        .populate({
+          path: "updatedBy",
+          model: "User",
+          select: "name email _id",
+        });
     }
 
-    query.select(listFields.join(" "));
+    query.select(listFields.join(" ")); // note: variants is not included here
   }
 
   return query;

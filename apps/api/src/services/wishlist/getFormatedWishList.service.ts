@@ -2,37 +2,59 @@ import { WishlistModel } from "@/models/wishlist.model";
 import { TUserRole } from "@shared/types";
 import { Types } from "mongoose";
 
-export const getWishlistItemsPopulated = (
+export const getWishlistItemsPopulated = async (
   userRole: TUserRole | undefined,
-  prop?: Record<string, any> | Types.ObjectId | string,
-  quantity: "single" | "multiple" = "single"
+  prop?: Record<string, any> | Types.ObjectId | string
 ) => {
   const isAdmin = userRole === "admin";
 
-  const productSelect =
-    quantity === "single"
-      ? "title price discountedPrice media"
-      : "title slug ratings price discountedPrice stock media";
+  const productSelect = [
+    "title",
+    "slug",
+    "ratings",
+    "price",
+    "discountedPrice",
+    "stock",
+    "media",
+    "category",
+    "tags",
+  ].join(" ");
 
-  const query =
-    quantity === "single"
-      ? WishlistModel.findOne(prop as Record<string, any>)
-      : WishlistModel.find(prop as Record<string, any>);
-
-  query.select("-user");
-  query.populate({
-    path: "items",
-    populate: {
-      path: "product",
-      match: isAdmin ? {} : { isActive: true },
-      select: isAdmin ? productSelect : `${productSelect} -isActive`,
+  const wishlist = await WishlistModel.find(prop as Record<string, any>)
+    .select("-user")
+    .populate({
+      path: "items",
       populate: {
-        path: "media",
-        model: "Media",
-        select: "url type -_id",
+        path: "product",
+        match: isAdmin ? {} : { isActive: true },
+        select: isAdmin
+          ? productSelect + " variants"
+          : productSelect + " variants -isActive",
+        populate: [
+          {
+            path: "media",
+            model: "Media",
+            select: "url type -_id",
+          },
+          {
+            path: "variants",
+            model: "ProductVariant",
+            select: "media",
+            populate: {
+              path: "media",
+              model: "Media",
+              select: "url type -_id",
+            },
+          },
+          {
+            path: "category",
+            model: "Category",
+            select: "_id name slug",
+          },
+        ],
       },
-    },
-  });
+    })
+    .lean();
 
-  return query;
+  return wishlist;
 };

@@ -9,6 +9,7 @@ import {
   VUpdateProductParams,
   VAddReviewBody,
   VAddToWishlist,
+  VMakeProductsActive,
 } from "@shared/validations";
 import { validate } from "@/middlewares";
 import {
@@ -16,10 +17,13 @@ import {
   DeleteProduct,
   GetProduct,
   GetProducts,
+  MakeProductsActive,
   UpdateProduct,
 } from "@/controllers/products";
 import { AddReview } from "@/controllers/reviews";
 import { AddToWishlist } from "@/controllers/wishlist";
+import ProductVariantsRoute from "./productVariants";
+import ReviewRoute from "./review";
 
 const ProductRoute = Router();
 
@@ -40,15 +44,12 @@ ProductRoute.delete(
 );
 
 ProductRoute.post(
-  "/:productId/review",
-  validate({ body: VAddReviewBody, params: VAddReviewParams }),
-  AddReview
+  "/make-active",
+  validate({ body: VMakeProductsActive }),
+  MakeProductsActive
 );
 
-ProductRoute.post(
-  "/:slug/add-to-wishlist",
-  validate({ params: VAddToWishlist }),
-  AddToWishlist
-);
+ProductRoute.use("/:productId/reviews", ReviewRoute);
+ProductRoute.use("/:productId/variants", ProductVariantsRoute);
 
 export default ProductRoute;

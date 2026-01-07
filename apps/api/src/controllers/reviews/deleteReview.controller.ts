@@ -2,21 +2,37 @@ import { Request, Response } from "express";
 import { respond } from "@/utils";
 import { TAuthData } from "@shared/types";
 import { ProductModel, ReviewModel } from "@/models";
+import { TDeleteReview } from "@shared/validations";
+import { Types } from "mongoose";
 
 export const DeleteReview = async (req: Request, res: Response) => {
-  const { reviewId } = req.validated?.params;
+  const { reviewId, productId } = req.validated?.body as TDeleteReview;
   const { userId } = req.user as TAuthData;
 
   try {
-    const review = await ReviewModel.findById(reviewId);
-    if (!review) {
+    const product = await ProductModel.findById(productId);
+    if (!product) {
       return respond(
         res,
         "NOT_FOUND",
-        "Review not found. Cannot delete review."
+        "Product not found. Cannot delete review."
       );
     }
-    if (review.from === userId) {
+    const review = await ReviewModel.findById(reviewId);
+    if (!review) {
+      return respond(res, "NOT_FOUND", "Review not found.");
+    }
+    if (
+      review.product.toString() !== productId.toString() &&
+      !product.reviews.includes(review._id)
+    ) {
+      return respond(
+        res,
+        "BAD_REQUEST",
+        "Review does not belong to the specified product."
+      );
+    }
+    if (review.from.toString() !== (userId as Types.ObjectId).toString()) {
       return respond(
         res,
         "FORBIDDEN",
@@ -24,32 +40,24 @@ export const DeleteReview = async (req: Request, res: Response) => {
       );
     }
 
-    const product = await ProductModel.findById(review.product);
-    if (!product) {
-      return respond(
-        res,
-        "NOT_FOUND",
-        "Associated product not found. Cannot delete review."
-      );
+    product.ratings.totalRatings = Math.max(
+      product.ratings.totalRatings - 1,
+      0
+    );
+    if (product.ratings.totalRatings === 0) {
+      product.ratings.average = 0;
+    } else {
+      product.ratings.average =
+        (product.ratings.average * (product.ratings.totalRatings + 1) -
+          review.ratings) /
+        product.ratings.totalRatings;
     }
     product.reviews = product.reviews.filter(
-      (revId) => !revId.equals(review._id)
+      (rId) => rId.toString() !== reviewId.toString()
     );
-
-    // Update ratings
-    if (product.ratings.totalRatings > 1) {
-      product.ratings.average =
-        (product.ratings.average * product.ratings.totalRatings -
-          review.ratings) /
-        (product.ratings.totalRatings - 1);
-      product.ratings.totalRatings -= 1;
-    } else {
-      product.ratings.average = 0;
-      product.ratings.totalRatings = 0;
-    }
-
-    await product.save();
+    
     await review.deleteOne();
+    await product.save();
 
     return respond(res, "SUCCESS", "Review deleted successfully");
   } catch (error) {

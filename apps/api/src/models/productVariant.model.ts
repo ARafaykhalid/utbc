@@ -16,6 +16,12 @@ export const ProductVariantSchema = new Schema<IProductVariant>(
       min: 0,
     },
 
+    discountedPrice: {
+      type: Number,
+      min: 0,
+      default: null,
+    },
+
     stock: {
       type: Number,
       required: true,
@@ -27,7 +33,7 @@ export const ProductVariantSchema = new Schema<IProductVariant>(
       color: { type: String },
       material: { type: String },
     },
-    
+
     createdBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
     updatedBy: { type: Schema.Types.ObjectId, ref: "User" },
     media: { type: Schema.Types.ObjectId, ref: "Media", required: true },

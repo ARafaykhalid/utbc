@@ -1,20 +1,13 @@
 import { Router } from "express";
-import { VBlockUsers, VFetchUsers } from "@shared/validations";
-import { validate } from "@/middlewares";
-import { BlockUsers, FetchUsers, unBlockUsers } from "@/controllers/admin";
 import MediaRoute from "./media";
+import AdminOrdersRoute from "./orders";
+import AdminManagedUserRoute from "./users";
 
 const AdminRoute: Router = Router();
 
-AdminRoute.patch("/block-users", validate({ body: VBlockUsers }), BlockUsers);
+AdminRoute.use("/users", AdminManagedUserRoute);
 
-AdminRoute.patch(
-  "/unblock-users",
-  validate({ body: VBlockUsers }),
-  unBlockUsers
-);
-
-AdminRoute.get("/fetch-users", validate({ query: VFetchUsers }), FetchUsers);
 AdminRoute.use("/media", MediaRoute);
+AdminRoute.use("/orders", AdminOrdersRoute);
 
 export default AdminRoute;

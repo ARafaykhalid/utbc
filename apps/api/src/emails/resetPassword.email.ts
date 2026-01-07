@@ -1,7 +1,7 @@
 import { Resend } from "resend";
 import { config } from "@/config";
 import { verificationTokenURL } from "@/utils";
-import { TOKEN_EXPIRES_MINUTES } from "@shared/constants";
+import { CONFIRMATION_EXPIRY_TIME } from "@shared/constants";
 
 const resend = new Resend(config.RESEND_API_KEY);
 
@@ -15,7 +15,7 @@ export const sendResetPasswordEmail = async (to: string, token: string) => {
   const html = `
     <div style="font-family: system-ui, sans-serif; line-height:1.4;">
       <h2>Password reset request</h2>
-      <p>We received a request to reset your password. Click the link below to set a new password. The link expires in ${TOKEN_EXPIRES_MINUTES} minutes.</p>
+      <p>We received a request to reset your password. Click the link below to set a new password. The link expires in ${CONFIRMATION_EXPIRY_TIME} minutes.</p>
       <p><a href="${resetUrl}">Reset password</a></p>
       <p>If you didn't request this, ignore this email.</p>
     </div>

@@ -1,0 +1,1 @@
+export const SCRIPT_INTERVAL_TIME = 5 * 60 * 1000;

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { ProductModel, MediaModel, ProductVariantModel } from "@/models";
-import { respond } from "@/utils";
+import { generateUniqueSlug, respond } from "@/utils";
 import { TAuthData } from "@shared/types";
 import {
   TCreateProductVariantBody,
@@ -23,9 +23,10 @@ export const CreateProductVariant = async (req: Request, res: Response) => {
     if (!mediaExists) {
       return respond(res, "BAD_REQUEST", "Invalid media ID");
     }
+    const unigueSku = await generateUniqueSlug(sku, "ProductVariant");
 
     const variant = await ProductVariantModel.create({
-      sku,
+      sku: unigueSku,
       price,
       stock,
       attributes,

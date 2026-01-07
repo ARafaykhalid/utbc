@@ -12,9 +12,8 @@ export const CreateProduct = async (req: Request, res: Response) => {
     discountedPrice,
     stock,
     media,
-    category,
+    categoryId,
     tags,
-    isActive,
   } = req.validated!.body as TCreateProduct;
 
   const { userId } = req.user as TAuthData;
@@ -22,7 +21,7 @@ export const CreateProduct = async (req: Request, res: Response) => {
   try {
     const slug = await generateUniqueSlug(title, "Product");
 
-    const categoryExists = await CategoryModel.exists({ _id: category });
+    const categoryExists = await CategoryModel.exists({ _id: categoryId });
     if (!categoryExists) {
       return respond(res, "BAD_REQUEST", "Invalid category");
     }
@@ -43,9 +42,9 @@ export const CreateProduct = async (req: Request, res: Response) => {
       discountedPrice,
       stock,
       media,
-      category,
       tags,
-      isActive: isActive ?? false,
+      category: categoryId,
+      isActive: false,
       createdBy: userId,
     });
 

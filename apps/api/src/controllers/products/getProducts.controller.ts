@@ -3,7 +3,7 @@ import { ProductModel } from "@/models";
 import { respond } from "@/utils";
 import { TGetProducts } from "@shared/validations";
 import { TAuthData } from "@shared/types";
-import { getProductsPopulated } from "@/services";
+import { getProductsPopulated } from "@/services/products";
 
 export const GetProducts = async (req: Request, res: Response) => {
   const { userRole } = req.user as TAuthData;

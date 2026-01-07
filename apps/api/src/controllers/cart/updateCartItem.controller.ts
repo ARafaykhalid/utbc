@@ -19,30 +19,24 @@ export const UpdateCartItem = async (req: Request, res: Response) => {
       return respond(res, "NOT_FOUND", "Cart not found");
     }
 
-    const itemIndex = cart.items.findIndex(
+    const cartItem = cart.items.find(
       (item) =>
         item.product.toString() === productId.toString() &&
-        (item.variant ? item.variant.toString() : "") ===
-          (variantId ? variantId.toString() : "")
+        (variantId ? item.variant?.toString() === variantId.toString() : true)
     );
-
-    if (itemIndex === -1) {
+    if (!cartItem) {
       return respond(res, "NOT_FOUND", "Cart item not found");
     }
-
-    // Remove item if quantity = 0
-    if (quantity === 0) {
-      cart.items.splice(itemIndex, 1);
-    } else {
-      cart.items[itemIndex].quantity = quantity;
+    if (cartItem.variant && !variantId) {
+      return respond(res, "BAD_REQUEST", "Product variant is required");
     }
+    cartItem.quantity = quantity;
 
     // Recalculate totals
     cart.subtotal = cart.items.reduce(
       (sum, item) => sum + item.price * item.quantity,
       0
     );
-
     cart.total = Math.max(cart.subtotal - cart.discount, 0);
 
     await cart.save();
