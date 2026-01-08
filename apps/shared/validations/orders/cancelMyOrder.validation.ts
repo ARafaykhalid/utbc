@@ -1,5 +1,5 @@
+import { ObjectIdSchema } from "@/validations/sub-schema";
 import { z } from "zod";
-import { ObjectIdSchema } from "../sub-schema";
 
 export const VCancelMyOrderParams = z.object({
   orderId: ObjectIdSchema,

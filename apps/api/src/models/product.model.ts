@@ -1,7 +1,6 @@
 import { Schema, model } from "mongoose";
-import { ProductRatingSchema, ProductVariantSchema } from "./sub-schemas";
+import { ProductRatingSchema } from "./sub-schemas";
 import { IProduct } from "@/interfaces";
-import { optional } from "zod";
 
 const ProductSchema = new Schema<IProduct>(
   {

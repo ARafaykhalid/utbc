@@ -2,11 +2,12 @@ import { Request, Response, Router } from "express";
 import { requireAuth } from "@/middlewares";
 import AdminRoute from "./admin";
 import AuthRoute from "./auth";
-import UserRoute from "./user";
 import EmailRoute from "./email";
-import ProductRoute from "./product";
+import ProductRoute from "./products";
 import CategoryRoute from "./category";
-import ReviewRoute from "./product/review";
+import ReviewRoute from "./reviews";
+import MediaRoute from "./media";
+import CartRoute from "./cart";
 
 const V1RootRouter: Router = Router();
 
@@ -23,11 +24,17 @@ V1RootRouter.use("/auth", AuthRoute);
 
 V1RootRouter.use("/admin", requireAuth, AdminRoute);
 
-V1RootRouter.use("/user", requireAuth, UserRoute);
+V1RootRouter.use("/media", requireAuth, MediaRoute);
+
+V1RootRouter.use("/cart", requireAuth, CartRoute);
 
 V1RootRouter.use("/products", requireAuth, ProductRoute);
 
 V1RootRouter.use("/reviews", requireAuth, ReviewRoute);
+
+V1RootRouter.use("/products", requireAuth, ProductRoute);
+
+V1RootRouter.use("/settings", requireAuth, CategoryRoute);
 
 V1RootRouter.use("/categories", requireAuth, CategoryRoute);
 

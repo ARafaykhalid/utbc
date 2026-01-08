@@ -3,11 +3,11 @@ import { validate } from "@/middlewares";
 import {
   VChangeEmailVerification,
   VEmailVerification,
-} from "@shared/validations";
+} from "@shared/validations/email/verification";
 import {
   ChangeEmailVerification,
   EmailVerification,
-} from "@/controllers/verification";
+} from "@/controllers/email/verification";
 
 const VerificationRoute: Router = Router();
 

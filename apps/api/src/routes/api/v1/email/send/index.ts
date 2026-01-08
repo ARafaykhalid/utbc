@@ -1,21 +1,14 @@
+import { Router } from "express";
 import {
   SendChangeEmailVerification,
   SendEmailVerification,
-} from "@/controllers/user";
+} from "@/controllers/email/send";
 import { validate } from "@/middlewares";
-import {
-  VSendChangeEmailVerification,
-  VSendEmailVerification,
-} from "@shared/validations";
-import { Router } from "express";
+import { VSendChangeEmailVerification } from "@shared/validations/email/send";
 
 const SendEmailRoute: Router = Router();
 
-SendEmailRoute.post(
-  "/email-verification",
-  validate({ body: VSendEmailVerification }),
-  SendEmailVerification
-);
+SendEmailRoute.post("/email-verification", SendEmailVerification);
 SendEmailRoute.post(
   "/change-email-verification",
   validate({ body: VSendChangeEmailVerification }),

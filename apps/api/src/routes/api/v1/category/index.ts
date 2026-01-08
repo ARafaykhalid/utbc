@@ -6,7 +6,7 @@ import {
   VGetCategory,
   VUpdateCategoryBody,
   VUpdateCategoryParams,
-} from "@shared/validations";
+} from "@shared/validations/category";
 import { validate } from "@/middlewares";
 import {
   CreateCategory,
@@ -35,13 +35,5 @@ CategoryRoute.delete(
   validate({ params: VDeleteCategory }),
   DeleteCategory
 );
-
-// CategoryRoute.patch(
-//   "/products/:id",
-//   upload.array("images", 6),
-//   multerErrorHandler,
-//   validate({ body: VUpdateProduct }),
-//   UpdateProduct
-// );
 
 export default CategoryRoute;

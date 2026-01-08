@@ -8,12 +8,13 @@ import {
   UserRegistration,
 } from "@/controllers/auth";
 import { validate } from "@/middlewares";
+
 import {
   VForgotPassword,
   VResetPassword,
   VUserLogin,
   VUserRegistration,
-} from "@shared/validations";
+} from "@shared/validations/auth";
 
 const AuthRoute: Router = Router();
 

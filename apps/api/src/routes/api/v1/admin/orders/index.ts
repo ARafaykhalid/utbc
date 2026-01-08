@@ -4,19 +4,18 @@ import {
   ChangeOrdersStatus,
   GetOrders,
 } from "@/controllers/admin/orders";
-import { GetRefundedOrders } from "@/controllers/admin/orders/refunds";
 import { validate } from "@/middlewares";
-import { VChangeOrdersStatus, VGetOrders } from "@shared/validations";
 import {
-  VCancelMyOrderBody,
-  VCancelMyOrderParams,
-} from "@shared/validations/orders";
+  VChangeOrdersStatus,
+  VGetOrders,
+  VCancelOrderBody,
+  VCancelOrderParams,
+} from "@shared/validations/admin/orders";
 
 const AdminOrdersRoute: Router = Router();
 
 AdminOrdersRoute.get("/", validate({ query: VGetOrders }), GetOrders);
 
-AdminOrdersRoute.get("/refunds", GetRefundedOrders);
 AdminOrdersRoute.post(
   "/change-status",
   validate({ body: VChangeOrdersStatus }),
@@ -25,7 +24,7 @@ AdminOrdersRoute.post(
 
 AdminOrdersRoute.delete(
   "/cancel",
-  validate({ body: VCancelMyOrderBody, params: VCancelMyOrderParams }),
+  validate({ body: VCancelOrderBody, params: VCancelOrderParams }),
   CancelOrder
 );
 

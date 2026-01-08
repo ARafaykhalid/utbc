@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import { logger, stripe } from "@/lib";
+import { stripe } from "@/lib";
 import { CartModel, CouponModel, OrderModel, UserModel } from "@/models";
 import { respond, token } from "@/utils";
 import { Types } from "mongoose";
 import { TAuthData } from "@shared/types";
 import { validateCoupon } from "@/services/coupons";
-import { TCheckout } from "@shared/validations";
+import { TCheckout } from "@shared/validations/cart";
 import { sendOrderConfirmationEmail } from "@/emails/orderConfirmation.email";
 import { checkProductStock, deStockProduct } from "@/services/products";
 import { CONFIRMATION_EXPIRY_TIME } from "@shared/constants";
