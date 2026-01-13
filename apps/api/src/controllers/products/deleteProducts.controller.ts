@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { ProductModel } from "@/models";
-import { respond } from "@/utils";
-import { TUpdateProductParams } from "@shared/validations";
+import { ProductModel } from "@api/models";
+import { respond } from "@api/utils";
+import { TUpdateProductParams } from "@shared/validations/products";
 
 export const DeleteProduct = async (req: Request, res: Response) => {
   const { productId } = req.validated?.params as TUpdateProductParams;

@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import { WishlistModel } from "@/models/wishlist.model";
-import { respond } from "@/utils";
+import { WishlistModel } from "@api/models/wishlist.model";
+import { respond } from "@api/utils";
 import { TAuthData } from "@shared/types";
-import { TRemoveFromWishlist } from "@shared/validations";
-import { ProductModel } from "@/models/product.model";
+import { TRemoveFromWishlist } from "@shared/validations/wishlist";
+import { ProductModel } from "@api/models/product.model";
 import { Types } from "mongoose";
 
 export const RemoveFromWishlist = async (req: Request, res: Response) => {

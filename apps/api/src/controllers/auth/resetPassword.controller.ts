@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import argon2 from "argon2";
-import { TResetPassword } from "@shared/validations";
-import { UserModel } from "@/models";
-import { hashToken, respond } from "@/utils";
+import { TResetPassword } from "@shared/validations/auth";
+import { UserModel } from "@api/models";
+import { hashToken, respond } from "@api/utils";
 
 export const ResetPassword = async (req: Request, res: Response) => {
   const { token, email, password } = req.validated?.body as TResetPassword;

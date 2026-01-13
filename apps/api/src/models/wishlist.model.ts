@@ -1,4 +1,4 @@
-import { IWishlist } from "@/interfaces";
+import { IWishlist } from "@api/interfaces";
 import { model, Schema } from "mongoose";
 import { WishlistItemSchema } from "./sub-schemas/";
 

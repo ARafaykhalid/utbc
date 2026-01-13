@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { validate } from "@/middlewares";
+import { validate } from "@api/middlewares";
 import {
   VChangeEmailVerification,
   VEmailVerification,
@@ -7,7 +7,7 @@ import {
 import {
   ChangeEmailVerification,
   EmailVerification,
-} from "@/controllers/email/verification";
+} from "@api/controllers/email/verification";
 
 const VerificationRoute: Router = Router();
 

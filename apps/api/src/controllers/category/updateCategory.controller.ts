@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 import { TAuthData } from "@shared/types";
-import { respond } from "@/utils";
+import { respond } from "@api/utils";
 import {
   TUpdateCategoryBody,
   TUpdateCategoryParams,
-} from "@shared/validations";
-import { CategoryModel } from "@/models";
+} from "@shared/validations/category";
+import { CategoryModel } from "@api/models";
 import { Types } from "mongoose";
 
 export const UpdateCategory = async (req: Request, res: Response) => {

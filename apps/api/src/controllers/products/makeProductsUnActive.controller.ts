@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { ProductModel } from "@/models";
-import { respond } from "@/utils";
+import { ProductModel } from "@api/models";
+import { respond } from "@api/utils";
 import { TAuthData } from "@shared/types";
-import { TMakeProductsUnActive } from "@shared/validations";
+import { TMakeProductsUnActive } from "@shared/validations/products";
 
 export const MakeProductsUnActive = async (req: Request, res: Response) => {
   const { userId } = req.user as TAuthData;

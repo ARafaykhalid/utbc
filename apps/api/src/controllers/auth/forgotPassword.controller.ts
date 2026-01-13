@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { UserModel } from "@/models/user.model";
-import { respond, token } from "@/utils";
-import { sendResetPasswordEmail } from "@/emails";
+import { UserModel } from "@api/models/user.model";
+import { respond, token } from "@api/utils";
+import { sendResetPasswordEmail } from "@api/emails";
 
 export const ForgotPassword = async (req: Request, res: Response) => {
   const { email } = req.validated?.body as { email: string };

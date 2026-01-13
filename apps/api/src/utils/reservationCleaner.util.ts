@@ -1,6 +1,6 @@
-import { logger } from "@/lib";
-import { OrderModel } from "@/models";
-import { restoreProduct } from "@/services/products";
+import { logger } from "@api/lib";
+import { OrderModel } from "@api/models";
+import { restoreProduct } from "@api/services/products";
 
 export const reservationCleaner = () => {
   setInterval(async () => {

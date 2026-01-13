@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
-import { respond } from "@/utils";
+import { respond } from "@api/utils";
 import { TAuthData } from "@shared/types";
-import { OrderModel, RefundModel } from "@/models";
+import { OrderModel, RefundModel } from "@api/models";
 import { Types } from "mongoose";
 import { TCancelMyOrderBody, TCancelMyOrderParams } from "@shared/validations/orders";
 
-import { restoreProduct } from "@/services/products";
-import { logger, stripe } from "@/lib";
+import { restoreProduct } from "@api/services/products";
+import { logger, stripe } from "@api/lib";
 
 export const CancelMyOrder = async (req: Request, res: Response) => {
   const { userId } = req.user as TAuthData;

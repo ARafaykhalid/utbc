@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { UserModel } from "@/models";
-import { respond } from "@/utils";
+import { UserModel } from "@api/models";
+import { respond } from "@api/utils";
 import { TAuthData } from "@shared/types";
 
 export const GetNavSummary = async (req: Request, res: Response) => {

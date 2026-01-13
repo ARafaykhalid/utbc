@@ -8,8 +8,8 @@ import {
   VUpdateProductParams,
   VMakeProductsActive,
   VMakeProductsUnActive,
-} from "@shared/validations/product";
-import { validate } from "@/middlewares";
+} from "@shared/validations/products";
+import { validate } from "@api/middlewares";
 import {
   CreateProduct,
   DeleteProduct,
@@ -18,7 +18,7 @@ import {
   MakeProductsActive,
   MakeProductsUnActive,
   UpdateProduct,
-} from "@/controllers/products";
+} from "@api/controllers/products";
 import ProductVariantsRoute from "./productVariants";
 
 const ProductRoute = Router();

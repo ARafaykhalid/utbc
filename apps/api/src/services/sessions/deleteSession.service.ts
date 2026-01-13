@@ -1,4 +1,4 @@
-import { UserModel } from "@/models";
+import { UserModel } from "@api/models";
 import { Types } from "mongoose";
 
 export const deleteSession = async (

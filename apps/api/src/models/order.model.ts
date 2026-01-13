@@ -1,6 +1,6 @@
 import { Schema, model, Types } from "mongoose";
 import { CartItemSchema, UserAddressSchema } from "./sub-schemas";
-import { IOrder } from "@/interfaces";
+import { IOrder } from "@api/interfaces";
 
 const OrderSchema = new Schema<IOrder>(
   {

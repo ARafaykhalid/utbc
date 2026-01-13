@@ -1,4 +1,4 @@
-import { IProductVariant } from "@/interfaces";
+import { IProductVariant } from "@api/interfaces";
 import { model, Schema } from "mongoose";
 
 export const ProductVariantSchema = new Schema<IProductVariant>(

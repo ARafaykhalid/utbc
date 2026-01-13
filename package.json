@@ -1,22 +1,18 @@
 {
   "name": "utbc",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "workspaces": [
-    "src/api",
-    "src/api"
-  ],
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "packageManager": "pnpm@10.27.0",
+  "private": true,
   "devDependencies": {
-    "@types/node": "^24.10.1",
-    "ts-node": "^10.9.2",
+    "@types/node": "^24.10.8",
+    "rimraf": "^6.1.2",
+    "tsc-alias": "^1.8.16",
+    "turbo": "^2.7.4",
     "typescript": "^5.9.3"
-  }
+  },
+  "scripts": {
+    "dev": "turbo run dev --parallel",
+    "build": "turbo run build",
+    "preview": "turbo run preview",
+    "clean": "turbo run clean"
+  },
+  "packageManager": "pnpm@10.25.0"
 }

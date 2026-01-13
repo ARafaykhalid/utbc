@@ -1,4 +1,4 @@
-import { config } from "@/config";
+import { config } from "@api/config";
 import Stripe from "stripe";
 import { logger } from "./winston.lib";
 

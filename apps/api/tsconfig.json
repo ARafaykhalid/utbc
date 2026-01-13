@@ -1,17 +1,20 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../tsconfig.base.json",
+  "type": "module",
   "compilerOptions": {
+    "rootDir": "src",
     "outDir": "dist",
-    "module": "commonjs",
-    "target": "ES2022",
-    "esModuleInterop": true,
-    "strict": true,
-    "baseUrl": "./",
+    "declaration": false,
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@shared/*": ["../shared/*"]
-    }
+      "@api/*": ["src/*"],
+      "@shared/*": ["../../packages/shared/src/*"]
+    },
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "esModuleInterop": true,
+    "strict": true
   },
-  "include": ["src", "@shared/types", "@shared/validations", "@shared/constants"],
-  "exclude": ["node_modules"]
+  "references": [{ "path": "../../packages/shared" }],
+  "include": ["src"]
 }

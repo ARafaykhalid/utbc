@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import { logger, stripe } from "@/lib";
-import { OrderModel, ProductModel, CartModel, CouponModel } from "@/models";
+import { logger, stripe } from "@api/lib";
+import { OrderModel, ProductModel, CartModel, CouponModel } from "@api/models";
 import mongoose from "mongoose";
-import { config } from "@/config";
-import { respond } from "@/utils";
-import { handlePaymentSucceeded } from "@/services/webhook/paymentSucceed.service";
-import { restoreProduct } from "@/services/products";
+import { config } from "@api/config";
+import { respond } from "@api/utils";
+import { handlePaymentSucceeded } from "@api/services/webhook/paymentSucceed.service";
+import { restoreProduct } from "@api/services/products";
 
 const endpointSecret = config.STRIPE_WEBHOOK_SECRET!;
 

@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import argon2 from "argon2";
-import { UserModel } from "@/models";
-import { TUserRegistration } from "@shared/validations";
-import { respond, token } from "@/utils";
-import { sendEmailVerificationEmail } from "@/emails";
+import { UserModel } from "@api/models";
+import { TUserRegistration } from "@shared/validations/auth";
+import { respond, token } from "@api/utils";
+import { sendEmailVerificationEmail } from "@api/emails";
 
 export const UserRegistration = async (req: Request, res: Response) => {
   const { email, password, name } = req.validated?.body as TUserRegistration;

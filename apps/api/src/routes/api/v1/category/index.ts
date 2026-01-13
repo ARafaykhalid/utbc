@@ -7,14 +7,14 @@ import {
   VUpdateCategoryBody,
   VUpdateCategoryParams,
 } from "@shared/validations/category";
-import { validate } from "@/middlewares";
+import { validate } from "@api/middlewares";
 import {
   CreateCategory,
   DeleteCategory,
   getCategories,
   GetCategory,
   UpdateCategory,
-} from "@/controllers/category";
+} from "@api/controllers/category";
 
 const CategoryRoute = Router();
 

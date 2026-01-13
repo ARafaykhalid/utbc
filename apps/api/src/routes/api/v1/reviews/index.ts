@@ -1,12 +1,12 @@
 import { Router } from "express";
 
-import { validate } from "@/middlewares";
+import { validate } from "@api/middlewares";
 import {
   AddReview,
   DeleteReview,
   MyReviews,
   UpdateReview,
-} from "@/controllers/reviews";
+} from "@api/controllers/reviews";
 import {
   VAddReviewParams,
   VDeleteReview,

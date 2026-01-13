@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { MediaModel, ProductModel } from "@/models";
-import { respond } from "@/utils";
+import { MediaModel, ProductModel } from "@api/models";
+import { respond } from "@api/utils";
 import { TAuthData } from "@shared/types";
-import { TUpdateProductBody, TUpdateProductParams } from "@shared/validations";
+import { TUpdateProductBody, TUpdateProductParams } from "@shared/validations/products";
 
 export const UpdateProduct = async (req: Request, res: Response) => {
   const { userId } = req.user as TAuthData;

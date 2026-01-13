@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { OrderModel } from "@/models";
-import { hashToken, respond } from "@/utils";
-import { deStockProduct } from "@/services/products";
+import { OrderModel } from "@api/models";
+import { hashToken, respond } from "@api/utils";
+import { deStockProduct } from "@api/services/products";
 import { TOrderConfirmationVerification } from "@shared/validations/email/verification";
 
 export const OrderConfirmation = async (req: Request, res: Response) => {

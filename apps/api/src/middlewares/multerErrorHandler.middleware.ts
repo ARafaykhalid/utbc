@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import multer from "multer";
-import { respond } from "@/utils";
+import { respond } from "@api/utils";
 
 type ErrorCode =
   | "LIMIT_PART_COUNT"

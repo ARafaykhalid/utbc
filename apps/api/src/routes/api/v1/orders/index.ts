@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { validate } from "@/middlewares";
-import { CancelMyOrder, GetMyOrders } from "@/controllers/orders";
+import { validate } from "@api/middlewares";
+import { CancelMyOrder, GetMyOrders } from "@api/controllers/orders";
 import {
   VCancelMyOrderBody,
   VCancelMyOrderParams,

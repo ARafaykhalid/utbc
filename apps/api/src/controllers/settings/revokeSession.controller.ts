@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { TAuthData } from "@shared/types";
 import { TRevokeSession } from "@shared/validations/settings";
-import { respond } from "@/utils";
-import { deleteSession } from "@/services/sessions";
+import { respond } from "@api/utils";
+import { deleteSession } from "@api/services/sessions";
 
 export const RevokeSession = async (req: Request, res: Response) => {
   const { userId } = req.user as TAuthData;

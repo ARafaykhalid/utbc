@@ -1,8 +1,8 @@
 import { Resend } from "resend";
-import { config } from "@/config";
-import { verificationTokenURL } from "@/utils";
+import { config } from "@api/config";
+import { verificationTokenURL } from "@api/utils";
 import { HydratedDocument } from "mongoose";
-import { IOrder } from "@/interfaces";
+import { IOrder } from "@api/interfaces";
 
 const resend = new Resend(config.RESEND_API_KEY);
 

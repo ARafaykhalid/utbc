@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { respond } from "@/utils";
-import { ReviewModel } from "@/models";
+import { respond } from "@api/utils";
+import { ReviewModel } from "@api/models";
 import { TGetReviews } from "@shared/validations/reviews";
 
 export const GetReviews = async (req: Request, res: Response) => {

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { respond } from "@/utils";
-import { UserModel } from "@/models";
-import { TBlockUsers } from "@shared/validations";
+import { respond } from "@api/utils";
+import { UserModel } from "@api/models";
+import { TBlockUsers } from "@shared/validations/admin/users";
 import { TAuthData } from "@shared/types";
 
 export const unBlockUsers = async (req: Request, res: Response) => {

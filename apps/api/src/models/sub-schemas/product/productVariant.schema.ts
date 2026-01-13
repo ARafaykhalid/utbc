@@ -1,5 +1,5 @@
 import { Schema } from "mongoose";
-import { IProductVariant } from "@/interfaces";
+import { IProductVariant } from "@api/interfaces";
 
 export const ProductVariantSchema = new Schema<IProductVariant>({
   sku: {

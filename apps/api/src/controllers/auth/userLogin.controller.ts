@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import argon2 from "argon2";
-import { TUserLogin } from "@shared/validations";
-import { config } from "@/config";
-import { UserModel } from "@/models";
-import { respond } from "@/utils";
-import { createSession } from "@/services/sessions";
+import { TUserLogin } from "@shared/validations/auth";
+import { config } from "@api/config";
+import { UserModel } from "@api/models";
+import { respond } from "@api/utils";
+import { createSession } from "@api/services/sessions";
 
 export const LoginUser = async (req: Request, res: Response) => {
   const { email, password } = req.validated?.body as TUserLogin;

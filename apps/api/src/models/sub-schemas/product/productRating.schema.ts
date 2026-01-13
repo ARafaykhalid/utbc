@@ -1,4 +1,4 @@
-import { IProductRating } from "@/interfaces";
+import { IProductRating } from "@api/interfaces";
 import { Schema } from "mongoose";
 
 export const ProductRatingSchema = new Schema<IProductRating>(

@@ -4,13 +4,13 @@ import {
   requireFiles,
   upload,
   validate,
-} from "@/middlewares";
+} from "@api/middlewares";
 import {
   AddMedia,
   DeleteMedia,
   GetMedia,
   UpdateMedia,
-} from "@/controllers/media";
+} from "@api/controllers/media";
 import {
   VAddMedia,
   VGetMediaQuery,

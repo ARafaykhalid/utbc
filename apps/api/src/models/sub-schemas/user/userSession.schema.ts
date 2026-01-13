@@ -1,4 +1,4 @@
-import { IUserSession } from "@/interfaces";
+import { IUserSession } from "@api/interfaces";
 import { Schema } from "mongoose";
 
 export const UserSessionSchema = new Schema<IUserSession>({

@@ -1,4 +1,4 @@
-import { ICategory } from "@/interfaces";
+import { ICategory } from "@api/interfaces";
 import { Schema, model } from "mongoose";
 
 const categorySchema = new Schema<ICategory>(

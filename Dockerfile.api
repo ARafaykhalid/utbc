@@ -1,0 +1,33 @@
+# ---------- Stage: builder ----------
+FROM node:22-alpine AS builder
+WORKDIR /app
+
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+# Layer caching: Copy workspace-wide files
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json tsconfig.base.json ./
+COPY apps/api/package.json ./apps/api/
+COPY packages/shared/package.json ./packages/shared/
+
+RUN pnpm install --frozen-lockfile
+
+# Copy source and build
+COPY . .
+RUN pnpm turbo run build --filter=api...
+
+# ---------- Stage: runner ----------
+FROM node:22-alpine AS runner
+WORKDIR /app
+
+ENV NODE_ENV=production
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+# Copy everything from builder (including node_modules and built dists)
+COPY --from=builder /app ./
+
+# Expose the port
+EXPOSE 4000
+
+# BEST PRACTICE: Run the script defined in your package.json
+# This uses the 'tsx' you have in your api/package.json dependencies
+CMD ["pnpm", "--filter", "api", "start"]

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { respond } from "@/utils";
-import { OrderModel } from "@/models";
+import { respond } from "@api/utils";
+import { OrderModel } from "@api/models";
 import { TAuthData } from "@shared/types";
 
 export const ChangeOrdersStatus = async (req: Request, res: Response) => {
@@ -15,13 +15,25 @@ export const ChangeOrdersStatus = async (req: Request, res: Response) => {
       .sort({ createdAt: -1 })
       .select("-paymentIntent.client_secret -paymentIntent.idempotencyKey");
 
+    if (!orders || orders.length === 0) {
+      return respond(res, "SUCCESS", "No orders found");
+    }
+
+    const sameOrderStatus = orders.every(
+      (order) => order.deliveryStatus === orders[0].deliveryStatus
+    );
+
+    if (!sameOrderStatus) {
+      return respond(
+        res,
+        "BAD_REQUEST",
+        "All orders must have the same current status to change status in bulk"
+      );
+    }
+
     for (const order of orders) {
       order.deliveryStatus = status;
       await order.save();
-    }
-
-    if (!orders || orders.length === 0) {
-      return respond(res, "SUCCESS", "No orders found");
     }
 
     return respond(res, "SUCCESS", "Orders status changed successfully");

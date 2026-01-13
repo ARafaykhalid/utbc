@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { respond } from "@/utils";
-import { CategoryModel } from "@/models";
-import { TGetCategories } from "@shared/validations";
+import { respond } from "@api/utils";
+import { CategoryModel } from "@api/models";
+import { TGetCategories } from "@shared/validations/category";
 
 export const getCategories = async (req: Request, res: Response) => {
   const {

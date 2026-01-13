@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
-import { stripe } from "@/lib";
-import { CartModel, CouponModel, OrderModel, UserModel } from "@/models";
-import { respond, token } from "@/utils";
+import { stripe } from "@api/lib";
+import { CartModel, CouponModel, OrderModel, UserModel } from "@api/models";
+import { respond, token } from "@api/utils";
 import { Types } from "mongoose";
 import { TAuthData } from "@shared/types";
-import { validateCoupon } from "@/services/coupons";
+import { validateCoupon } from "@api/services/coupons";
 import { TCheckout } from "@shared/validations/cart";
-import { sendOrderConfirmationEmail } from "@/emails/orderConfirmation.email";
-import { checkProductStock, deStockProduct } from "@/services/products";
+import { sendOrderConfirmationEmail } from "@api/emails/";
+import { checkProductStock, deStockProduct } from "@api/services/products";
 import { CONFIRMATION_EXPIRY_TIME } from "@shared/constants";
 
 const CURRENCY = process.env.CURRENCY || "usd";

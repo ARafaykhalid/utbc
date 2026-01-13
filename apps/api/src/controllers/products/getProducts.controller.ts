@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import { ProductModel } from "@/models";
-import { respond } from "@/utils";
-import { TGetProducts } from "@shared/validations";
+import { ProductModel } from "@api/models";
+import { respond } from "@api/utils";
+import { TGetProducts } from "@shared/validations/products";
 import { TAuthData } from "@shared/types";
-import { getProductsPopulated } from "@/services/products";
+import { getProductsPopulated } from "@api/services/products";
 
 export const GetProducts = async (req: Request, res: Response) => {
   const { userRole } = req.user as TAuthData;

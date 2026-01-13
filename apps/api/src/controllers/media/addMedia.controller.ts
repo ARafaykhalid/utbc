@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { MediaModel } from "@/models";
+import { MediaModel } from "@api/models";
 import { TAuthData } from "@shared/types";
-import { respond, uploadToCloudinary } from "@/utils";
-import { TAddMedia } from "@shared/validations";
+import { respond, uploadToCloudinary } from "@api/utils";
+import { TAddMedia } from "@shared/validations/media";
 
 export const AddMedia = async (req: Request, res: Response) => {
   const files = req.files as Express.Multer.File[];

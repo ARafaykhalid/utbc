@@ -1,4 +1,4 @@
-import { config } from "@/config";
+import { config } from "@api/config";
 import { TJwtPayload } from "@shared/types";
 import jwt from "jsonwebtoken";
 

@@ -1,6 +1,6 @@
-import { OrderModel, RefundModel } from "@/models";
+import { OrderModel, RefundModel } from "@api/models";
 import { checkProductStock, restoreProduct } from "../products";
-import { logger, stripe } from "@/lib";
+import { logger, stripe } from "@api/lib";
 import Stripe from "stripe";
 
 export const handlePaymentSucceeded = async (

@@ -1,6 +1,6 @@
 import mongoose, { ConnectOptions } from "mongoose";
-import { config } from "@/config";
-import { logger } from "@/lib/winston.lib";
+import { config } from "@api/config";
+import { logger } from "@api/lib/winston.lib";
 
 const clientOptions: ConnectOptions = {
   dbName: config.MONGO_DB_NAME,

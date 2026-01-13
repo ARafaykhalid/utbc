@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { generateAccessToken, respond, verifyRefreshToken } from "@/utils";
+import { generateAccessToken, respond, verifyRefreshToken } from "@api/utils";
 import { TJwtPayload } from "@shared/types";
-import { UserModel } from "@/models";
+import { UserModel } from "@api/models";
 
 export const RenewAccessToken = async (req: Request, res: Response) => {
   const refreshToken = req.signedCookies?.refreshToken;

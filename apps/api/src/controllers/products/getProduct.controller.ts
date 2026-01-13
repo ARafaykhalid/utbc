@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { respond } from "@/utils";
+import { respond } from "@api/utils";
 import { TAuthData } from "@shared/types";
-import { TGetProduct } from "@shared/validations";
-import { getProductsPopulated } from "@/services/products";
+import { TGetProduct } from "@shared/validations/products";
+import { getProductsPopulated } from "@api/services/products";
 
 export const GetProduct = async (req: Request, res: Response) => {
   const { slug } = req.validated?.params as TGetProduct;

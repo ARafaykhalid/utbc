@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 import { ProductRatingSchema } from "./sub-schemas";
-import { IProduct } from "@/interfaces";
+import { IProduct } from "@api/interfaces";
 
 const ProductSchema = new Schema<IProduct>(
   {

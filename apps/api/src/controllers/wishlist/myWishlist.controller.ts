@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import { WishlistModel } from "@/models/wishlist.model";
-import { respond } from "@/utils";
+import { WishlistModel } from "@api/models";
+import { respond } from "@api/utils";
 import { TAuthData } from "@shared/types";
-import { getWishlistItemsPopulated } from "@/services/wishlist";
+import { getWishlistItemsPopulated } from "@api/services/wishlist";
 
-export const GetWishlist = async (req: Request, res: Response) => {
+export const MyWishlist = async (req: Request, res: Response) => {
   const { userId, userRole } = req?.user as TAuthData;
 
   try {

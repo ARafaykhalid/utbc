@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { CategoryModel, MediaModel, ProductModel } from "@/models";
-import { generateUniqueSlug, respond } from "@/utils";
+import { CategoryModel, MediaModel, ProductModel } from "@api/models";
+import { generateUniqueSlug, respond } from "@api/utils";
 import { TAuthData } from "@shared/types";
-import { TCreateProduct } from "@shared/validations";
+import { TCreateProduct } from "@shared/validations/products";
 
 export const CreateProduct = async (req: Request, res: Response) => {
   const {

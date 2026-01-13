@@ -1,5 +1,5 @@
 import { Schema } from "mongoose";
-import { IPurchasedItem } from "@/interfaces";
+import { IPurchasedItem } from "@api/interfaces";
 
 export const PurchasedItemSchema = new Schema<IPurchasedItem>(
   {

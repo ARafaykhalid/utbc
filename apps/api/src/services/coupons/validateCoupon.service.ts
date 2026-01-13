@@ -1,4 +1,4 @@
-import { CouponModel } from "@/models";
+import { CouponModel } from "@api/models";
 import { Types } from "mongoose";
 
 export const validateCoupon = async (

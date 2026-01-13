@@ -1,4 +1,4 @@
-import { IProduct } from "@/interfaces";
+import { IProduct } from "@api/interfaces";
 
 type SortType = "price" | "rating" | "latest" | "alphabetical";
 

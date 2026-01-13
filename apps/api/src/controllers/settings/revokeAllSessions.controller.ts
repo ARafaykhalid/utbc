@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { config } from "@/config";
-import { respond, verifyRefreshToken } from "@/utils";
-import { UserModel } from "@/models";
+import { config } from "@api/config";
+import { respond, verifyRefreshToken } from "@api/utils";
+import { UserModel } from "@api/models";
 
 export const RevokeAllSessions = async (req: Request, res: Response) => {
   const refreshToken = req.signedCookies?.refreshToken;

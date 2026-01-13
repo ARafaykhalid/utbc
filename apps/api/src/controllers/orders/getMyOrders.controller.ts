@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { respond } from "@/utils";
+import { respond } from "@api/utils";
 import { TAuthData } from "@shared/types";
-import { OrderModel } from "@/models";
+import { OrderModel } from "@api/models";
 
 export const GetMyOrders = async (req: Request, res: Response) => {
   const { userId } = req.user as TAuthData;

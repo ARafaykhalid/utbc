@@ -1,4 +1,4 @@
-import { WishlistModel } from "@/models/wishlist.model";
+import { WishlistModel } from "@api/models/wishlist.model";
 import { TUserRole } from "@shared/types";
 import { Types } from "mongoose";
 

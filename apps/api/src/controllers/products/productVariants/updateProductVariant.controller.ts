@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import { ProductModel, MediaModel, ProductVariantModel } from "@/models";
-import { generateUniqueSlug, respond } from "@/utils";
+import { ProductModel, MediaModel, ProductVariantModel } from "@api/models";
+import { generateUniqueSlug, respond } from "@api/utils";
 import { TAuthData } from "@shared/types";
 import {
   TUpdateProductVariantBody,
   TUpdateProductVariantParams,
-} from "@shared/validations";
+} from "@shared/validations/products/productVariants";
 
 export const UpdateProductVariant = async (req: Request, res: Response) => {
   const { sku, price, stock, attributes, media } = req.validated

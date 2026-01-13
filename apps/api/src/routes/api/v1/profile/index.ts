@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { validate } from "@/middlewares";
+import { validate } from "@api/middlewares";
 import { VUpdateProfile } from "@shared/validations/profile";
-import { UpdateProfile } from "@/controllers/profile";
+import { UpdateProfile } from "@api/controllers/profile";
 
 const ProfileRoute: Router = Router();
 

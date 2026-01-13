@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { UserModel } from "@/models";
+import { UserModel } from "@api/models";
 import { TEmailVerification } from "@shared/validations/email/verification";
-import { hashToken, respond } from "@/utils";
+import { hashToken, respond } from "@api/utils";
 
 export const EmailVerification = async (req: Request, res: Response) => {
   const { token, email } = req.validated?.body as TEmailVerification;

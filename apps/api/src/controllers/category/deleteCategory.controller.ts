@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { respond } from "@/utils";
-import { TDeleteCategory } from "@shared/validations";
-import { CategoryModel } from "@/models";
+import { respond } from "@api/utils";
+import { TDeleteCategory } from "@shared/validations/category";
+import { CategoryModel } from "@api/models";
 
 export const DeleteCategory = async (req: Request, res: Response) => {
   const { categoryId } = req.validated?.params as TDeleteCategory;

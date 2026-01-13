@@ -1,5 +1,0 @@
-{
-  "watch": ["src", "../shared"],
-  "ext": "ts",
-  "exec": "ts-node-dev --respawn --transpile-only --require tsconfig-paths/register src/server.ts"
-}

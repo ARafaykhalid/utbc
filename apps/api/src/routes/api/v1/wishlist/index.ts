@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { validate } from "@/middlewares";
+import { validate } from "@api/middlewares";
 import {
   AddToWishlist,
   MyWishlist,
   RemoveFromWishlist,
-} from "@/controllers/wishlist";
+} from "@api/controllers/wishlist";
 import {
   VAddToWishlist,
   VRemoveFromWishlist,

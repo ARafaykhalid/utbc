@@ -1,5 +1,5 @@
-import { ProductModel } from "@/models";
-import { normalizeFilter } from "@/utils";
+import { ProductModel } from "@api/models";
+import { normalizeFilter } from "@api/utils";
 import { TFilterArg, TUserRole } from "@shared/types";
 
 export const getProductsPopulated = (

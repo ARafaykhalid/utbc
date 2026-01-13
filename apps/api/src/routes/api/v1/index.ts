@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import { requireAuth } from "@/middlewares";
+import { requireAuth } from "@api/middlewares";
 import AdminRoute from "./admin";
 import AuthRoute from "./auth";
 import EmailRoute from "./email";
@@ -37,6 +37,8 @@ V1RootRouter.use("/products", requireAuth, ProductRoute);
 V1RootRouter.use("/settings", requireAuth, CategoryRoute);
 
 V1RootRouter.use("/categories", requireAuth, CategoryRoute);
+
+V1RootRouter.use("/products", requireAuth, ProductRoute);
 
 V1RootRouter.use("/email", EmailRoute);
 

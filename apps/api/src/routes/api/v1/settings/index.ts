@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { validate } from "@/middlewares";
+import { validate } from "@api/middlewares";
 
 import {
   RevokeSession,
@@ -7,7 +7,7 @@ import {
   ChangePassword,
   GetNavSummary,
   ListSessions,
-} from "@/controllers/settings";
+} from "@api/controllers/settings";
 import { VRevokeSession, VChangePassword } from "@shared/validations/settings";
 
 const UserSettingsRoute: Router = Router();

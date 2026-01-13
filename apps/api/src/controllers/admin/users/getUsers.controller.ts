@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { UserModel } from "@/models";
-import { respond } from "@/utils";
-import { TGetUsers } from "@shared/validations";
+import { UserModel } from "@api/models";
+import { respond } from "@api/utils";
+import { TGetUsers } from "@shared/validations/admin/users";
 
 export const GetUsers = async (req: Request, res: Response) => {
   try {

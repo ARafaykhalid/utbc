@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { respond } from "@/utils";
-import { OrderModel } from "@/models";
+import { respond } from "@api/utils";
+import { OrderModel } from "@api/models";
 import { Types } from "mongoose";
-import { TGetOrders } from "@shared/validations";
+import { TGetOrders } from "@shared/validations/admin/orders";
 
 export const GetOrders = async (req: Request, res: Response) => {
   const {

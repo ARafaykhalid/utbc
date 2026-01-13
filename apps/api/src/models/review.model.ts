@@ -1,4 +1,4 @@
-import { IReview } from "@/interfaces";
+import { IReview } from "@api/interfaces";
 import { model, Schema } from "mongoose";
 
 export const ReviewsSchema = new Schema<IReview>({

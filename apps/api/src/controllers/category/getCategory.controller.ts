@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { respond } from "@/utils";
-import { CategoryModel } from "@/models";
-import { TGetCategory } from "@shared/validations";
+import { respond } from "@api/utils";
+import { CategoryModel } from "@api/models";
+import { TGetCategory } from "@shared/validations/category";
 
 export const GetCategory = async (req: Request, res: Response) => {
   const { slug } = req.validated?.params as TGetCategory;

@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import { Types } from "mongoose";
-import { respond } from "@/utils";
+import { respond } from "@api/utils";
 import { TAuthData } from "@shared/types";
-import { ProductModel, ReviewModel } from "@/models";
-import { TUpdateReviewBody, TUpdateReviewParams } from "@shared/validations";
+import { ProductModel, ReviewModel } from "@api/models";
+import { TUpdateReviewBody, TUpdateReviewParams } from "@shared/validations/reviews";
 
 export const UpdateReview = async (req: Request, res: Response) => {
   const { reviewId, productId } = req.validated?.params as TUpdateReviewParams;

@@ -1,4 +1,4 @@
-import { IUser } from "@/interfaces";
+import { IUser } from "@api/interfaces";
 import { model, Schema } from "mongoose";
 import { UserAddressSchema, UserSessionSchema } from "./sub-schemas";
 

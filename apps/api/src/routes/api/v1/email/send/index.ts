@@ -2,8 +2,8 @@ import { Router } from "express";
 import {
   SendChangeEmailVerification,
   SendEmailVerification,
-} from "@/controllers/email/send";
-import { validate } from "@/middlewares";
+} from "@api/controllers/email/send";
+import { validate } from "@api/middlewares";
 import { VSendChangeEmailVerification } from "@shared/validations/email/send";
 
 const SendEmailRoute: Router = Router();

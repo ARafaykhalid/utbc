@@ -1,7 +1,7 @@
 import { Router } from "express";
 import VerificationRoute from "./verification";
 import SendEmailRoute from "./send";
-import { requireAuth } from "@/middlewares";
+import { requireAuth } from "@api/middlewares";
 
 const EmailRoute: Router = Router();
 

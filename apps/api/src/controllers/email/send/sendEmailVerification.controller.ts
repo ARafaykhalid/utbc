@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { UserModel } from "@/models";
-import { sendEmailVerificationEmail } from "@/emails";
+import { UserModel } from "@api/models";
+import { sendEmailVerificationEmail } from "@api/emails";
 import { TAuthData } from "@shared/types";
-import { respond, token } from "@/utils";
+import { respond, token } from "@api/utils";
 
 export const SendEmailVerification = async (req: Request, res: Response) => {
   const { userId } = req.user as TAuthData;

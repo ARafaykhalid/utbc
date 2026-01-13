@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { respond } from "@/utils";
+import { respond } from "@api/utils";
 import { TAuthData } from "@shared/types";
-import { ProductModel, ReviewModel } from "@/models";
-import { TDeleteReview } from "@shared/validations";
+import { ProductModel, ReviewModel } from "@api/models";
+import { TDeleteReview } from "@shared/validations/reviews";
 import { Types } from "mongoose";
 
 export const DeleteReview = async (req: Request, res: Response) => {

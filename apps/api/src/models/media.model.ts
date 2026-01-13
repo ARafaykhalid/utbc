@@ -1,4 +1,4 @@
-import { IMedia } from "@/interfaces";
+import { IMedia } from "@api/interfaces";
 import { model, Schema } from "mongoose";
 
 const MediaSchema = new Schema<IMedia>(

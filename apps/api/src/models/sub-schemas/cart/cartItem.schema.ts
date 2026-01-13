@@ -1,4 +1,4 @@
-import { ICartItem } from "@/interfaces";
+import { ICartItem } from "@api/interfaces";
 import { Schema } from "mongoose";
 
 export const CartItemSchema = new Schema<ICartItem>(

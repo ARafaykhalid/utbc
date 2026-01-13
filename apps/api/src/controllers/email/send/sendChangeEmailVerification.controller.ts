@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { UserModel } from "@/models";
+import { UserModel } from "@api/models";
 import { TAuthData } from "@shared/types";
-import { sendChangeEmailVerificationEmail } from "@/emails";
-import { respond, token } from "@/utils";
+import { sendChangeEmailVerificationEmail } from "@api/emails";
+import { respond, token } from "@api/utils";
 import { TSendChangeEmailVerification } from "@shared/validations/email/send";
 
 export const SendChangeEmailVerification = async (

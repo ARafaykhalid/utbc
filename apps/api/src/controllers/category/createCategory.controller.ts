@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { TAuthData } from "@shared/types";
-import { generateUniqueSlug, respond } from "@/utils";
-import { TCreateCategory } from "@shared/validations";
-import { CategoryModel } from "@/models";
+import { generateUniqueSlug, respond } from "@api/utils";
+import { TCreateCategory } from "@shared/validations/category";
+import { CategoryModel } from "@api/models";
 
 export const CreateCategory = async (req: Request, res: Response) => {
   const { name, slug, description } = req.validated?.body as TCreateCategory;

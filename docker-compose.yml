@@ -1,0 +1,20 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    image: utbc-api
+    ports:
+      - "4000:4000"
+    env_file:
+      - .env
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    image: utbc-web
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env

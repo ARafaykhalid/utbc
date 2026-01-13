@@ -1,4 +1,4 @@
-import { cloudinaryV2 } from "@/lib";
+import { cloudinaryV2 } from "@api/lib";
 
 export const uploadToCloudinary = (buffer: Buffer, type: "image" | "video") => {
   return new Promise<{

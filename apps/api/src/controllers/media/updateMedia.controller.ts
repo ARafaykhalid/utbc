@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { MediaModel } from "@/models";
-import { respond } from "@/utils";
+import { MediaModel } from "@api/models";
+import { respond } from "@api/utils";
 import { TAuthData } from "@shared/types";
-import { TUpdateMediaBody, TUpdateMediaParams } from "@shared/validations";
+import { TUpdateMediaBody, TUpdateMediaParams } from "@shared/validations/media";
 
 export const UpdateMedia = async (req: Request, res: Response) => {
   const { userId } = req.user as TAuthData;

@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import { MediaModel } from "@/models";
+import { MediaModel } from "@api/models";
 import { TAuthData } from "@shared/types";
-import { respond } from "@/utils";
-import { cloudinaryV2 } from "@/lib";
-import { TDeleteMediaParams } from "@shared/validations";
+import { respond } from "@api/utils";
+import { cloudinaryV2 } from "@api/lib";
+import { TDeleteMediaParams } from "@shared/validations/media";
 
 export const DeleteMedia = async (req: Request, res: Response) => {
   const { mediaId } = req.validated?.params as TDeleteMediaParams;

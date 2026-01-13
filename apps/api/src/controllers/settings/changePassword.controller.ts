@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import argon2 from "argon2";
-import { respond } from "@/utils";
-import { TChangePassword } from "@shared/validations";
+import { respond } from "@api/utils";
+import { TChangePassword } from "@shared/validations/settings";
 import { TAuthData } from "@shared/types";
-import { UserModel } from "@/models";
+import { UserModel } from "@api/models";
 
 export const ChangePassword = async (req: Request, res: Response) => {
   const { userId } = req.user as TAuthData;

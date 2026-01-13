@@ -1,4 +1,4 @@
-import { CategoryModel, ProductModel, ProductVariantModel } from "@/models";
+import { CategoryModel, ProductModel, ProductVariantModel } from "@api/models";
 import slugify from "slugify";
 
 export const generateUniqueSlug = async (

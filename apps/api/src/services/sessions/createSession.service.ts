@@ -1,12 +1,12 @@
 import { HydratedDocument, Types } from "mongoose";
 import { Request } from "express";
-import { IUser, IUserSession } from "@/interfaces/";
+import { IUser, IUserSession } from "@api/interfaces/";
 import { TJwtPayload } from "@shared/types";
 import {
   generateAccessToken,
   generateRefreshToken,
   getSessionMeta,
-} from "@/utils";
+} from "@api/utils";
 
 export const createSession = async (
   user: HydratedDocument<IUser>,

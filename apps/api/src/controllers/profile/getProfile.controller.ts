@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { respond } from "@/utils";
+import { respond } from "@api/utils";
 import { TAuthData } from "@shared/types";
-import { UserModel } from "@/models";
+import { UserModel } from "@api/models";
 
 export const GetProfile = async (req: Request, res: Response) => {
   const { userId } = req.user as TAuthData;

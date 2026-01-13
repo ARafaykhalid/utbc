@@ -1,6 +1,6 @@
 import { Response } from "express";
 import { HttpStatusCode } from "@shared/types";
-import { logger } from "@/lib/winston.lib";
+import { logger } from "@api/lib/winston.lib";
 import { STATUS_CODE_MAP } from "@shared/constants";
 
 export type FieldError = { path: string; message: string };

@@ -1,8 +1,8 @@
 import { Resend } from "resend";
-import { config } from "@/config";
-import { verificationTokenURL } from "@/utils";
+import { config } from "@api/config";
+import { verificationTokenURL } from "@api/utils";
 import { CONFIRMATION_EXPIRY_TIME } from "@shared/constants";
-import { maskEmail } from "@/utils";
+import { maskEmail } from "@api/utils";
 
 const resend = new Resend(config.RESEND_API_KEY);
 

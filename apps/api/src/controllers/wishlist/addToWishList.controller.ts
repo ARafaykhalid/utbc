@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import { WishlistModel } from "@/models/wishlist.model";
-import { respond } from "@/utils";
+import { WishlistModel } from "@api/models/wishlist.model";
+import { respond } from "@api/utils";
 import { TAuthData } from "@shared/types";
 import { Types } from "mongoose";
-import { TAddToWishlist } from "@shared/validations";
-import { ProductModel } from "@/models";
+import { TAddToWishlist } from "@shared/validations/wishlist";
+import { ProductModel } from "@api/models";
 
 export const AddToWishlist = async (req: Request, res: Response) => {
   const { userId } = req?.user as TAuthData;

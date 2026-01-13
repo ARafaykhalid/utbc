@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { ProductModel, ProductVariantModel } from "@/models";
-import { respond } from "@/utils";
-import { TDeleteProductVariant } from "@shared/validations";
+import { ProductModel, ProductVariantModel } from "@api/models";
+import { respond } from "@api/utils";
+import { TDeleteProductVariant } from "@shared/validations/products/productVariants";
 
 export const DeleteProductVariant = async (req: Request, res: Response) => {
   const { variantId, productId } = req.validated

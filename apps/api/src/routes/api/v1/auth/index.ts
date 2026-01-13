@@ -6,8 +6,8 @@ import {
   RenewAccessToken,
   ResetPassword,
   UserRegistration,
-} from "@/controllers/auth";
-import { validate } from "@/middlewares";
+} from "@api/controllers/auth";
+import { validate } from "@api/middlewares";
 
 import {
   VForgotPassword,

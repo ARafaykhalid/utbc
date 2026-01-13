@@ -1,9 +1,8 @@
 import { Request, Response } from "express";
-import { respond } from "@/utils";
+import { respond } from "@api/utils";
 import { TAuthData } from "@shared/types";
-import { Types } from "mongoose";
-import { ProductModel, ReviewModel } from "@/models";
-import { TAddReviewBody, TAddReviewParams } from "@shared/validations";
+import { ProductModel, ReviewModel } from "@api/models";
+import { TAddReviewBody, TAddReviewParams } from "@shared/validations/reviews";
 
 export const AddReview = async (req: Request, res: Response) => {
   const { productId } = req.validated?.params as TAddReviewParams;

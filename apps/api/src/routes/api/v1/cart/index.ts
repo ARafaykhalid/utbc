@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { validate } from "@/middlewares";
+import { validate } from "@api/middlewares";
 import {
   VAddToCart,
   VCheckout,
@@ -11,8 +11,8 @@ import {
   MyCart,
   RemoveCartItem,
   UpdateCartItem,
-} from "@/controllers/cart";
-import { Checkout } from "@/controllers/cart/";
+} from "@api/controllers/cart";
+import { Checkout } from "@api/controllers/cart/";
 
 const CartRoute: Router = Router();
 

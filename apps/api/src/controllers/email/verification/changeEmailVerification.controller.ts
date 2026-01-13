@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { UserModel } from "@/models";
-import { hashToken, respond } from "@/utils";
+import { UserModel } from "@api/models";
+import { hashToken, respond } from "@api/utils";
 import { TChangeEmailVerification } from "@shared/validations/email/verification";
 
 export const ChangeEmailVerification = async (req: Request, res: Response) => {

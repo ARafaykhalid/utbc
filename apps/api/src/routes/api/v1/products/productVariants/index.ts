@@ -5,14 +5,14 @@ import {
   VDeleteProductVariant,
   VUpdateProductVariantBody,
   VUpdateProductVariantParams,
-} from "@shared/validations/product/productVariants";
-import { validate } from "@/middlewares";
+} from "@shared/validations/products/productVariants";
+import { validate } from "@api/middlewares";
 
 import {
   CreateProductVariant,
   DeleteProductVariant,
   UpdateProductVariant,
-} from "@/controllers/products/productVariants";
+} from "@api/controllers/products/productVariants";
 
 const ProductVariantsRoute = Router({ mergeParams: true });
 

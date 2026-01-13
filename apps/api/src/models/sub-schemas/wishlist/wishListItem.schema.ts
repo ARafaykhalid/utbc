@@ -1,4 +1,4 @@
-import { IWishlistItem } from "@/interfaces";
+import { IWishlistItem } from "@api/interfaces";
 import { Schema } from "mongoose";
 
 export const WishlistItemSchema = new Schema<IWishlistItem>(

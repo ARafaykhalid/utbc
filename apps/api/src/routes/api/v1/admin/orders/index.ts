@@ -3,8 +3,8 @@ import {
   CancelOrder,
   ChangeOrdersStatus,
   GetOrders,
-} from "@/controllers/admin/orders";
-import { validate } from "@/middlewares";
+} from "@api/controllers/admin/orders";
+import { validate } from "@api/middlewares";
 import {
   VChangeOrdersStatus,
   VGetOrders,

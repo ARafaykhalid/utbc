@@ -1,4 +1,4 @@
-import { respond } from "@/utils";
+import { respond } from "@api/utils";
 import { ErrorRequestHandler } from "express";
 
 export const jsonParseErrorHandler: ErrorRequestHandler = (

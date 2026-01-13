@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { CartModel, ProductModel } from "@/models";
-import { respond } from "@/utils";
+import { CartModel, ProductModel } from "@api/models";
+import { respond } from "@api/utils";
 import { TAuthData } from "@shared/types";
-import { TUpdateCartItem } from "@shared/validations";
+import { TUpdateCartItem } from "@shared/validations/cart";
 
 export const UpdateCartItem = async (req: Request, res: Response) => {
   const { userId } = req.user as TAuthData;

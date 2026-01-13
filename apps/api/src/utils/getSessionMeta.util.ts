@@ -1,4 +1,4 @@
-import { IUserSession } from "@/interfaces/";
+import { IUserSession } from "@api/interfaces/";
 import { Request } from "express";
 import geoip from "geoip-lite";
 
@@ -12,9 +12,9 @@ export const getSessionMeta = (req: Request) => {
   return {
     ip: ip ?? null,
     userAgent: {
-      browser: req.useragent?.browser ?? "unknown",
-      os: req.useragent?.os ?? "unknown",
-      device: req.useragent?.platform ?? "unknown",
+      browser: req?.useragent?.browser ?? "unknown",
+      os: req?.useragent?.os ?? "unknown",
+      device: req?.useragent?.platform ?? "unknown",
     },
     location: {
       country: geo?.country ?? "unknown",

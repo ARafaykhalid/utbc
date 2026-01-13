@@ -1,5 +1,5 @@
 import { CorsOptions } from "cors";
-import { config } from "@/config";
+import { config } from "@api/config";
 import { logger } from "./winston.lib";
 
 export const corsOptionsSettings: CorsOptions = {

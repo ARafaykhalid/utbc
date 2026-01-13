@@ -1,5 +1,5 @@
-import { ICartItem } from "@/interfaces";
-import { ProductModel, ProductVariantModel } from "@/models";
+import { ICartItem } from "@api/interfaces";
+import { ProductModel, ProductVariantModel } from "@api/models";
 
 export const restoreProduct = async (cartItems: ICartItem[]) => {
   for (const item of cartItems) {

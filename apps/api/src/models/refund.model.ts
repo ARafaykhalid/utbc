@@ -1,4 +1,4 @@
-import { IRefund } from "@/interfaces";
+import { IRefund } from "@api/interfaces";
 import { Schema, model, Types } from "mongoose";
 
 const RefundSchema = new Schema<IRefund>(
