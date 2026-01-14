@@ -2,11 +2,10 @@ import { Request, Response } from "express";
 import { ProductModel } from "@api/models";
 import { respond } from "@api/utils";
 import { TGetProducts } from "@shared/validations/products";
-import { TAuthData } from "@shared/types";
+import { TAuthData, TUserRole } from "@shared/types";
 import { getProductsPopulated } from "@api/services/products";
 
 export const GetProducts = async (req: Request, res: Response) => {
-  const { userRole } = req.user as TAuthData;
   const {
     page = 1,
     limit = 20,
@@ -44,7 +43,11 @@ export const GetProducts = async (req: Request, res: Response) => {
   }
 
   try {
-    let query = getProductsPopulated(userRole, filter, "multiple");
+    let query = getProductsPopulated(
+      (req.user?.userRole ? req.user.userRole : "user") as TUserRole,
+      filter,
+      "multiple"
+    );
 
     // Sorting
     if (bestSelling) query = query.sort({ totalSold: -1 });

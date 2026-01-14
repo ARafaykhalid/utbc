@@ -1,15 +1,18 @@
 import { Request, Response } from "express";
 import { respond } from "@api/utils";
-import { TAuthData } from "@shared/types";
+import { TAuthData, TUserRole } from "@shared/types";
 import { TGetProduct } from "@shared/validations/products";
 import { getProductsPopulated } from "@api/services/products";
 
 export const GetProduct = async (req: Request, res: Response) => {
   const { slug } = req.validated?.params as TGetProduct;
-  const { userRole } = req.user as TAuthData;
 
   try {
-    const query = getProductsPopulated(userRole, { slug: slug }, "single");
+    const query = getProductsPopulated(
+      (req.user?.userRole ? req.user.userRole : "user") as TUserRole,
+      { slug: slug },
+      "single"
+    );
 
     const product = await query.lean();
 

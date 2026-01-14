@@ -3,7 +3,7 @@ import { requireAuth } from "@api/middlewares";
 import AdminRoute from "./admin";
 import AuthRoute from "./auth";
 import EmailRoute from "./email";
-import ProductRoute from "./products";
+import ProductsRoute from "./products";
 import CategoryRoute from "./category";
 import ReviewRoute from "./reviews";
 import MediaRoute from "./media";
@@ -28,17 +28,17 @@ V1RootRouter.use("/media", requireAuth, MediaRoute);
 
 V1RootRouter.use("/cart", requireAuth, CartRoute);
 
-V1RootRouter.use("/products", requireAuth, ProductRoute);
+V1RootRouter.use("/products", ProductsRoute);
 
 V1RootRouter.use("/reviews", requireAuth, ReviewRoute);
 
-V1RootRouter.use("/products", requireAuth, ProductRoute);
+V1RootRouter.use("/products", requireAuth, ProductsRoute);
 
 V1RootRouter.use("/settings", requireAuth, CategoryRoute);
 
 V1RootRouter.use("/categories", requireAuth, CategoryRoute);
 
-V1RootRouter.use("/products", requireAuth, ProductRoute);
+V1RootRouter.use("/products", requireAuth, ProductsRoute);
 
 V1RootRouter.use("/email", EmailRoute);
 

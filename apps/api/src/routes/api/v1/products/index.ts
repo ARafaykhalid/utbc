@@ -9,7 +9,7 @@ import {
   VMakeProductsActive,
   VMakeProductsUnActive,
 } from "@shared/validations/products";
-import { validate } from "@api/middlewares";
+import { requireAuth, validate } from "@api/middlewares";
 import {
   CreateProduct,
   DeleteProduct,
@@ -21,36 +21,40 @@ import {
 } from "@api/controllers/products";
 import ProductVariantsRoute from "./productVariants";
 
-const ProductRoute = Router();
+const ProductsRoute = Router();
 
-ProductRoute.get("/", validate({ query: VGetProducts }), GetProducts);
-ProductRoute.get("/:slug", validate({ params: VGetProduct }), GetProduct);
-ProductRoute.post("/", validate({ body: VCreateProduct }), CreateProduct);
+ProductsRoute.get("/", validate({ query: VGetProducts }), GetProducts);
+ProductsRoute.get("/:slug", validate({ params: VGetProduct }), GetProduct);
+ProductsRoute.post("/", validate({ body: VCreateProduct }), requireAuth, CreateProduct);
 
-ProductRoute.patch(
+ProductsRoute.patch(
   "/:productId",
   validate({ body: VUpdateProductBody, params: VUpdateProductParams }),
+  requireAuth,
   UpdateProduct
 );
 
-ProductRoute.delete(
+ProductsRoute.delete(
   "/:productId",
   validate({ params: VDeleteProduct }),
+  requireAuth,
   DeleteProduct
 );
 
-ProductRoute.post(
+ProductsRoute.post(
   "/make-active",
   validate({ body: VMakeProductsActive }),
+  requireAuth,
   MakeProductsActive
 );
 
-ProductRoute.post(
+ProductsRoute.post(
   "/make-unactive",
   validate({ body: VMakeProductsUnActive }),
+  requireAuth,
   MakeProductsUnActive
 );
 
-ProductRoute.use("/:productId/variants", ProductVariantsRoute);
+ProductsRoute.use("/:productId/variants", requireAuth, ProductVariantsRoute);
 
-export default ProductRoute;
+export default ProductsRoute;
